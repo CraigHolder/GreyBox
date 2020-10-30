@@ -14,6 +14,8 @@ public class Grabber : MonoBehaviour
         s_player = this.GetComponentInParent<PlayerMovement>();
 
         col_collider = this.GetComponent<BoxCollider>();
+
+        obj_curritem = null;
     }
 
     // Update is called once per frame
@@ -26,8 +28,12 @@ public class Grabber : MonoBehaviour
         else
         {
             col_collider.enabled = false;
-            obj_curritem.GetComponent<Rigidbody>().isKinematic = false;
-            obj_curritem.transform.SetParent(null);
+            if (obj_curritem != null)
+            {
+                obj_curritem.GetComponent<Rigidbody>().isKinematic = false;
+                obj_curritem.transform.SetParent(null);
+            }
+           
         }
     }
 

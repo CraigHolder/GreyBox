@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//TEMPORARY UI STUFF
+using TMPro;
+
 public class PlayerMovement : MonoBehaviour
 {
     public GameObject obj_player;
@@ -26,6 +29,22 @@ public class PlayerMovement : MonoBehaviour
         Jumping,
     }
 
+    //TEMPORARY UI STUFF
+    public GameObject text_obj;
+    private TextMeshProUGUI textpro;
+
+    private float f_sprintmult = 1.0f;
+    private bool b_sprinting = false;
+    private bool b_cansprint = true;
+    private bool b_recoverydelay = false;
+    private bool b_recovering = false;
+
+    public const float MAX_STAMINA = 100.0f;
+    private float f_stamina = MAX_STAMINA;
+    private float f_staminadecay = 500;
+    private float f_staminarecov = 120f;
+
+    private float f_staminadelay = 3.0f; //Recovery Delay
 
     // Start is called before the first frame update
     void Start()
@@ -34,29 +53,105 @@ public class PlayerMovement : MonoBehaviour
         vec3_checkpoint = new Vector3(48, 1, -48);
         Cursor.lockState = CursorLockMode.Locked;
         f_mouseyprev = Input.GetAxis("Mouse Y");
+
+        //TEMPORARY UI STUFF
+        textpro = text_obj.GetComponent<TMPro.TextMeshProUGUI>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        print(f_stamina);
+
+        //IF YOU HAVE STAMINA YOU CAN SPRINT
+        if(f_stamina > 0)
+        {
+            b_cansprint = true;
+        }
+        else
+        {
+            b_cansprint = false;
+        }
+
+        //Delay stamina Recovery on finishing sprint.
+        if (f_stamina < MAX_STAMINA && !b_sprinting && !b_recoverydelay && !b_recovering)
+        {
+            b_recoverydelay = true;
+        }
+      
+       //STAMINA DECAY
+        if (b_sprinting)
+        {
+            //Stamina Decay
+            f_stamina -= f_staminadecay * Time.deltaTime * 10;
+
+            if (f_stamina <= 0.0f)
+            {
+                f_stamina = 0.0f;
+                b_cansprint = false;
+            }
+        }
+       
+        // Recovery Delay TIMER
+        if(b_recoverydelay && f_staminadelay > 0)
+        {
+             f_staminadelay -= Time.deltaTime;
+        }
+        // BEGIN RECOVERING
+        if(f_staminadelay <= 0)
+        {
+             
+             f_staminadelay = 3.0f;
+             b_recoverydelay = false;
+             b_recovering = true;
+        }
+
+        if (b_recovering)
+        {
+            f_stamina += f_staminarecov * Time.deltaTime * 5;
+
+            if (f_stamina >= MAX_STAMINA)
+            {
+                f_stamina = MAX_STAMINA;
+            }
+
+        }
+
+
+        //SPRINT
+        if (Input.GetKey(KeyCode.LeftShift) && b_cansprint && f_stamina > 0)
+        {
+            f_sprintmult = 2.5f;
+            b_sprinting = true;
+            b_recovering = false;
+        }
+        else
+        {
+            f_sprintmult = 1.0f;
+            b_sprinting = false;
+        }
+
+        //TEMPORARY UI STUFF
+        textpro.text = f_stamina.ToString("#");
+
         //Movement
         if (Input.GetKey(KeyCode.W))
         {
-            c_control.Move(transform.forward * f_speed * Time.deltaTime);
+            c_control.Move(transform.forward * f_speed * Time.deltaTime * f_sprintmult);
             //c_control.Move(new Vector3(0, 0, i_speed * Time.deltaTime));
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            c_control.Move(transform.forward * -f_speed * Time.deltaTime);
+            c_control.Move(transform.forward * -f_speed * Time.deltaTime * f_sprintmult);
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            c_control.Move(transform.right * f_speed * Time.deltaTime);
+            c_control.Move(transform.right * f_speed * Time.deltaTime * f_sprintmult);
         }
         else if (Input.GetKey(KeyCode.A))
         {
-            c_control.Move(transform.right * -f_speed * Time.deltaTime);
+            c_control.Move(transform.right * -f_speed * Time.deltaTime * f_sprintmult);
         }
 
         //Jumping
@@ -118,5 +213,10 @@ public class PlayerMovement : MonoBehaviour
                 c_control.Move(new Vector3(0, f_jumpspeed * Time.deltaTime, 0));
                 break;
         }
+    }
+
+    public float getStamina()
+    {
+        return f_stamina;
     }
 }
