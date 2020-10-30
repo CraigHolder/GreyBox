@@ -80,36 +80,23 @@ public class PlayerMovement : MonoBehaviour
         transform.Rotate(0, Input.GetAxis("Mouse X") * 1.1f, 0);
 
 
-        //TODO fix the camera up down rotation
-
-        //if (obj_cam.transform.eulerAngles.x <= 35.0f || obj_cam.transform.eulerAngles.x >= 350.0f)
-        //{
-        //    obj_cam.transform.Rotate(Input.GetAxis("Mouse Y") * -0.5f, 0, 0);
-        //}
-        //else if(obj_cam.transform.eulerAngles.x >= 35.0f && obj_cam.transform.eulerAngles.x <= 45.0f && f_mouseyprev >= Input.GetAxis("Mouse Y"))
-        //{
-        //   obj_cam.transform.Rotate(Input.GetAxis("Mouse Y") * -0.5f, 0, 0);
-        //}
-
-
-        //if (obj_cam.transform.eulerAngles.x >= -10.0f)
-        //{
-        //    obj_cam.transform.Rotate(Input.GetAxis("Mouse Y") * -0.5f, 0, 0);
-        //}
-        //else if (f_mouseyprev >= Input.GetAxis("Mouse Y"))
-        //{
-        //    obj_cam.transform.Rotate(Input.GetAxis("Mouse Y") * -0.5f, 0, 0);
-        //}
-
-        f_mouseyprev = Input.GetAxis("Mouse Y");
-        //if (obj_cam.transform.rotation.x <= 35.0f)
-        //{
-        //    obj_cam.transform.rotation.x = 35.0f
-        //}
-        //if(obj_cam.transform.rotation.x >= -10f)
-        //{
-
-        //}
+        //Checks if absolute angel is between 35 & 0 degrees OR 350(-10) & 360(0) degrees, this is the spot we WANT the camera.
+        if (obj_cam.transform.eulerAngles.x <= 35.0f && obj_cam.transform.eulerAngles.x >= 0.0f ||
+            obj_cam.transform.eulerAngles.x >= 350.0f && obj_cam.transform.eulerAngles.x <= 360.0f)
+        {
+            obj_cam.transform.Rotate(Input.GetAxis("Mouse Y") * -0.5f, 0, 0); //The negative multiplier is just so that the camera moves nicer
+            if (Input.GetAxis("Mouse Y") != 0.0f)
+            {
+                f_mouseyprev = (Input.GetAxis("Mouse Y") * -0.5f); //So long as the mouse had previously moved, save the axis it moved for the corrector.
+            }
+        }
+        //To prevent the camera from locking, this checks directly after the sweetspot for 10 units
+        //This is done specifically to account for negative angles.
+        else if(obj_cam.transform.eulerAngles.x >= 35.0f && obj_cam.transform.eulerAngles.x <= 45.0f && f_mouseyprev <= Input.GetAxis("Mouse Y") ||
+                obj_cam.transform.eulerAngles.x <= 350.0f && obj_cam.transform.eulerAngles.x >= 340.0f && f_mouseyprev >= Input.GetAxis("Mouse Y"))
+        {
+           obj_cam.transform.Rotate(Input.GetAxis("Mouse Y") * -0.5f, 0, 0);
+        }
 
 
         //Grab
