@@ -28,12 +28,13 @@ public class Grabber : MonoBehaviour
             col_collider.enabled = false;
             obj_curritem.GetComponent<Rigidbody>().isKinematic = false;
             obj_curritem.transform.SetParent(null);
+            obj_curritem = null;
         }
     }
 
     void OnTriggerStay(Collider collision)
     {
-        if(collision.gameObject.tag == "Grab")
+        if(collision.gameObject.tag == "Grab" && obj_curritem == null)
         {
             obj_curritem = collision.gameObject;
             obj_curritem.GetComponent<Rigidbody>().isKinematic = true;
