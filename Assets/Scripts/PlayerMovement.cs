@@ -41,8 +41,8 @@ public class PlayerMovement : MonoBehaviour
 
     public const float MAX_STAMINA = 100.0f;
     private float f_stamina = MAX_STAMINA;
-    private float f_staminadecay = 500;
-    private float f_staminarecov = 120f;
+    private float f_staminadecay = 50;
+    private float f_staminarecov = 12f;
 
     private float f_staminadelay = 3.0f; //Recovery Delay
 
@@ -83,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
         if (b_sprinting)
         {
             //Stamina Decay
-            f_stamina -= f_staminadecay * Time.deltaTime * 10;
+            f_stamina -= f_staminadecay * Time.deltaTime /** 10*/;
 
             if (f_stamina <= 0.0f)
             {
