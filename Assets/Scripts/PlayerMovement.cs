@@ -100,9 +100,13 @@ public class PlayerMovement : MonoBehaviour
 
 
         //Grab
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && b_isgrabbing == false)
         {
-            //b_isgrabbing = true;
+            b_isgrabbing = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.E) && b_isgrabbing == true)
+        {
+            b_isgrabbing = false;
         }
 
         switch (e_currstate)
