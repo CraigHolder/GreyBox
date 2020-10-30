@@ -4,18 +4,31 @@ using UnityEngine;
 
 public class Grabber : MonoBehaviour
 {
-    PlayerMovement s_player;
-    GameObject obj_curritem;
+    public PlayerMovement s_player;
+    public GameObject obj_curritem;
+    public Collider col_collider;
+
     // Start is called before the first frame update
     void Start()
     {
         s_player = this.GetComponentInParent<PlayerMovement>();
+
+        col_collider = this.GetComponent<BoxCollider>();
     }
 
     // Update is called once per frame
     void Update()
     {
-       
+        if (s_player.b_isgrabbing == true)
+        {
+            col_collider.enabled = true;
+        }
+        else
+        {
+            col_collider.enabled = false;
+            obj_curritem.GetComponent<Rigidbody>().isKinematic = false;
+            obj_curritem.transform.SetParent(null);
+        }
     }
 
     void OnTriggerStay(Collider collision)
@@ -23,7 +36,7 @@ public class Grabber : MonoBehaviour
         if(collision.gameObject.tag == "Grab")
         {
             obj_curritem = collision.gameObject;
-            obj_curritem.GetComponent<Rigidbody>().detectCollisions = false;
+            obj_curritem.GetComponent<Rigidbody>().isKinematic = true;
             obj_curritem.transform.SetParent(s_player.gameObject.transform);
         }
     }
