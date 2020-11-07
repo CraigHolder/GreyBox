@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
 {
     public GameObject obj_player;
     public CharacterController c_control;
+    public HazardSpill h_curSpill;
+    public int i_lastKey;
     public Vector3 vec3_checkpoint;
     public float f_speed;
     public float f_jumpspeed;
@@ -27,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Idle,
         Jumping,
+        Slipping,
     }
 
     //TEMPORARY UI STUFF
@@ -49,6 +52,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        i_lastKey = 0;
         f_jumptimer = f_jumptime;
         vec3_checkpoint = new Vector3(48, 1, -48);
         Cursor.lockState = CursorLockMode.Locked;
@@ -135,23 +139,57 @@ public class PlayerMovement : MonoBehaviour
         textpro.text = f_stamina.ToString("#");
 
         //Movement
-        if (Input.GetKey(KeyCode.W))
+        if (e_currstate != FerretState.Slipping)
         {
-            c_control.Move(transform.forward * f_speed * Time.deltaTime * f_sprintmult);
-            //c_control.Move(new Vector3(0, 0, i_speed * Time.deltaTime));
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            c_control.Move(transform.forward * -f_speed * Time.deltaTime * f_sprintmult);
-        }
+            if (Input.GetKey(KeyCode.W))
+            {
+                c_control.Move(transform.forward * f_speed * Time.deltaTime);
+                i_lastKey = 0;
+                //c_control.Move(new Vector3(0, 0, i_speed * Time.deltaTime));
+            }
+            else if (Input.GetKey(KeyCode.S))
+            {
+                c_control.Move(transform.forward * -f_speed * Time.deltaTime);
+                i_lastKey = 1;
+            }
 
-        if (Input.GetKey(KeyCode.D))
-        {
-            c_control.Move(transform.right * f_speed * Time.deltaTime * f_sprintmult);
+            if (Input.GetKey(KeyCode.D))
+            {
+                c_control.Move(transform.right * f_speed * Time.deltaTime);
+                i_lastKey = 2;
+            }
+            else if (Input.GetKey(KeyCode.A))
+            {
+                c_control.Move(transform.right * -f_speed * Time.deltaTime);
+                i_lastKey = 3;
+            }
         }
-        else if (Input.GetKey(KeyCode.A))
+        else
         {
-            c_control.Move(transform.right * -f_speed * Time.deltaTime * f_sprintmult);
+           
+            //curSpill needs to reference something
+            if (h_curSpill != null)
+            {
+                if (h_curSpill.getSurface() == true)
+                {
+                    Debug.Log("SLIP");
+                    switch (i_lastKey)
+                    {
+                        case 0:
+                            c_control.Move(transform.forward * f_speed * Time.deltaTime * h_curSpill.getSpeed());
+                            break;
+                        case 1:
+                            c_control.Move(transform.forward * -f_speed * Time.deltaTime * h_curSpill.getSpeed());
+                            break;
+                        case 2:
+                            c_control.Move(transform.right * f_speed * Time.deltaTime * h_curSpill.getSpeed());
+                            break;
+                        case 3:
+                            c_control.Move(transform.right * -f_speed * Time.deltaTime * h_curSpill.getSpeed());
+                            break;
+                    }
+                }
+            }
         }
 
         //Jumping

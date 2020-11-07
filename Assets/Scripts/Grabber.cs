@@ -31,9 +31,10 @@ public class Grabber : MonoBehaviour
             if (obj_curritem != null)
             {
                 obj_curritem.GetComponent<Rigidbody>().isKinematic = false;
+                obj_curritem.GetComponent<Collider>().isTrigger = false;
                 obj_curritem.transform.SetParent(null);
             }
-           
+
         }
     }
 
@@ -44,6 +45,7 @@ public class Grabber : MonoBehaviour
             obj_curritem = collision.gameObject;
             obj_curritem.GetComponent<Rigidbody>().isKinematic = true;
             obj_curritem.transform.SetParent(s_player.gameObject.transform);
+            obj_curritem.GetComponent<Collider>().isTrigger = true;
         }
     }
 }
