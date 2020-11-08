@@ -6,8 +6,13 @@ public class Bounce : MonoBehaviour
 {
     public PlayerMovement s_Player;
     private bool b_active;
-    public AudioSource a_audiosource;
+    AudioSource a_audiosource;
     public float f_bounceforce = 2f;
+
+    void Start()
+    {
+        a_audiosource = this.GetComponent<AudioSource>();
+    }
 
     // Start is called before the first frame update
     void OnTriggerStay(Collider collision)

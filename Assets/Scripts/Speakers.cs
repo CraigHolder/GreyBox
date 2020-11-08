@@ -5,7 +5,7 @@ using UnityEngine;
 public class Speakers : MonoBehaviour
 {
     public Remote s_remote;
-    public CharacterController c_control;
+    CharacterController c_control;
     BoxCollider col_trigger;
     SpeakerState e_state = SpeakerState.Off;
 
@@ -22,8 +22,11 @@ public class Speakers : MonoBehaviour
 
     void OnTriggerStay(Collider collision)
     {
-        c_control.Move(transform.forward * -100 * Time.deltaTime);
-
+        if (collision.gameObject.tag == "Player")
+        {
+            c_control = collision.gameObject.GetComponent<CharacterController>();
+            c_control.Move(transform.forward * -100 * Time.deltaTime);
+        }
     }
 
     // Update is called once per frame

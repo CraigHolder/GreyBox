@@ -61,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(f_stamina);
+        //print(f_stamina);
 
         //IF YOU HAVE STAMINA YOU CAN SPRINT
         if(f_stamina > 0)
