@@ -65,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(f_stamina);
+       // print(f_stamina);
 
         //IF YOU HAVE STAMINA YOU CAN SPRINT
         if(f_stamina > 0)
@@ -143,7 +143,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.W))
             {
-                c_control.Move(transform.forward * f_speed * Time.deltaTime);
+                c_control.Move(transform.forward * f_speed * Time.deltaTime * f_sprintmult);
                 i_lastKey = 0;
                 //c_control.Move(new Vector3(0, 0, i_speed * Time.deltaTime));
             }
