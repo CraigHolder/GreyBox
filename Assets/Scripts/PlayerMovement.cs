@@ -198,7 +198,6 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
-        c_control.Move(transform.right * -f_speed * Time.deltaTime * f_sprintmult);
 
 
         //Jumping
