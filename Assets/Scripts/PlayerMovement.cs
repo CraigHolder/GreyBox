@@ -179,7 +179,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (h_curSpill.getSurface() == true)
                 {
-                    Debug.Log("SLIP");
+                    //Debug.Log("SLIP");
                     switch (i_lastKey)
                     {
                         case 0:
