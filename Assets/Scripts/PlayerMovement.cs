@@ -19,6 +19,11 @@ public class PlayerMovement : MonoBehaviour
     public Grabber s_grab;
     float f_mouseyprev;
 
+    public bool b_disableachieve = false;
+
+    Subject S_Notifier = new Subject();
+    Achievments achievmentobserver = new Achievments();
+
     public float f_jumptimer;
 
     public GameObject obj_cam;
@@ -53,6 +58,8 @@ public class PlayerMovement : MonoBehaviour
         vec3_checkpoint = new Vector3(48, 1, -48);
         Cursor.lockState = CursorLockMode.Locked;
         f_mouseyprev = Input.GetAxis("Mouse Y");
+
+        S_Notifier.AddObserver(achievmentobserver);
 
         //TEMPORARY UI STUFF
         textpro = text_obj.GetComponent<TMPro.TextMeshProUGUI>();

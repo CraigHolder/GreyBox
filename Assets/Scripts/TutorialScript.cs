@@ -21,6 +21,9 @@ public class TutorialScript : MonoBehaviour
     public bool b_hazardenter = false;
     float f_timer = 0;
 
+    Subject S_Notifier = new Subject();
+    Achievments achievmentobserver = new Achievments();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +31,8 @@ public class TutorialScript : MonoBehaviour
         t_nesttext.gameObject.SetActive(false);
         t_remotetext.gameObject.SetActive(false);
         t_objecttext.gameObject.SetActive(false);
+        S_Notifier.AddObserver(achievmentobserver);
+        s_player.b_disableachieve = true;
     }
 
     // Update is called once per frame
@@ -109,6 +114,8 @@ public class TutorialScript : MonoBehaviour
                     t_scoretext.text = "Good luck Bandit";
                     obj_wall2.GetComponent<BoxCollider>().enabled = false;
                     i_step++;
+                    s_player.b_disableachieve = false;
+                    S_Notifier.Notify(s_player.gameObject, Observer.EventType.Tutorial);
                 }
                 break;
         }

@@ -9,6 +9,9 @@ public class Speakers : MonoBehaviour
     BoxCollider col_trigger;
     SpeakerState e_state = SpeakerState.Off;
 
+    Subject S_Notifier = new Subject();
+    Achievments achievmentobserver = new Achievments();
+
     enum SpeakerState
     {
         On,Off
@@ -17,7 +20,7 @@ public class Speakers : MonoBehaviour
     void Start()
     {
         col_trigger = this.GetComponent<BoxCollider>();
-
+        S_Notifier.AddObserver(achievmentobserver);
     }
 
     void OnTriggerStay(Collider collision)
@@ -26,6 +29,7 @@ public class Speakers : MonoBehaviour
         {
             c_control = collision.gameObject.GetComponent<CharacterController>();
             c_control.Move(transform.forward * -100 * Time.deltaTime);
+            S_Notifier.Notify(collision.gameObject, Observer.EventType.Push);
         }
     }
 

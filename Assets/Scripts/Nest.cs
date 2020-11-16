@@ -7,10 +7,14 @@ public class Nest : MonoBehaviour
 {
     public Text t_scoretext;
     public int i_teamscore = 0;
+
+    Subject S_Notifier = new Subject();
+    Achievments achievmentobserver = new Achievments();
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        S_Notifier.AddObserver(achievmentobserver);
     }
 
     // Update is called once per frame
@@ -26,6 +30,7 @@ public class Nest : MonoBehaviour
             
             i_teamscore += collision.gameObject.GetComponent<Score>().i_score;
             t_scoretext.text = "Score: " + i_teamscore.ToString();
+            S_Notifier.Notify(GameObject.FindGameObjectWithTag("Player"), Observer.EventType.Return);
         }
     }
 
@@ -36,6 +41,7 @@ public class Nest : MonoBehaviour
             
             i_teamscore -= collision.gameObject.GetComponent<Score>().i_score;
             t_scoretext.text = "Score: " + i_teamscore.ToString();
+            S_Notifier.Notify(GameObject.FindGameObjectWithTag("Player"), Observer.EventType.Steal);
         }
     }
 }
