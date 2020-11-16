@@ -228,6 +228,41 @@ public class GotoAchievementCommand : Command
     }
 }
 
+public class GotoObjectEditorCommand : Command
+{
+    override public void Execute(Command command, GameObject obj_selected)
+    {
+        if (b_undotracker == true)
+        {
+            if ((L_previouscommands.Count + i_Commandpos) < L_previouscommands.Count)
+            {
+                L_previouscommands.Clear();
+                i_Commandpos = 0;
+                b_undotracker = false;
+            }
+        }
+
+        obj_Controlled = obj_selected;
+        ToObjectEditor();
+        L_previouscommands.Add(command);
+    }
+
+    override public void Redo()
+    {
+        ToObjectEditor();
+    }
+
+    override public void Undo()
+    {
+        //obj_Controlled.transform.Rotate(-5, 0, 0);
+    }
+
+    void ToObjectEditor()
+    {
+        SceneManager.LoadScene("ObjectEditorScene");
+    }
+}
+
 public class ResetAchievementsCommand : Command
 {
     override public void Execute(Command command, GameObject obj_selected)
