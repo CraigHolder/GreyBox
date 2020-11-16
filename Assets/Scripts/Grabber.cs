@@ -39,7 +39,7 @@ public class Grabber : MonoBehaviour
                 obj_curritem.GetComponent<Collider>().isTrigger = false;
                 obj_curritem.transform.SetParent(null);
             }
-           
+
         }
     }
 
@@ -51,7 +51,9 @@ public class Grabber : MonoBehaviour
             obj_curritem.GetComponent<Rigidbody>().isKinematic = true;
             obj_curritem.transform.SetParent(s_player.gameObject.transform);
             obj_curritem.GetComponent<Collider>().isTrigger = true;
+
             S_Notifier.Notify(s_player.gameObject, Observer.EventType.PickupObject);
+
         }
     }
 }
