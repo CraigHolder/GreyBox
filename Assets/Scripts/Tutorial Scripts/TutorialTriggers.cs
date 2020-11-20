@@ -40,6 +40,7 @@ public class TutorialTriggers : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            
             instructions.Play();
 
             switch (trigger_id)
@@ -78,8 +79,12 @@ public class TutorialTriggers : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            instructions.Stop();
+
             switch (trigger_id)
             {
+               
+
                 case 1:
                     w_img.SetActive(false);
                     a_img.SetActive(false);
