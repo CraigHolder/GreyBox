@@ -9,17 +9,29 @@ public class PlayerMovement : MonoBehaviour
 {
     public GameObject obj_player;
     public CharacterController c_control;
+    Command c_command;
+
     public HazardSpill h_curSpill;
     public int i_lastKey;
+
     public Vector3 vec3_checkpoint;
+
     public float f_speed;
     public float f_jumpspeed;
     public float f_jumptime;
     public float f_gravity;
+
     public FerretState e_currstate;
+
     public bool b_isgrabbing = false;
     public Grabber s_grab;
+
     float f_mouseyprev;
+
+    public bool b_disableachieve = false;
+
+    Subject S_Notifier = new Subject();
+    Achievments achievmentobserver = new Achievments();
 
     public float f_jumptimer;
 
@@ -58,6 +70,8 @@ public class PlayerMovement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         f_mouseyprev = Input.GetAxis("Mouse Y");
 
+        S_Notifier.AddObserver(achievmentobserver);
+
         //TEMPORARY UI STUFF
         textpro = text_obj.GetComponent<TMPro.TextMeshProUGUI>();
     }
@@ -65,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       // print(f_stamina);
+        //print(f_stamina);
 
         //IF YOU HAVE STAMINA YOU CAN SPRINT
         if(f_stamina > 0)
@@ -149,24 +163,24 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (Input.GetKey(KeyCode.S))
             {
-                c_control.Move(transform.forward * -f_speed * Time.deltaTime);
+                c_control.Move(transform.forward * -f_speed * Time.deltaTime * f_sprintmult);
                 i_lastKey = 1;
             }
 
             if (Input.GetKey(KeyCode.D))
             {
-                c_control.Move(transform.right * f_speed * Time.deltaTime);
+                c_control.Move(transform.right * f_speed * Time.deltaTime * f_sprintmult);
                 i_lastKey = 2;
             }
             else if (Input.GetKey(KeyCode.A))
             {
-                c_control.Move(transform.right * -f_speed * Time.deltaTime);
+                c_control.Move(transform.right * -f_speed * Time.deltaTime * f_sprintmult);
                 i_lastKey = 3;
             }
         }
         else
         {
-           
+
             //curSpill needs to reference something
             if (h_curSpill != null)
             {
@@ -191,6 +205,7 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
+
 
         //Jumping
         if (Input.GetKey(KeyCode.Space) && c_control.isGrounded == true)
@@ -240,6 +255,12 @@ public class PlayerMovement : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.E) && b_isgrabbing == true)
         {
             b_isgrabbing = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            c_command = new GotoMainMenuCommand();
+            c_command.Execute(c_command, obj_player);
         }
 
         switch (e_currstate)

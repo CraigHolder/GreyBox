@@ -5,9 +5,12 @@ using UnityEngine;
 public class Speakers : MonoBehaviour
 {
     public Remote s_remote;
-    public CharacterController c_control;
+    CharacterController c_control;
     BoxCollider col_trigger;
     SpeakerState e_state = SpeakerState.Off;
+
+    Subject S_Notifier = new Subject();
+    Achievments achievmentobserver = new Achievments();
 
     enum SpeakerState
     {
@@ -17,13 +20,17 @@ public class Speakers : MonoBehaviour
     void Start()
     {
         col_trigger = this.GetComponent<BoxCollider>();
-
+        S_Notifier.AddObserver(achievmentobserver);
     }
 
     void OnTriggerStay(Collider collision)
     {
-        c_control.Move(transform.forward * -100 * Time.deltaTime);
-
+        if (collision.gameObject.tag == "Player")
+        {
+            c_control = collision.gameObject.GetComponent<CharacterController>();
+            c_control.Move(transform.forward * -100 * Time.deltaTime);
+            S_Notifier.Notify(collision.gameObject, Observer.EventType.Push);
+        }
     }
 
     // Update is called once per frame

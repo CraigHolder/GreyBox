@@ -7,6 +7,10 @@ public class Grabber : MonoBehaviour
     public PlayerMovement s_player;
     public GameObject obj_curritem;
     public Collider col_collider;
+    public Transform t_mouth;
+
+    Subject S_Notifier = new Subject();
+    Achievments achievmentobserver = new Achievments();
 
     // Start is called before the first frame update
     void Start()
@@ -16,6 +20,8 @@ public class Grabber : MonoBehaviour
         col_collider = this.GetComponent<BoxCollider>();
 
         obj_curritem = null;
+
+        S_Notifier.AddObserver(achievmentobserver);
     }
 
     // Update is called once per frame
@@ -33,6 +39,7 @@ public class Grabber : MonoBehaviour
                 obj_curritem.GetComponent<Rigidbody>().isKinematic = false;
                 obj_curritem.GetComponent<Collider>().isTrigger = false;
                 obj_curritem.transform.SetParent(null);
+                obj_curritem = null;
             }
 
         }
@@ -40,12 +47,16 @@ public class Grabber : MonoBehaviour
 
     void OnTriggerStay(Collider collision)
     {
-        if(collision.gameObject.tag == "Grab")
+        if(collision.gameObject.tag == "Grab" && obj_curritem == null)
         {
             obj_curritem = collision.gameObject;
             obj_curritem.GetComponent<Rigidbody>().isKinematic = true;
+            obj_curritem.transform.SetPositionAndRotation(t_mouth.transform.position, t_mouth.transform.rotation);
             obj_curritem.transform.SetParent(s_player.gameObject.transform);
             obj_curritem.GetComponent<Collider>().isTrigger = true;
+
+            S_Notifier.Notify(s_player.gameObject, Observer.EventType.PickupObject);
+
         }
     }
 }
