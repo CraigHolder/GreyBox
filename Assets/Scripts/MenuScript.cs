@@ -17,6 +17,7 @@ public class MenuScript : MonoBehaviour
         {
             AchievementTextControl();
         }
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     void AchievementTextControl()
