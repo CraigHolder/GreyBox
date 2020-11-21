@@ -17,12 +17,15 @@ public class TutorialScript : MonoBehaviour
     public GameObject obj_grab;
     public GameObject obj_wall1;
     public GameObject obj_wall2;
+    public GameObject obj_deathplane;
     public PlayerMovement s_player;
     public bool b_hazardenter = false;
     float f_timer = 0;
 
     Subject S_Notifier = new Subject();
     Achievments achievmentobserver = new Achievments();
+
+    Command c_command;
 
     // Start is called before the first frame update
     void Start()
@@ -114,8 +117,16 @@ public class TutorialScript : MonoBehaviour
                     t_scoretext.text = "Good luck Bandit";
                     obj_wall2.GetComponent<BoxCollider>().enabled = false;
                     i_step++;
+                    
+                }
+                break;
+            case 7:
+                if(obj_deathplane.GetComponent<DeathPlane>().b_active == true)
+                {
                     s_player.b_disableachieve = false;
                     S_Notifier.Notify(s_player.gameObject, Observer.EventType.Tutorial);
+                    //c_command = new GotoMainMenuCommand();
+                    //c_command.Execute(c_command, obj_bounce);
                 }
                 break;
         }
