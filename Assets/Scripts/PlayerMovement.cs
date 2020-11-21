@@ -7,6 +7,9 @@ using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public TutorialQuestManager t_manager;
+
+
     public GameObject obj_player;
     public CharacterController c_control;
     Command c_command;
@@ -142,6 +145,11 @@ public class PlayerMovement : MonoBehaviour
             f_sprintmult = 2.5f;
             b_sprinting = true;
             b_recovering = false;
+
+            if (t_manager)
+            {
+                S_Notifier.TutorialNotify(this.gameObject, Observer.EventType.Sprint, t_manager);
+            }
         }
         else
         {
@@ -160,22 +168,41 @@ public class PlayerMovement : MonoBehaviour
                 c_control.Move(transform.forward * f_speed * Time.deltaTime * f_sprintmult);
                 i_lastKey = 0;
                 //c_control.Move(new Vector3(0, 0, i_speed * Time.deltaTime));
+                if (t_manager)
+                {
+                    S_Notifier.TutorialNotify(this.gameObject, Observer.EventType.Move, t_manager);
+                }
             }
             else if (Input.GetKey(KeyCode.S))
             {
                 c_control.Move(transform.forward * -f_speed * Time.deltaTime * f_sprintmult);
                 i_lastKey = 1;
+
+                if (t_manager)
+                {
+                    S_Notifier.TutorialNotify(this.gameObject, Observer.EventType.Move, t_manager);
+                }
             }
 
             if (Input.GetKey(KeyCode.D))
             {
                 c_control.Move(transform.right * f_speed * Time.deltaTime * f_sprintmult);
                 i_lastKey = 2;
+
+                if (t_manager)
+                {
+                    S_Notifier.TutorialNotify(this.gameObject, Observer.EventType.Move, t_manager);
+                }
             }
             else if (Input.GetKey(KeyCode.A))
             {
                 c_control.Move(transform.right * -f_speed * Time.deltaTime * f_sprintmult);
                 i_lastKey = 3;
+
+                if (t_manager)
+                {
+                    S_Notifier.TutorialNotify(this.gameObject, Observer.EventType.Move, t_manager);
+                }
             }
         }
         else
@@ -213,6 +240,11 @@ public class PlayerMovement : MonoBehaviour
             f_jumptimer = f_jumptime;
             //c_control.Move(new Vector3(0, i_jumpspeed * Time.deltaTime, 0));
             e_currstate = FerretState.Jumping;
+
+            if (t_manager)
+            {
+                S_Notifier.TutorialNotify(this.gameObject, Observer.EventType.Jump, t_manager);
+            }
         }
         else if (e_currstate == FerretState.Jumping)
         {

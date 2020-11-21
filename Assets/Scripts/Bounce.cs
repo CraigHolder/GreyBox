@@ -9,8 +9,12 @@ public class Bounce : MonoBehaviour
     AudioSource a_audiosource;
     public float f_bounceforce = 2f;
     BounceObjCommand c_objbounce;
+
+    public TutorialQuestManager t_manager;
+
     Subject S_Notifier = new Subject();
     Achievments achievmentobserver = new Achievments();
+
 
 
     void Start()
@@ -27,6 +31,10 @@ public class Bounce : MonoBehaviour
         if (b_active == false && collision.gameObject.tag == "Player")
         {
             S_Notifier.Notify(collision.gameObject, Observer.EventType.Bounce);
+
+            if (t_manager) {
+                S_Notifier.TutorialNotify(collision.gameObject, Observer.EventType.Tut_Bounce, t_manager);
+            }
 
             s_Player = collision.gameObject.GetComponent<PlayerMovement>();
             s_Player.f_jumpspeed *= f_bounceforce;

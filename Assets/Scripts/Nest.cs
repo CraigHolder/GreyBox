@@ -8,6 +8,8 @@ public class Nest : MonoBehaviour
     public Text t_scoretext;
     public int i_teamscore = 0;
 
+    public TutorialQuestManager t_manager;
+
     Subject S_Notifier = new Subject();
     Achievments achievmentobserver = new Achievments();
 
@@ -31,6 +33,12 @@ public class Nest : MonoBehaviour
             i_teamscore += collision.gameObject.GetComponent<Score>().i_score;
             t_scoretext.text = "Score: " + i_teamscore.ToString();
             S_Notifier.Notify(GameObject.FindGameObjectWithTag("Player"), Observer.EventType.Return);
+
+            if (t_manager)
+            {
+                print("Nested!!");
+                S_Notifier.TutorialNotify(GameObject.FindGameObjectWithTag("Player"), Observer.EventType.Tut_Return, t_manager);
+            }
         }
     }
 
