@@ -189,7 +189,7 @@ public class GotoTutorialCommand : Command
 
     void ToTutorialScene()
     {
-        SceneManager.LoadScene("TutorialScene");
+        SceneManager.LoadScene("CraigTutorialScene");
     }
 }
 

@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 7c6395ec1dfaccd419153220d00e3f27
   - enabled: 1
-    path: Assets/Scenes/TutorialScene.unity
+    path: Assets/Scenes/CraigTutorialScene.unity
     guid: d84587a92d4db58438f12a99f162d18c
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
