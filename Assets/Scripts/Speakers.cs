@@ -32,6 +32,8 @@ public class Speakers : MonoBehaviour
         {
             c_control = collision.gameObject.GetComponent<CharacterController>();
             c_control.Move(transform.forward * -100 * Time.deltaTime);
+			collision.gameObject.GetComponent<player_controller_behavior>().DropItem();
+			
             fly_shareddata.S_Notifier.Notify(collision.gameObject, Observer.EventType.Push);
         }
     }
