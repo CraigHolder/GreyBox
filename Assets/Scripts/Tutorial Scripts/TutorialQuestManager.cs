@@ -7,6 +7,8 @@ public class TutorialQuestManager : MonoBehaviour
 {
     public Plugin_Manager p_handler;
 
+    public player_controller_behavior player;
+
     Subject S_Notifier = new Subject();
     Achievments achievmentobserver = new Achievments();
 
@@ -56,6 +58,25 @@ public class TutorialQuestManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        float input_x = Input.GetAxis("Horizontal");
+        float input_y = Input.GetAxis("Vertical");
+
+        if(!walkDone && !Mathf.Approximately(input_x, 0.0f) || !Mathf.Approximately(input_y, 0.0f))
+        {
+            Recieve_Event("Walk");
+        }
+
+        if (!jumpDone && Input.GetButton("Jump"))
+        {
+            Recieve_Event("Jump");
+        }
+
+        if (!sprintDone && Input.GetButton("Sprint"))
+        {
+            Recieve_Event("Sprint");
+        }
+
         if(walkDone && jumpDone && sprintDone && bounceDone && hazardDone && nestDone && !TutorialCompleted)
         {
 

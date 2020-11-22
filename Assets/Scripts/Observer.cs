@@ -111,7 +111,7 @@ public class Achievments : Observer
                 }
                 break;
             case EventType.Tutorial:
-                if (entity.tag == "Player" && entity.GetComponent<player_controller_behavior>().b_disableachieve == false)
+                if (entity.tag == "Player" && entity.GetComponent<player_controller_behavior>().b_disableachieve == true)
                 {
                     Unlock(EventType.Tutorial);
                 }
@@ -133,7 +133,7 @@ public class Achievments : Observer
         switch (e_event)
         {
             case EventType.Move:
-                if (entity.tag == "Player" && entity.GetComponent<PlayerMovement>().b_disableachieve == true && hasMoved == false)
+                if (entity.tag == "Player" && entity.GetComponent<player_controller_behavior>().b_disableachieve == true && hasMoved == false)
                 {
                     //Debug.Log("Oh hey you made it");
                     tut_Manager.Recieve_Event("Walk");
@@ -142,7 +142,7 @@ public class Achievments : Observer
                 }
                 break;
             case EventType.Jump:
-                if (entity.tag == "Player" && entity.GetComponent<PlayerMovement>().b_disableachieve == true && hasJumped == false)
+                if (entity.tag == "Player" && entity.GetComponent<player_controller_behavior>().b_disableachieve == true && hasJumped == false)
                 {
                     //Debug.Log("Oh hey you made it");
                     tut_Manager.Recieve_Event("Jump");
@@ -152,7 +152,7 @@ public class Achievments : Observer
                 break;
 
             case EventType.Sprint:
-                if (entity.tag == "Player" && entity.GetComponent<PlayerMovement>().b_disableachieve == true && hasSprinted == false)
+                if (entity.tag == "Player" && entity.GetComponent<player_controller_behavior>().b_disableachieve == true && hasSprinted == false)
                 {
                     //Debug.Log("Oh hey you made it");
                     tut_Manager.Recieve_Event("Sprint");
@@ -162,7 +162,7 @@ public class Achievments : Observer
                 break;
 
             case EventType.Tut_Bounce:
-                if (entity.tag == "Player" && entity.GetComponent<PlayerMovement>().b_disableachieve == true && hasBounced == false)
+                if (entity.tag == "Player" && entity.GetComponent<player_controller_behavior>().b_disableachieve == true && hasBounced == false)
                 {
                     //Debug.Log("Oh hey you made it");
                     tut_Manager.Recieve_Event("Bounce");
@@ -172,7 +172,7 @@ public class Achievments : Observer
                 break;
 
             case EventType.Tut_Hazard:
-                if (entity.tag == "Player" && entity.GetComponent<PlayerMovement>().b_disableachieve == true && hasAvoided == false)
+                if (entity.tag == "Player" && entity.GetComponent<player_controller_behavior>().b_disableachieve == true && hasAvoided == false)
                 {
                     //Debug.Log("Oh hey you made it");
                     tut_Manager.Recieve_Event("Hazard");
@@ -182,7 +182,7 @@ public class Achievments : Observer
                 break;
 
             case EventType.Tut_Return:
-                if (entity.tag == "Player" && entity.GetComponent<PlayerMovement>().b_disableachieve == true && hasNested == false)
+                if (entity.tag == "Player" && entity.GetComponent<player_controller_behavior>().b_disableachieve == true && hasNested == false)
                 {
                     //Debug.Log("Oh hey you made it");
                     tut_Manager.Recieve_Event("Nested");

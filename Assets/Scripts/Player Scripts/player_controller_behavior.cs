@@ -6,6 +6,10 @@ using TMPro;
 
 public class player_controller_behavior : MonoBehaviour
 {
+
+	//Command Obj
+	Command c_command;
+
 	public enum FerretState
 	{
 		Idle,
@@ -319,7 +323,13 @@ public class player_controller_behavior : MonoBehaviour
 			srt = StaminaRecoveryTime;
 		}
 
-		StaminaDisplay.text = stamina.ToString();
+		StaminaDisplay.text = stamina.ToString("#");
+
+		if (Input.GetKeyDown(KeyCode.Tab)) //Go back to Main menu From wherever
+		{
+			c_command = new GotoMainMenuCommand();
+			c_command.Execute(c_command, this.gameObject);
+		}
 	}
 
 
