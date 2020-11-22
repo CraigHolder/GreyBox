@@ -12,6 +12,8 @@ public class HazardSpill : MonoBehaviour
     private float f_spillSpeed = 0.8f;
     public bool b_flatSurface = true;
 
+    public Plugin_Manager p_handler;
+
     void Start()
     {
         s_Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
@@ -32,6 +34,11 @@ public class HazardSpill : MonoBehaviour
     // Start is called before the first frame update
     void OnTriggerStay(Collider collision)
     {
+        if(collision.gameObject.tag == "Player" && p_handler) //Solely for plugins
+        {
+            p_handler.recordHazard(Time.deltaTime);
+        }
+
         if (b_active == false && collision.gameObject.tag == "Player")
         {
             s_Player = collision.gameObject.GetComponent<PlayerMovement>();

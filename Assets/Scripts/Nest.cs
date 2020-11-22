@@ -9,6 +9,7 @@ public class Nest : MonoBehaviour
     public int i_teamscore = 0;
 
     public TutorialQuestManager t_manager;
+    public Plugin_Manager p_handler;
 
     Subject S_Notifier = new Subject();
     Achievments achievmentobserver = new Achievments();
@@ -38,6 +39,11 @@ public class Nest : MonoBehaviour
             {
                 print("Nested!!");
                 S_Notifier.TutorialNotify(GameObject.FindGameObjectWithTag("Player"), Observer.EventType.Tut_Return, t_manager);
+            }
+
+            if (p_handler)
+            {
+                p_handler.recordScore(i_teamscore);
             }
         }
     }

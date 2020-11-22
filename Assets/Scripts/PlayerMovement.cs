@@ -8,7 +8,7 @@ using TMPro;
 public class PlayerMovement : MonoBehaviour
 {
     public TutorialQuestManager t_manager;
-
+    public Plugin_Manager p_handler;
 
     public GameObject obj_player;
     public CharacterController c_control;
@@ -105,6 +105,12 @@ public class PlayerMovement : MonoBehaviour
         {
             //Stamina Decay
             f_stamina -= f_staminadecay * Time.deltaTime /** 10*/;
+
+            float temp = f_staminadecay * Time.deltaTime;
+            if (p_handler)
+            {
+                p_handler.recordStamina(temp);
+            }
 
             if (f_stamina <= 0.0f)
             {
@@ -244,6 +250,11 @@ public class PlayerMovement : MonoBehaviour
             if (t_manager)
             {
                 S_Notifier.TutorialNotify(this.gameObject, Observer.EventType.Jump, t_manager);
+            }
+
+            if (p_handler)
+            {
+                p_handler.recordJump();
             }
         }
         else if (e_currstate == FerretState.Jumping)

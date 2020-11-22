@@ -11,6 +11,7 @@ public class Bounce : MonoBehaviour
     BounceObjCommand c_objbounce;
 
     public TutorialQuestManager t_manager;
+    public Plugin_Manager p_handler;
 
     Subject S_Notifier = new Subject();
     Achievments achievmentobserver = new Achievments();
@@ -34,6 +35,11 @@ public class Bounce : MonoBehaviour
 
             if (t_manager) {
                 S_Notifier.TutorialNotify(collision.gameObject, Observer.EventType.Tut_Bounce, t_manager);
+            }
+
+            if (p_handler)
+            {
+                p_handler.recordBounce();
             }
 
             s_Player = collision.gameObject.GetComponent<PlayerMovement>();

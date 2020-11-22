@@ -5,6 +5,8 @@ using TMPro;
 
 public class TutorialQuestManager : MonoBehaviour
 {
+    public Plugin_Manager p_handler;
+
     Subject S_Notifier = new Subject();
     Achievments achievmentobserver = new Achievments();
 
@@ -59,6 +61,11 @@ public class TutorialQuestManager : MonoBehaviour
 
             FinishedText.SetActive(true);
             S_Notifier.Notify(GameObject.FindGameObjectWithTag("Player"), Observer.EventType.Tutorial);
+
+            if (p_handler)
+            {
+                p_handler.createFile();
+            }
 
             TutorialCompleted = true;
         }
