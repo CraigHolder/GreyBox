@@ -18,14 +18,16 @@ public class TutorialScript : MonoBehaviour
     public GameObject obj_wall1;
     public GameObject obj_wall2;
     public GameObject obj_deathplane;
+
     public PlayerMovement s_player;
+    public Transform T_particlespawnpoint;
+    ParticlePoolManager particlepoolmanager;
+    
     public bool b_hazardenter = false;
     float f_timer = 0;
 
     Subject S_Notifier = new Subject();
     Achievments achievmentobserver = new Achievments();
-
-    Command c_command;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +38,8 @@ public class TutorialScript : MonoBehaviour
         t_objecttext.gameObject.SetActive(false);
         S_Notifier.AddObserver(achievmentobserver);
         s_player.b_disableachieve = true;
+
+        particlepoolmanager = this.GetComponent<ParticlePoolManager>();
     }
 
     // Update is called once per frame
@@ -60,6 +64,8 @@ public class TutorialScript : MonoBehaviour
                     if (Input.GetKey(KeyCode.LeftShift))
                     {
                         t_scoretext.text = "Use Space to jump";
+                        GameObject obj_temp = particlepoolmanager.GetParticle();
+                        obj_temp.transform.position = s_player.transform.position;
                         i_step++;
                     }
                     //i_step++;
@@ -69,6 +75,8 @@ public class TutorialScript : MonoBehaviour
                 if (Input.GetKey(KeyCode.Space))
                 {
                     t_scoretext.text = "Bouncy objects can be used to get to higher places";
+                    GameObject obj_temp = particlepoolmanager.GetParticle();
+                    obj_temp.transform.position = T_particlespawnpoint.position;
                     i_step++;
                 }
                 break;
@@ -77,6 +85,8 @@ public class TutorialScript : MonoBehaviour
                 {
                     t_objecttext.gameObject.SetActive(true);
                     t_scoretext.text = "Small objects can be picked up and dropped with E";
+                    GameObject obj_temp = particlepoolmanager.GetParticle();
+                    obj_temp.transform.position = T_particlespawnpoint.position;
                     i_step++;
                 }
                 break;
@@ -87,6 +97,8 @@ public class TutorialScript : MonoBehaviour
                     t_scoretext.text = "Stolen objects give your team points when delivered\nto your nest";
                     obj_wall1.GetComponent<BoxCollider>().enabled = false;
                     t_nesttext.gameObject.SetActive(true);
+                    GameObject obj_temp = particlepoolmanager.GetParticle();
+                    obj_temp.transform.position = T_particlespawnpoint.position;
                     i_step++;
                 }
                 break;
@@ -95,6 +107,8 @@ public class TutorialScript : MonoBehaviour
                 {
                     t_nesttext.gameObject.SetActive(false);
                     t_scoretext.text = "Hazards like this rug force you to let go of \nanything you have picked up and/or slow you down";
+                    GameObject obj_temp = particlepoolmanager.GetParticle();
+                    obj_temp.transform.position = T_particlespawnpoint.position;
                     i_step++;
                 }
                 break;
@@ -107,6 +121,8 @@ public class TutorialScript : MonoBehaviour
                 {
                     t_scoretext.text = "Remotes can be used to turn on various objects";
                     t_remotetext.gameObject.SetActive(true);
+                    GameObject obj_temp = particlepoolmanager.GetParticle();
+                    obj_temp.transform.position = T_particlespawnpoint.position;
                     i_step++;
                 }
                 break;
@@ -116,6 +132,8 @@ public class TutorialScript : MonoBehaviour
                     t_remotetext.gameObject.SetActive(false);
                     t_scoretext.text = "Good luck Bandit";
                     obj_wall2.GetComponent<BoxCollider>().enabled = false;
+                    GameObject obj_temp = particlepoolmanager.GetParticle();
+                    obj_temp.transform.position = T_particlespawnpoint.position;
                     i_step++;
                     
                 }
@@ -125,12 +143,9 @@ public class TutorialScript : MonoBehaviour
                 {
                     s_player.b_disableachieve = false;
                     S_Notifier.Notify(s_player.gameObject, Observer.EventType.Tutorial);
-                    //c_command = new GotoMainMenuCommand();
-                    //c_command.Execute(c_command, obj_bounce);
+                    
                 }
                 break;
         }
-        
-
     }
 }

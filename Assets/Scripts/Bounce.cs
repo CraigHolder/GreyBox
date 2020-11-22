@@ -8,17 +8,15 @@ public class Bounce : MonoBehaviour
     private bool b_active;
     AudioSource a_audiosource;
     public float f_bounceforce = 2f;
-    BounceObjCommand c_objbounce;
-    Subject S_Notifier = new Subject();
-    Achievments achievmentobserver = new Achievments();
+    public FlyWeight fly_shareddata;
+
+    
 
 
     void Start()
     {
         a_audiosource = this.GetComponent<AudioSource>();
-        c_objbounce = new BounceObjCommand();
 
-        S_Notifier.AddObserver(achievmentobserver);
     }
 
     // Start is called before the first frame update
@@ -26,7 +24,7 @@ public class Bounce : MonoBehaviour
     {
         if (b_active == false && collision.gameObject.tag == "Player")
         {
-            S_Notifier.Notify(collision.gameObject, Observer.EventType.Bounce);
+            fly_shareddata.S_Notifier.Notify(collision.gameObject, Observer.EventType.Bounce);
 
             s_Player = collision.gameObject.GetComponent<PlayerMovement>();
             s_Player.f_jumpspeed *= f_bounceforce;
@@ -40,7 +38,7 @@ public class Bounce : MonoBehaviour
         }
         else if (collision.gameObject.tag == "Grab" && collision.gameObject.GetComponent<Rigidbody>().isKinematic == false)
         {
-            c_objbounce.Execute(c_objbounce, collision.gameObject);
+            fly_shareddata.c_objbounce.Execute(fly_shareddata.c_objbounce, collision.gameObject);
 
             a_audiosource.Play();
         }

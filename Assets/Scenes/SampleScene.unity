@@ -2459,6 +2459,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   s_Player: {fileID: 0}
   f_bounceforce: 2
+  fly_shareddata: {fileID: 11400000, guid: 827f8e4ae1429f647bdcf002ac4f6f6f, type: 2}
 --- !u!23 &265111056
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3055,6 +3056,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   s_Player: {fileID: 0}
   f_bounceforce: 2.5
+  fly_shareddata: {fileID: 11400000, guid: 827f8e4ae1429f647bdcf002ac4f6f6f, type: 2}
 --- !u!82 &326891342
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3373,6 +3375,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   s_Player: {fileID: 0}
   f_bounceforce: 2.5
+  fly_shareddata: {fileID: 11400000, guid: 827f8e4ae1429f647bdcf002ac4f6f6f, type: 2}
 --- !u!82 &340796884
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3886,6 +3889,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   s_Player: {fileID: 0}
   f_bounceforce: 2
+  fly_shareddata: {fileID: 11400000, guid: 827f8e4ae1429f647bdcf002ac4f6f6f, type: 2}
 --- !u!82 &404406818
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4187,6 +4191,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   s_Player: {fileID: 0}
   f_bounceforce: 2
+  fly_shareddata: {fileID: 11400000, guid: 827f8e4ae1429f647bdcf002ac4f6f6f, type: 2}
 --- !u!23 &425396166
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4634,6 +4639,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   t_scoretext: {fileID: 789187449}
   i_teamscore: 0
+  fly_shareddata: {fileID: 0}
 --- !u!23 &503641036
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5424,6 +5430,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   b_speakeron: 0
+  fly_shareddata: {fileID: 11400000, guid: 827f8e4ae1429f647bdcf002ac4f6f6f, type: 2}
 --- !u!1 &591249522
 GameObject:
   m_ObjectHideFlags: 0
@@ -7045,6 +7052,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   t_scoretext: {fileID: 1524027982}
   i_teamscore: 0
+  fly_shareddata: {fileID: 0}
 --- !u!1 &744964771
 GameObject:
   m_ObjectHideFlags: 0
@@ -8446,6 +8454,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   s_Player: {fileID: 0}
   f_bounceforce: 2.5
+  fly_shareddata: {fileID: 11400000, guid: 827f8e4ae1429f647bdcf002ac4f6f6f, type: 2}
 --- !u!23 &883578426
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -12920,6 +12929,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   s_remote: {fileID: 584301688}
+  fly_shareddata: {fileID: 11400000, guid: 827f8e4ae1429f647bdcf002ac4f6f6f, type: 2}
 --- !u!64 &1630409999
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -13045,6 +13055,36 @@ MonoBehaviour:
   s_Player: {fileID: 0}
   f_jumpspeeddef: 0
   f_jumptimedef: 0
+--- !u!1 &1644610617
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1644610618}
+  m_Layer: 0
+  m_Name: New Game Object
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1644610618
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1644610617}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 25
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1646036824
 GameObject:
   m_ObjectHideFlags: 0
@@ -13267,6 +13307,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   s_Player: {fileID: 0}
   f_bounceforce: 2
+  fly_shareddata: {fileID: 11400000, guid: 827f8e4ae1429f647bdcf002ac4f6f6f, type: 2}
 --- !u!82 &1671323275
 AudioSource:
   m_ObjectHideFlags: 0
@@ -14540,6 +14581,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   s_remote: {fileID: 584301688}
+  fly_shareddata: {fileID: 11400000, guid: 827f8e4ae1429f647bdcf002ac4f6f6f, type: 2}
 --- !u!64 &1886226843
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -14854,6 +14896,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   s_Player: {fileID: 0}
   f_bounceforce: 2.5
+  fly_shareddata: {fileID: 11400000, guid: 827f8e4ae1429f647bdcf002ac4f6f6f, type: 2}
 --- !u!23 &1924804288
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15158,6 +15201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   s_Player: {fileID: 0}
   f_bounceforce: 2
+  fly_shareddata: {fileID: 11400000, guid: 827f8e4ae1429f647bdcf002ac4f6f6f, type: 2}
 --- !u!23 &2028048175
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16486,6 +16530,10 @@ PrefabInstance:
       propertyPath: text_obj
       value: 
       objectReference: {fileID: 1373900951}
+    - target: {fileID: 5716727129635332043, guid: 59341af23deca5d4186a05a417383fb4, type: 3}
+      propertyPath: fly_shareddata
+      value: 
+      objectReference: {fileID: 11400000, guid: 827f8e4ae1429f647bdcf002ac4f6f6f, type: 2}
     - target: {fileID: 5716727129635434496, guid: 59341af23deca5d4186a05a417383fb4, type: 3}
       propertyPath: m_Name
       value: DemoPlayer2

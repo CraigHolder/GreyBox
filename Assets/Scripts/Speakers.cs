@@ -7,20 +7,23 @@ public class Speakers : MonoBehaviour
     public Remote s_remote;
     CharacterController c_control;
     BoxCollider col_trigger;
-    SpeakerState e_state = SpeakerState.Off;
+    //SpeakerState e_state = SpeakerState.Off;
+    //
+    //Subject S_Notifier = new Subject();
+    //Achievments achievmentobserver = new Achievments();
 
-    Subject S_Notifier = new Subject();
-    Achievments achievmentobserver = new Achievments();
+    public FlyWeight fly_shareddata;
 
-    enum SpeakerState
+    public enum SpeakerState
     {
         On,Off
     }
 
     void Start()
     {
+
         col_trigger = this.GetComponent<BoxCollider>();
-        S_Notifier.AddObserver(achievmentobserver);
+        
     }
 
     void OnTriggerStay(Collider collision)
@@ -29,26 +32,26 @@ public class Speakers : MonoBehaviour
         {
             c_control = collision.gameObject.GetComponent<CharacterController>();
             c_control.Move(transform.forward * -100 * Time.deltaTime);
-            S_Notifier.Notify(collision.gameObject, Observer.EventType.Push);
+            fly_shareddata.S_Notifier.Notify(collision.gameObject, Observer.EventType.Push);
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(s_remote.b_speakeron == true && e_state == SpeakerState.Off)
+        if(s_remote.b_speakeron == true && fly_shareddata.e_speakerstate == SpeakerState.Off)
         {
             this.GetComponent<Renderer>().material.color = Color.red;
             //b_on = true;
-            e_state = SpeakerState.On;
+            fly_shareddata.e_speakerstate = SpeakerState.On;
         }
-        else if (s_remote.b_speakeron == false && e_state == SpeakerState.On)
+        else if (s_remote.b_speakeron == false && fly_shareddata.e_speakerstate == SpeakerState.On)
         {
             this.GetComponent<Renderer>().material.color = Color.yellow;
-            e_state = SpeakerState.Off;
+            fly_shareddata.e_speakerstate = SpeakerState.Off;
         }
 
-        switch (e_state)
+        switch (fly_shareddata.e_speakerstate)
         {
             case SpeakerState.On:
                 col_trigger.enabled = true;
