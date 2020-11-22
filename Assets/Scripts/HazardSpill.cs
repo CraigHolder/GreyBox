@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HazardSpill : MonoBehaviour
 {
-    public PlayerMovement s_Player;
+    public player_controller_behavior s_Player;
     private bool b_active;
     //public float f_speedforce = 0.6f;
     public float f_jumpspeeddef;
@@ -16,9 +16,9 @@ public class HazardSpill : MonoBehaviour
 
     void Start()
     {
-        s_Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
-        f_jumpspeeddef = s_Player.f_jumpspeed;
-        f_jumptimedef = s_Player.f_jumptime;
+        //s_Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+        //f_jumpspeeddef = s_Player.f_jumpspeed;
+        //f_jumptimedef = s_Player.f_jumptime;
     }
 
     public bool getSurface()
@@ -32,7 +32,7 @@ public class HazardSpill : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void OnTriggerStay(Collider collision)
+    void OnTriggerEnter(Collider collision)
     {
         if(collision.gameObject.tag == "Player" && p_handler) //Solely for plugins
         {
@@ -41,19 +41,23 @@ public class HazardSpill : MonoBehaviour
 
         if (b_active == false && collision.gameObject.tag == "Player")
         {
-            s_Player = collision.gameObject.GetComponent<PlayerMovement>();
-            //s_Player.f_speed *= f_speedforce;
-            s_Player.f_jumpspeed = 0f;
-            s_Player.f_jumptime = 0f;
-            s_Player.e_currstate = PlayerMovement.FerretState.Slipping;
-            s_Player.h_curSpill = this;
+            s_Player = collision.gameObject.GetComponent<player_controller_behavior>();
+			//s_Player.f_speed *= f_speedforce;
+			//s_Player.f_jumpspeed = 0f;
+			//s_Player.f_jumptime = 0f;
+			//s_Player.e_currstate = PlayerMovement.FerretState.Slipping;
+			//s_Player.h_curSpill = this;
+
+			s_Player.Slip(true);
 
             b_active = true;
         }
         else if (collision.gameObject.tag == "Player")
         {
-            s_Player.b_isgrabbing = false;
-        }
+            //s_Player.b_isgrabbing = false;
+			s_Player = collision.gameObject.GetComponent<player_controller_behavior>();
+			s_Player.DropItem();
+		}
     }
     void OnTriggerExit(Collider collision)
     {
@@ -62,10 +66,12 @@ public class HazardSpill : MonoBehaviour
         {
 
             b_active = false;
-            // s_Player.f_speed *= (1f / f_speedforce);
-            s_Player.f_jumpspeed = f_jumpspeeddef;
-            s_Player.f_jumptime = f_jumptimedef;
-            s_Player.e_currstate = PlayerMovement.FerretState.Idle;
-        }
+			// s_Player.f_speed *= (1f / f_speedforce);
+			//s_Player.f_jumpspeed = f_jumpspeeddef;
+			//s_Player.f_jumptime = f_jumptimedef;
+			//s_Player.e_currstate = PlayerMovement.FerretState.Idle;
+
+			s_Player.Slip(false);
+		}
     }
 }

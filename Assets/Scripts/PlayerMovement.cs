@@ -290,16 +290,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-        //Grab
-        if (Input.GetKeyDown(KeyCode.E) && b_isgrabbing == false)
-        {
-            b_isgrabbing = true;
-        }
-        else if (Input.GetKeyDown(KeyCode.E) && b_isgrabbing == true)
-        {
-            b_isgrabbing = false;
-        }
-
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             c_command = new GotoMainMenuCommand();

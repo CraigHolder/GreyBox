@@ -42,13 +42,15 @@ public class Bounce : MonoBehaviour
                 p_handler.recordBounce();
             }
 
-            s_Player = collision.gameObject.GetComponent<PlayerMovement>();
-            s_Player.f_jumpspeed *= f_bounceforce;
-            s_Player.f_jumptime *= f_bounceforce;
 
-            s_Player.f_jumptimer = s_Player.f_jumptime;
-            //c_control.Move(new Vector3(0, i_jumpspeed * Time.deltaTime, 0));
-            s_Player.e_currstate = PlayerMovement.FerretState.Jumping;
+			//s_Player.f_jumptimer = s_Player.f_jumptime;
+			//c_control.Move(new Vector3(0, i_jumpspeed * Time.deltaTime, 0));
+			//s_Player.e_currstate = PlayerMovement.FerretState.Jumping;
+
+			player_controller_behavior player = collision.GetComponent<player_controller_behavior>();
+
+			player.Jump(f_bounceforce);
+
             a_audiosource.Play();
             b_active = true;
         }
