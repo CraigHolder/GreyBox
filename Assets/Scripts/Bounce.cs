@@ -69,8 +69,8 @@ public class Bounce : MonoBehaviour
         {
 
             b_active = false;
-            s_Player.f_jumpspeed /= f_bounceforce;
-            s_Player.f_jumptime /= f_bounceforce;
+           // s_Player.f_jumpspeed /= f_bounceforce;
+            //s_Player.f_jumptime /= f_bounceforce;
         }
     }
 }

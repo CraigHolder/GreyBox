@@ -14,3 +14,19 @@ Final score: 10 points
 Highscore: 10 points
 Stamina used: 0 stamina points
 
+Game Stats
+Number of Jumps: 17
+Number of bounces on bounce pads: 2
+Time spent on/in hazards: 0 seconds
+Final score: 10 points
+Highscore: 10 points
+Stamina used: 42.1685 stamina points
+
+Game Stats
+Number of Jumps: 4
+Number of bounces on bounce pads: 2
+Time spent on/in hazards: 0.02 seconds
+Final score: 10 points
+Highscore: 10 points
+Stamina used: 179.132 stamina points
+

@@ -10,6 +10,9 @@ public class player_controller_behavior : MonoBehaviour
 	//Command Obj
 	Command c_command;
 
+	//Plugin Manager
+	public Plugin_Manager p_manager;
+
 	public enum FerretState
 	{
 		Idle,
@@ -172,11 +175,13 @@ public class player_controller_behavior : MonoBehaviour
 
 				break;
 			default:
-				if (on_ground && Input.GetButton("Jump") && stamina > 0.0f)
+				if (on_ground && Input.GetButton("Jump") && stamina > 0.0f && (stamina - JumpCost) >= 0 )
 				{
 					Jump(PLAYER_JUMP);
 
 					stamina -= JumpCost;
+					p_manager.recordJump();
+					p_manager.recordStamina(JumpCost);
 				}
 
 				ApplyGravity(ref movement, dt);
@@ -223,6 +228,7 @@ public class player_controller_behavior : MonoBehaviour
 						input_motion *= SprintModifier;
 
 						stamina -= SprintCost * dt;
+						p_manager.recordStamina(SprintCost * dt);
 					}
 
 					movement += input_motion;

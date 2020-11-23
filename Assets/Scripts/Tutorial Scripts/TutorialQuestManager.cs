@@ -6,7 +6,6 @@ using TMPro;
 public class TutorialQuestManager : MonoBehaviour
 {
     public Plugin_Manager p_handler;
-
     public player_controller_behavior player;
 
     Subject S_Notifier = new Subject();
