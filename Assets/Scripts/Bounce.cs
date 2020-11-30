@@ -27,7 +27,7 @@ public class Bounce : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void OnTriggerStay(Collider collision)
+    public void OnTriggerStay(Collider collision)
     {
         if (b_active == false && collision.gameObject.tag == "Player")
         {
@@ -62,7 +62,7 @@ public class Bounce : MonoBehaviour
         }
 
     }
-    void OnTriggerExit(Collider collision)
+    public void OnTriggerExit(Collider collision)
     {
         //s_Player = collisionInfo.gameObject.GetComponent<PlayerMovement>();
         if(collision.gameObject.tag == "Player")

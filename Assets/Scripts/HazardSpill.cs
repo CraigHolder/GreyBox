@@ -32,7 +32,7 @@ public class HazardSpill : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void OnTriggerEnter(Collider collision)
+    public void OnTriggerEnter(Collider collision)
     {
         if(collision.gameObject.tag == "Player" && p_handler) //Solely for plugins
         {
@@ -59,7 +59,8 @@ public class HazardSpill : MonoBehaviour
 			s_Player.DropItem();
 		}
     }
-    void OnTriggerExit(Collider collision)
+
+    public void OnTriggerExit(Collider collision)
     {
         //s_Player = collisionInfo.gameObject.GetComponent<PlayerMovement>();
         if (collision.gameObject.tag == "Player")

@@ -18,7 +18,15 @@ public class TutorialTriggers : MonoBehaviour
 
     public GameObject mouse_img;
 
-    public AudioSource instructions;
+    public AudioSource Start_Audio; //1
+    public AudioSource Jump_Audio; //2
+    public AudioSource Sprint_Audio; //3
+    public AudioSource Bounce_Audio; //4
+    public AudioSource Speakers_Audio; //5
+    public AudioSource Slip_Audio; //6
+    public AudioSource Grab_Audio; //7
+
+    public AudioSource Currentinstructions;
 
     void Start()
     {
@@ -35,13 +43,46 @@ public class TutorialTriggers : MonoBehaviour
         mouse_img.SetActive(false);
     }
 
+    public void ReceiveId(int id)
+    {
+        trigger_id = id;
+
+        switch (id)
+        {
+            case 1:
+                Currentinstructions = Start_Audio;
+                break;
+            case 2:
+                Currentinstructions = Jump_Audio;
+                break;
+            case 3:
+                Currentinstructions = Sprint_Audio;
+                break;
+            case 4:
+                Currentinstructions = Bounce_Audio;
+                break;
+            case 5:
+                Currentinstructions = Speakers_Audio;
+                break;
+            case 6:
+                Currentinstructions = Slip_Audio;
+                break;
+            case 7:
+                Currentinstructions = Grab_Audio;
+                break;
+            case 8:
+                Currentinstructions = Grab_Audio;
+                break;
+        }
+    }
+
     // Start is called before the first frame update
-    void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
-            
-            instructions.Play();
+
+            Currentinstructions.Play();
 
             switch (trigger_id)
             {
@@ -68,6 +109,10 @@ public class TutorialTriggers : MonoBehaviour
                 case 7:
                     e_img.SetActive(true);
                     break;
+                case 8:
+                    e_img.SetActive(true);
+                    Currentinstructions.Stop();
+                    break;
             }
         }
             
@@ -75,11 +120,11 @@ public class TutorialTriggers : MonoBehaviour
     }
 
     // Update is called once per frame
-    void OnTriggerExit(Collider other)
+    public void OnTriggerExit(Collider other)
     {
         if (other.tag == "Player")
         {
-            instructions.Stop();
+            Currentinstructions.Stop();
 
             switch (trigger_id)
             {
@@ -106,7 +151,13 @@ public class TutorialTriggers : MonoBehaviour
                 case 7:
                     e_img.SetActive(false);
                     break;
+                case 8:
+                    e_img.SetActive(false);
+                    break;
             }
         }
     }
+
+   
+
 }
