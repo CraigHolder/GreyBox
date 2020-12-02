@@ -9,16 +9,23 @@ public class PlayerMovement : MonoBehaviour
 {
     public GameObject obj_player;
     public CharacterController c_control;
+    Command c_command;
+
     public HazardSpill h_curSpill;
     public int i_lastKey;
+
     public Vector3 vec3_checkpoint;
+
     public float f_speed;
     public float f_jumpspeed;
     public float f_jumptime;
     public float f_gravity;
+
     public FerretState e_currstate;
+
     public bool b_isgrabbing = false;
     public Grabber s_grab;
+
     float f_mouseyprev;
 
     public bool b_disableachieve = false;
@@ -179,7 +186,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (h_curSpill.getSurface() == true)
                 {
-                    Debug.Log("SLIP");
+                    //Debug.Log("SLIP");
                     switch (i_lastKey)
                     {
                         case 0:
@@ -248,6 +255,12 @@ public class PlayerMovement : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.E) && b_isgrabbing == true)
         {
             b_isgrabbing = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            c_command = new GotoMainMenuCommand();
+            c_command.Execute(c_command, obj_player);
         }
 
         switch (e_currstate)
