@@ -1,0 +1,40 @@
+﻿  CheckpointTimeLogger.cpp
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22,27): warning C4251: 'CheckpointTimeLogger::m_RTBC': class 'std::vector<float,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'CheckpointTimeLogger'
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22,27): warning C4251:         with
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22,27): warning C4251:         [
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22,27): warning C4251:             _Ty=float
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22,27): warning C4251:         ]
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22): message : see declaration of 'std::vector<float,std::allocator<_Ty>>'
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22): message :         with
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22): message :         [
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22): message :             _Ty=float
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22): message :         ]
+  main.cpp
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.cpp(48,22): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22,27): warning C4251: 'CheckpointTimeLogger::m_RTBC': class 'std::vector<float,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'CheckpointTimeLogger'
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22,27): warning C4251:         with
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22,27): warning C4251:         [
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22,27): warning C4251:             _Ty=float
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22,27): warning C4251:         ]
+  Wrapper.cpp
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22): message : see declaration of 'std::vector<float,std::allocator<_Ty>>'
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22): message :         with
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22): message :         [
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22): message :             _Ty=float
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22): message :         ]
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22,27): warning C4251: 'CheckpointTimeLogger::m_RTBC': class 'std::vector<float,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'CheckpointTimeLogger'
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22,27): warning C4251:         with
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22,27): warning C4251:         [
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22,27): warning C4251:             _Ty=float
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22,27): warning C4251:         ]
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22): message : see declaration of 'std::vector<float,std::allocator<_Ty>>'
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22): message :         with
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22): message :         [
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22): message :             _Ty=float
+D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(22): message :         ]
+     Creating library D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\x64\Release\EnginesDLLTut.lib and object D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\x64\Release\EnginesDLLTut.exp
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 228 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  EnginesDLLTut.vcxproj -> D:\School\Unity\BoBGreyBox\GreyBox\NativeVSDLL\x64\Release\EnginesDLLTut.dll

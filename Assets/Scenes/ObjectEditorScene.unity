@@ -1965,7 +1965,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 864797486}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 866133423}
+        m_TargetAssemblyTypeName: ObjLoader, Assembly-CSharp
+        m_MethodName: SavePrefab
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &864797486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2134,11 +2146,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c_cam: {fileID: 259747246}
   obj_Object: {fileID: 484133746}
-  ph_Friction: {fileID: 0}
   sdr_ZoomSlider: {fileID: 1091404306}
   iF_Weight: {fileID: 421199592}
   iF_Scale: {fileID: 1382459559}
-  iF_Friction: {fileID: 2141885149}
+  iF_Drag: {fileID: 2141885149}
+  iF_ObjName: {fileID: 63847201}
 --- !u!1 &935078026
 GameObject:
   m_ObjectHideFlags: 0
@@ -2530,7 +2542,7 @@ GameObject:
   - component: {fileID: 1185991937}
   - component: {fileID: 1185991936}
   m_Layer: 5
-  m_Name: FrictionLabel
+  m_Name: DragLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2575,7 +2587,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Friction
+  m_text: 'Drag
 
 '
   m_isRightToLeft: 0
@@ -4344,7 +4356,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Set Friction Value
+  m_text: Set Drag Value
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5789,7 +5801,7 @@ GameObject:
   - component: {fileID: 2141885150}
   - component: {fileID: 2141885149}
   m_Layer: 5
-  m_Name: FrictionInput
+  m_Name: DragInput
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
