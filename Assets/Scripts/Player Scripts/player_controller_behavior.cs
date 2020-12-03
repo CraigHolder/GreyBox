@@ -72,10 +72,14 @@ public class player_controller_behavior : MonoBehaviour
 	public float CameraSpeed = 90.0f;
 	public float CameraDistance = 12.0f;
 
+	public Vector3 vec3_checkpoint;
+
 	// Start is called before the first frame update
 	void Start()
     {
 		stamina = MaxStamina;
+
+		Cursor.lockState = CursorLockMode.Locked;
 
 		handle_rot = handle.rotation;
 
@@ -318,8 +322,8 @@ public class player_controller_behavior : MonoBehaviour
 		{
 			srt = StaminaRecoveryTime;
 		}
-
-		StaminaDisplay.text = stamina.ToString();
+		int temp = (int)stamina;
+		StaminaDisplay.text = temp.ToString();
 	}
 
 
