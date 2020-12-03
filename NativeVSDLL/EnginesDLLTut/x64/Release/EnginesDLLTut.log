@@ -1,0 +1,11 @@
+﻿  CheckpointTimeLogger.cpp
+C:\Users\Craig\Documents\GitHub\Grey\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(21,27): warning C4251: 'CheckpointTimeLogger::m_RTBC': class 'std::vector<float,std::allocator<float>>' needs to have dll-interface to be used by clients of class 'CheckpointTimeLogger'
+C:\Users\Craig\Documents\GitHub\Grey\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(21): message : see declaration of 'std::vector<float,std::allocator<float>>'
+C:\Users\Craig\Documents\GitHub\Grey\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.cpp(35,22): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  Wrapper.cpp
+C:\Users\Craig\Documents\GitHub\Grey\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(21,27): warning C4251: 'CheckpointTimeLogger::m_RTBC': class 'std::vector<float,std::allocator<float>>' needs to have dll-interface to be used by clients of class 'CheckpointTimeLogger'
+C:\Users\Craig\Documents\GitHub\Grey\GreyBox\NativeVSDLL\EnginesDLLTut\CheckpointTimeLogger.h(21): message : see declaration of 'std::vector<float,std::allocator<float>>'
+     Creating library C:\Users\Craig\Documents\GitHub\Grey\GreyBox\NativeVSDLL\x64\Release\EnginesDLLTut.lib and object C:\Users\Craig\Documents\GitHub\Grey\GreyBox\NativeVSDLL\x64\Release\EnginesDLLTut.exp
+  Generating code
+LINK : fatal error C1354: error accessing previous object file C:\Users\Craig\Documents\GitHub\Grey\GreyBox\NativeVSDLL\x64\Release\EnginesDLLTut.iobj (corrupted symbol table)
+LINK : fatal error LNK1257: code generation failed

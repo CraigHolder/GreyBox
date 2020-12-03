@@ -1055,7 +1055,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'Business of Bandits
 
-    Test Build'
+    Test Build (Group Assignment 2)'
 --- !u!222 &1607042050
 CanvasRenderer:
   m_ObjectHideFlags: 0

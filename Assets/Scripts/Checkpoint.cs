@@ -8,7 +8,7 @@ public class Checkpoint : MonoBehaviour
 {
     Vector3 vec3_checkpoint;
     public int i_checkpointID;
-    public PlayerMovement s_playerscript;
+    public player_controller_behavior s_playerscript;
     //public PluginController s_plugin;
     bool b_activated = false;
     public Text t_timer;
@@ -17,7 +17,7 @@ public class Checkpoint : MonoBehaviour
     void Start()
     {
         vec3_checkpoint = transform.position;
-        s_playerscript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+        s_playerscript = GameObject.FindGameObjectWithTag("Player").GetComponent<player_controller_behavior>();
     }
     void OnTriggerEnter(Collider collision)
     {

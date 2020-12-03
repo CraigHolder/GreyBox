@@ -148,7 +148,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //TEMPORARY UI STUFF
-        textpro.text = f_stamina.ToString("#");
+        int temp = (int)f_stamina;
+        textpro.text = temp.ToString();
 
         //Movement
         if (e_currstate != FerretState.Slipping)
