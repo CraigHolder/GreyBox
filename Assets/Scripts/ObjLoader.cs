@@ -27,10 +27,10 @@ public class ObjLoader : MonoBehaviour
     public TMP_InputField iF_ObjName;
     public Toggle t_togglyBoi;
 
-    string pathway;
-    string pathway2;
-    string pathway3;
-    public Material m_Mat;
+    private string pathway;
+    private string pathway2;
+    private string pathway3;
+    private Material m_Mat;
     public RawImage r_Tex;
     public Texture t_Texture;
 
@@ -66,17 +66,6 @@ public class ObjLoader : MonoBehaviour
         GetMod();
     }
 
-    void GetMod()
-    {
-        if (pathway2 != null)
-        {
-            SaveModel(pathway2);
-            //obj_Object.GetComponent<MeshFilter>().mesh = Resources.Load<Mesh>(pathway2 + "CustomMats/" + iF_ObjName.text + "_Material");
-            //print(pathway);
-            UpdateMod();
-        }
-    }
-
     public void Load()
     {
         //pathway3 = EditorUtility.OpenFilePanel("Load Prefab", "", "prefab");
@@ -91,14 +80,12 @@ public class ObjLoader : MonoBehaviour
         }
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
-
-
     }
 
     public void New()
     {
         //pathway3 = EditorUtility.OpenFilePanel("Load Prefab", "", "prefab");
-        if(Resources.Load<GameObject>("Prefabs/EditablePrefabs/Placeholder_Obj") != null)
+        if (Resources.Load<GameObject>("Prefabs/EditablePrefabs/Placeholder_Obj") != null)
         {
             Destroy(obj_Object);
             obj_Object = Instantiate(Resources.Load<GameObject>("Prefabs/EditablePrefabs/Placeholder_Obj"));
@@ -107,20 +94,29 @@ public class ObjLoader : MonoBehaviour
         }
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
-        
-        
+    }
+
+    void GetMod()
+    {
+        if (pathway2 != null)
+        {
+            AssetDatabase.Refresh();
+            if (File.Exists(basePath + "ImportedModels/" + iF_ObjName.text + "_Model.obj") == false)
+            {
+                SaveModel(pathway2);
+                UpdateMod();
+            }
+            else
+            {
+                Debug.Log("GetMod() Failed! Name already in use!");
+            }
+        }
     }
 
     public void SaveModel(string filePath)
     {
-        if (File.Exists(basePath + "ImportedModels/" + iF_ObjName.text + "_Model.obj") == false)
-        {
-            FileUtil.CopyFileOrDirectory(filePath, basePath + "ImportedModels/" + iF_ObjName.text + "_Model.obj");
-        }
-        else
-        {
-            Debug.Log("SaveModel Failed! Name already in use!");
-        }
+        AssetDatabase.Refresh();
+        FileUtil.CopyFileOrDirectory(filePath, basePath + "ImportedModels/" + iF_ObjName.text + "_Model.obj");
 
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
@@ -128,40 +124,31 @@ public class ObjLoader : MonoBehaviour
 
     void UpdateMod()
     {
-      
-        if (File.Exists(basePath + "ImportedModels/" + iF_ObjName.text + "_Model.obj") == false) {
-            obj_Object.GetComponent<MeshFilter>().mesh = Resources.Load<Mesh>("Prefabs/ImportedModels/" + iF_ObjName.text + "_Model");
-        }
-        else
-        {
-            Debug.Log("UpdateMod Failed! Name already in use!");
-        }
-        
+        AssetDatabase.Refresh();
+        obj_Object.GetComponent<MeshFilter>().mesh = Resources.Load<Mesh>("Prefabs/ImportedModels/" + iF_ObjName.text + "_Model");
     }
 
     void GetMat()
     {
         if (pathway != null)
         {
-            SaveTexture(pathway);
-            //print(pathway);
-            UpdateMat();
+            AssetDatabase.Refresh();
+            if (File.Exists(basePath + "ImportedTextures/" + iF_ObjName.text + "_Texture.png") == false)
+            {
+                SaveTexture(pathway);
+                CreateMat();
+                UpdateMat();
+            }
+            else
+            {
+                Debug.Log("GetMat() Failed! Name already in use!");
+            }
         }
     }
 
-    void SaveMat()
+    public void SaveTexture(string filePath)
     {
-        if (File.Exists(basePath + "ImportedTextures/" + iF_ObjName.text + "_Texture.png") == false)
-        {
-            Material material = new Material(Shader.Find("Standard"));
-            material.SetTexture("_MainTex", (Texture)AssetDatabase.LoadAssetAtPath(basePath + "ImportedTextures/" + iF_ObjName.text + "_Texture.png", typeof(Texture)));
-            //(Texture)AssetDatabase.LoadAssetAtPath(basePath + "ImportedTextures/" + iF_ObjName.text + "_Texture.png", typeof(Texture))
-            AssetDatabase.CreateAsset(material, basePath + "CustomMats/" + iF_ObjName.text + "_Material.mat");
-        }
-        else
-        {
-            Debug.Log("SaveMat Failed! Name already in use!");
-        }
+        FileUtil.CopyFileOrDirectory(filePath, basePath + "ImportedTextures/" + iF_ObjName.text + "_Texture.png");
 
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
@@ -169,44 +156,56 @@ public class ObjLoader : MonoBehaviour
 
     void UpdateMat()
     {
-        if (File.Exists(basePath + "ImportedTextures/" + iF_ObjName.text + "_Texture.png") == false) {
-            WWW www = new WWW("file:///" + basePath + "ImportedTextures/" + iF_ObjName.text + "_Texture.png");
-            r_Tex.texture = www.texture;
-            SaveMat();
+        AssetDatabase.Refresh();
+        WWW www = new WWW("file:///" + basePath + "ImportedTextures/" + iF_ObjName.text + "_Texture.png");
+        r_Tex.texture = www.texture;
 
-            obj_Object.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Prefabs/CustomMats/" + iF_ObjName.text + "_Material");
-        }
-        else
-        {
-            Debug.Log("UpdateMat Failed! Name already in use!");
-        }
+        obj_Object.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Prefabs/CustomMats/" + iF_ObjName.text + "_Material");
     }
+    void CreateMat()
+    {
+        Material material = new Material(Shader.Find("Standard"));
+
+        //Mesh mesh = new Mesh();
+        //mesh = obj_Object.GetComponent<MeshFilter>().mesh;
+        //AssetDatabase.CreateAsset(mesh, basePath + "CustomMods/" + iF_ObjName.text + "_Model.obj");
+
+
+        material.SetTexture("_MainTex", (Texture)AssetDatabase.LoadAssetAtPath(basePath + "ImportedTextures/" + iF_ObjName.text + "_Texture.png", typeof(Texture)));
+        //(Texture)AssetDatabase.LoadAssetAtPath(basePath + "ImportedTextures/" + iF_ObjName.text + "_Texture.png", typeof(Texture))
+        AssetDatabase.CreateAsset(material, basePath + "CustomMats/" + iF_ObjName.text + "_Material.mat");
+
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
+
+    //void SaveMat()
+    //{
+    //    AssetDatabase.Refresh();
+    //    Material material = new Material(Shader.Find("Standard"));
+    //    material.SetTexture("_MainTex", (Texture)AssetDatabase.LoadAssetAtPath(basePath + "ImportedTextures/" + iF_ObjName.text + "_Texture.png", typeof(Texture)));
+    //    //(Texture)AssetDatabase.LoadAssetAtPath(basePath + "ImportedTextures/" + iF_ObjName.text + "_Texture.png", typeof(Texture))
+    //
+    //    AssetDatabase.SaveAssets();
+    //    AssetDatabase.Refresh();
+    //}
 
     public void SavePrefab()
     {
         //var v_prefabVarient = PrefabUtility.SaveAsPrefabAssetAndConnect(obj_Object, basePath + "EditablePrefabs/" + iF_ObjName.text + "_Variant.prefab", InteractionMode.UserAction);
         obj_Object.GetComponent<Rigidbody>().useGravity = t_togglyBoi.isOn;
         obj_Object.GetComponent<Rigidbody>().isKinematic = !t_togglyBoi.isOn;
+        if (File.Exists(basePath + "EditablePrefabs/" + iF_ObjName.text + "_Variant.prefab"))
+        {
+            File.Delete(basePath + "EditablePrefabs/" + iF_ObjName.text + "_Variant.prefab");
+        }
         var v_prefabVarient = PrefabUtility.SaveAsPrefabAsset(obj_Object, basePath + "EditablePrefabs/" + iF_ObjName.text + "_Variant.prefab");
 
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
     }
 
-    public void SaveTexture(string filePath)
-    {
-        if (File.Exists(basePath + "ImportedTextures/" + iF_ObjName.text + "_Texture.png") == false)
-        {
-            FileUtil.CopyFileOrDirectory(filePath, basePath + "ImportedTextures/" + iF_ObjName.text + "_Texture.png");
-        }
-        else
-        {
-            Debug.Log("SaveTexture Failed! Name already in use!");
-        }
-
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
-    }
 
     // Update is called once per frame
     void Update()
@@ -233,7 +232,7 @@ public class ObjLoader : MonoBehaviour
         }
 
         //Camera zoom slider modifies the z value and uses inputted other values.
-        c_cam.transform.position = new Vector3(c_cam.transform.position.x, c_cam.transform.position.y, -10 * sdr_ZoomSlider.value);
+        c_cam.transform.position = new Vector3(c_cam.transform.position.x, c_cam.transform.position.y, -10 * (sdr_ZoomSlider.value * 2));
 
 
     }

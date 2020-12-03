@@ -2987,7 +2987,6 @@ MonoBehaviour:
   iF_Drag: {fileID: 2141885149}
   iF_ObjName: {fileID: 63847201}
   t_togglyBoi: {fileID: 1363795458}
-  m_Mat: {fileID: 0}
   r_Tex: {fileID: 751647163}
   t_Texture: {fileID: 0}
 --- !u!1 &935078026
@@ -7221,7 +7220,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1674059583313734291, guid: e0b3b7f7feea8ff4f83e9538c8b22041, type: 3}
       propertyPath: m_IsKinematic
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1674059583313734294, guid: e0b3b7f7feea8ff4f83e9538c8b22041, type: 3}
       propertyPath: m_Name
