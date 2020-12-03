@@ -84,6 +84,12 @@ public class MenuScript : MonoBehaviour
         c_command.Execute(c_command, obj_placeholder);
     }
 
+    public void GotoObjectEditor()
+    {
+        c_command = new GotoObjectEditorCommand();
+        c_command.Execute(c_command, obj_placeholder);
+    }
+
     public void QuitProgram()
     {
         c_command = new QuitCommand();
