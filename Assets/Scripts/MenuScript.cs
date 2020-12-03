@@ -72,6 +72,12 @@ public class MenuScript : MonoBehaviour
         c_command.Execute(c_command, obj_placeholder);
     }
 
+    public void GotoCredits()
+    {
+        c_command = new GotoCreditsCommand();
+        c_command.Execute(c_command, obj_placeholder);
+    }
+
     public void GotoAchievements()
     {
         c_command = new GotoAchievementCommand();

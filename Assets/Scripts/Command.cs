@@ -193,6 +193,41 @@ public class GotoTutorialCommand : Command
     }
 }
 
+public class GotoCreditsCommand : Command
+{
+    override public void Execute(Command command, GameObject obj_selected)
+    {
+        if (b_undotracker == true)
+        {
+            if ((L_previouscommands.Count + i_Commandpos) < L_previouscommands.Count)
+            {
+                L_previouscommands.Clear();
+                i_Commandpos = 0;
+                b_undotracker = false;
+            }
+        }
+
+        obj_Controlled = obj_selected;
+        ToCredits();
+        L_previouscommands.Add(command);
+    }
+
+    override public void Redo()
+    {
+        ToCredits();
+    }
+
+    override public void Undo()
+    {
+        //obj_Controlled.transform.Rotate(-5, 0, 0);
+    }
+
+    void ToCredits()
+    {
+        SceneManager.LoadScene("AchievementScene");
+    }
+}
+
 public class GotoAchievementCommand : Command
 {
     override public void Execute(Command command, GameObject obj_selected)
