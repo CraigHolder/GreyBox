@@ -7,6 +7,8 @@ using TMPro;
 
 //References:
 // https://forum.unity.com/threads/creating-prefabs-from-models-by-script.606760/
+// https://www.youtube.com/watch?v=Vh_XkNwThg4&feature=emb_title
+// https://answers.unity.com/questions/881890/load-material-from-assets.html
 
 public class ObjLoader : MonoBehaviour
 {
@@ -23,10 +25,20 @@ public class ObjLoader : MonoBehaviour
     public TMP_InputField iF_Drag;
     public TMP_InputField iF_ObjName;
 
+    string pathway;
+    string pathway2;
+    string pathway3;
+    public Material m_Mat;
+    public RawImage r_Tex;
+    public Texture t_Texture;
+
+    private static string basePath = "Assets/Resources/Prefabs/";
+
     // Start is called before the first frame update
     void Start()
     {
         r_rigyBoi = obj_Object.GetComponent<Rigidbody>();
+        m_Mat = obj_Object.GetComponent<MeshRenderer>().material;
         //ph_Friction = new PhysicMaterial();
     }
 
@@ -39,6 +51,156 @@ public class ObjLoader : MonoBehaviour
     {
         obj_Object.transform.Rotate(0, -5.0f, 0);
     }
+
+    public void OpenExplorer()
+    {
+        pathway = EditorUtility.OpenFilePanel("Overwrite with png", "", "png");
+        GetMat();
+    }
+
+    public void OpenModelExplorer()
+    {
+        pathway2 = EditorUtility.OpenFilePanel("Overwrite with png", "", "obj");
+        GetMod();
+    }
+
+    void GetMod()
+    {
+        if (pathway2 != null)
+        {
+            SaveModel(pathway2);
+            //obj_Object.GetComponent<MeshFilter>().mesh = Resources.Load<Mesh>(pathway2 + "CustomMats/" + iF_ObjName.text + "_Material");
+            //print(pathway);
+            UpdateMod();
+        }
+    }
+
+    public void Load()
+    {
+        //pathway3 = EditorUtility.OpenFilePanel("Load Prefab", "", "prefab");
+        if (Resources.Load<GameObject>("Prefabs/EditablePrefabs/" + iF_ObjName.text + "_Variant") != null)
+        {
+
+            Destroy(obj_Object);
+            obj_Object = Instantiate(Resources.Load<GameObject>("Prefabs/EditablePrefabs/" + iF_ObjName.text + "_Variant"));
+            r_rigyBoi = obj_Object.GetComponent<Rigidbody>();
+            m_Mat = obj_Object.GetComponent<MeshRenderer>().material;
+        }
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+
+
+    }
+
+    public void New()
+    {
+        //pathway3 = EditorUtility.OpenFilePanel("Load Prefab", "", "prefab");
+        if(Resources.Load<GameObject>("Prefabs/EditablePrefabs/Placeholder_Obj") != null)
+        {
+
+            Destroy(obj_Object);
+            obj_Object = Instantiate(Resources.Load<GameObject>("Prefabs/EditablePrefabs/Placeholder_Obj"));
+            r_rigyBoi = obj_Object.GetComponent<Rigidbody>();
+            m_Mat = obj_Object.GetComponent<MeshRenderer>().material;
+        }
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+        
+        
+    }
+
+    public void SaveModel(string filePath)
+    {
+        FileUtil.CopyFileOrDirectory(filePath, basePath + "ImportedModels/" + iF_ObjName.text + "_Model.obj");
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
+
+    void UpdateMod()
+    {
+        //WWW www = new WWW("file:///" + basePath + "ImportedModels/" + iF_ObjName.text + "_Model.obj");
+        //r_Tex.texture = www.texture;
+        //Mesh fuck = Instantiate(Resources.Load<Mesh>("Prefabs/ImportedModels/" + iF_ObjName.text + "_Model"));
+        obj_Object.GetComponent<MeshFilter>().mesh = Resources.Load<Mesh>("Prefabs/ImportedModels/" + iF_ObjName.text + "_Model");
+        //obj_Object.GetComponent<MeshFilter>().mesh = Resources.Load<Mesh>("Prefabs/CustomMods/" + iF_ObjName.text + "_Model");
+        //obj_Object.GetComponent<MeshFilter>().mesh = (Mesh)Resources.Load("Prefabs/CustomMods/" + iF_ObjName.text + "_Model", typeof(Mesh));
+        //obj_Object.GetComponent<MeshRenderer>().sharedMaterial = Resources.Load<Mesh>("Prefabs/CustomMods/" + iF_ObjName.text + "_Model");
+        //obj_Object.GetComponent<MeshRenderer>().enabled = true;
+
+        //r_Tex.texture = Resources.Load<Texture>("Prefabs/ImportedTextures/" + iF_ObjName.text + "_Texture.png");
+        //m_Mat.mainTexture = r_Tex.texture;
+        //SaveMod();
+
+        //obj_Object.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Prefabs/CustomMats/" + iF_ObjName.text + "_Material");
+        //obj_Object.GetComponent<MeshRenderer>().material.mainTexture = r_Tex.mainTexture;
+        //gameObject.GetComponent<MeshRenderer>().material = lit;
+    }
+
+    void SaveMod()
+    {
+        //Material material = new Material(Shader.Find("Standard"));
+
+        //Mesh mesh = new Mesh();
+        //mesh = obj_Object.GetComponent<MeshFilter>().mesh;
+        //AssetDatabase.CreateAsset(mesh, basePath + "CustomMods/" + iF_ObjName.text + "_Model.obj");
+
+
+        //material.SetTexture("_MainTex", (Texture)AssetDatabase.LoadAssetAtPath(basePath + "ImportedTextures/" + iF_ObjName.text + "_Texture.png", typeof(Texture)));
+        ////(Texture)AssetDatabase.LoadAssetAtPath(basePath + "ImportedTextures/" + iF_ObjName.text + "_Texture.png", typeof(Texture))
+        //AssetDatabase.CreateAsset(material, basePath + "CustomMats/" + iF_ObjName.text + "_Material.mat");
+
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
+
+    void GetMat()
+    {
+        if (pathway != null)
+        {
+            SaveTexture(pathway);
+            //print(pathway);
+            UpdateMat();
+        }
+    }
+
+    void SaveMat()
+    {
+        Material material = new Material(Shader.Find("Standard"));
+        material.SetTexture("_MainTex", (Texture)AssetDatabase.LoadAssetAtPath(basePath + "ImportedTextures/" + iF_ObjName.text + "_Texture.png", typeof(Texture)));
+        //(Texture)AssetDatabase.LoadAssetAtPath(basePath + "ImportedTextures/" + iF_ObjName.text + "_Texture.png", typeof(Texture))
+        AssetDatabase.CreateAsset(material, basePath + "CustomMats/" + iF_ObjName.text + "_Material.mat");
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
+
+    void UpdateMat()
+    {
+        WWW www = new WWW("file:///" + basePath + "ImportedTextures/" + iF_ObjName.text + "_Texture.png");
+        r_Tex.texture = www.texture;
+        //r_Tex.texture = Resources.Load<Texture>("Prefabs/ImportedTextures/" + iF_ObjName.text + "_Texture.png");
+        //m_Mat.mainTexture = r_Tex.texture;
+        SaveMat();
+
+        obj_Object.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Prefabs/CustomMats/" + iF_ObjName.text + "_Material");
+        //obj_Object.GetComponent<MeshRenderer>().material.mainTexture = r_Tex.mainTexture;
+        //gameObject.GetComponent<MeshRenderer>().material = lit;
+    }
+    //void GetTex()
+    //{
+    //    if (pathway != null)
+    //    {
+    //        UpdateTex();
+    //    }
+    //}
+    //
+    //void UpdateTex()
+    //{
+    //    WWW www = new WWW("file:///" + pathway);
+    //    tex.texture = www.texture;
+    //}
 
     public void SavePrefab()
     {
@@ -54,7 +216,19 @@ public class ObjLoader : MonoBehaviour
         //PrefabUtility.
         //var v_prefabVarient = PrefabUtility.SaveAsPrefabAsset(ph_Friction, "Assets/Prefabs/" + iF_ObjName.text + "_Friction.prefab");
 
-        var v_prefabVarient = PrefabUtility.SaveAsPrefabAsset(obj_Object, "Assets/Prefabs/" + iF_ObjName.text + "_Variant.prefab");
+        //var v_prefabVarient = PrefabUtility.SaveAsPrefabAssetAndConnect(obj_Object, basePath + "EditablePrefabs/" + iF_ObjName.text + "_Variant.prefab", InteractionMode.UserAction);
+        var v_prefabVarient = PrefabUtility.SaveAsPrefabAsset(obj_Object, basePath + "EditablePrefabs/" + iF_ObjName.text + "_Variant.prefab");
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
+
+    public void SaveTexture(string filePath)
+    {
+        FileUtil.CopyFileOrDirectory(filePath, basePath + "ImportedTextures/" + iF_ObjName.text + "_Texture.png");
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
     }
 
     // Update is called once per frame
