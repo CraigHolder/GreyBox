@@ -9,6 +9,17 @@ public class Remote : MonoBehaviour
 
     public FlyWeight fly_shareddata;
 
+    public Subject S_Notifier = new Subject();
+    Achievments achievmentobserver = new Achievments();
+
+    public BounceObjCommand c_objbounce;
+
+    public void Awake()
+    {
+        c_objbounce = new BounceObjCommand();
+        S_Notifier.AddObserver(achievmentobserver);
+    }
+
 
     // Start is called before the first frame update
 

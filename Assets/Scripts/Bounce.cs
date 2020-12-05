@@ -8,9 +8,8 @@ public class Bounce : MonoBehaviour
     private bool b_active;
     AudioSource a_audiosource;
     public float f_bounceforce = 2f;
-    public FlyWeight fly_shareddata;
 
-    
+    public FlyWeight fly_shareddata;
 
 
     void Start()

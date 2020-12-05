@@ -41,6 +41,7 @@ public class ObjLoader : MonoBehaviour
     {
         r_rigyBoi = obj_Object.GetComponent<Rigidbody>();
         m_Mat = obj_Object.GetComponent<MeshRenderer>().material;
+        Cursor.lockState = CursorLockMode.None;
         //ph_Friction = new PhysicMaterial();
     }
 
@@ -56,13 +57,15 @@ public class ObjLoader : MonoBehaviour
 
     public void OpenExplorer()
     {
-        pathway = EditorUtility.OpenFilePanel("Overwrite with png", "", "png");
+        Cursor.lockState = CursorLockMode.None;
+        pathway = UnityEditor.EditorUtility.OpenFilePanel("Overwrite with png", "", "png");
         GetMat();
     }
 
     public void OpenModelExplorer()
     {
-        pathway2 = EditorUtility.OpenFilePanel("Overwrite with png", "", "obj");
+        Cursor.lockState = CursorLockMode.None;
+        pathway2 = UnityEditor.EditorUtility.OpenFilePanel("Overwrite with png", "", "obj");
         GetMod();
     }
 

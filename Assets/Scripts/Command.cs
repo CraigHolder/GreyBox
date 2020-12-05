@@ -19,6 +19,41 @@ abstract public class Command
     public static bool b_undotracker = false;
 }
 
+public class QuitCommand : Command
+{
+    override public void Execute(Command command, GameObject obj_selected)
+    {
+        if (b_undotracker == true)
+        {
+            if ((L_previouscommands.Count + i_Commandpos) < L_previouscommands.Count)
+            {
+                L_previouscommands.Clear();
+                i_Commandpos = 0;
+                b_undotracker = false;
+            }
+        }
+
+        obj_Controlled = obj_selected;
+        QuitProgram();
+        L_previouscommands.Add(command);
+    }
+
+    override public void Redo()
+    {
+        QuitProgram();
+    }
+
+    override public void Undo()
+    {
+        //obj_Controlled.transform.Rotate(-5, 0, 0);
+    }
+
+    void QuitProgram()
+    {
+        Application.Quit();
+    }
+}
+
 public class BounceObjCommand : Command
 {
     override public void Execute(Command command, GameObject obj_selected)
@@ -89,40 +124,7 @@ public class GotoMainMenuCommand : Command
     }
 }
 
-public class QuitCommand : Command
-{
-    override public void Execute(Command command, GameObject obj_selected)
-    {
-        if (b_undotracker == true)
-        {
-            if ((L_previouscommands.Count + i_Commandpos) < L_previouscommands.Count)
-            {
-                L_previouscommands.Clear();
-                i_Commandpos = 0;
-                b_undotracker = false;
-            }
-        }
 
-        obj_Controlled = obj_selected;
-        QuitProgram();
-        L_previouscommands.Add(command);
-    }
-
-    override public void Redo()
-    {
-        QuitProgram();
-    }
-
-    override public void Undo()
-    {
-        //obj_Controlled.transform.Rotate(-5, 0, 0);
-    }
-
-    void QuitProgram()
-    {
-        Application.Quit();
-    }
-}
 public class GotoTestSceneCommand : Command
 {
     override public void Execute(Command command, GameObject obj_selected)
@@ -224,7 +226,7 @@ public class GotoCreditsCommand : Command
 
     void ToCredits()
     {
-        SceneManager.LoadScene("AchievementScene");
+        SceneManager.LoadScene("CreditsScene");
     }
 }
 

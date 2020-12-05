@@ -14,6 +14,7 @@ public class Speakers : MonoBehaviour
 
     public FlyWeight fly_shareddata;
 
+
     public enum SpeakerState
     {
         On,Off

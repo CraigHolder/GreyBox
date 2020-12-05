@@ -66,14 +66,12 @@ public class TutorialScript : MonoBehaviour
                     if (Input.GetKey(KeyCode.LeftShift) && t_introtext.color.a <= 0f)
                     {
                         t_scoretext.text = "Use Space to jump";
-                        //obj_wall4.GetComponent<BoxCollider>().enabled = false;
                         Destroy(obj_wall4);
                         GameObject obj_temp = particlepoolmanager.GetParticle();
                         obj_temp.transform.position = T_particlespawnpoint.position;
 
                         NextStep();
                     }
-                    //i_step++;
                 }
                 break;
             case 1:

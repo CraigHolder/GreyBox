@@ -32,6 +32,8 @@ public class PlayerMovement : MonoBehaviour
 
     public FlyWeight fly_shareddata;
 
+
+
     public float f_jumptimer;
 
     public GameObject obj_cam;
