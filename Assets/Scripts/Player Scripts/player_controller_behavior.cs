@@ -172,7 +172,7 @@ public class player_controller_behavior : MonoBehaviour
 
 				break;
 			default:
-				if (on_ground && Input.GetButton("Jump") && stamina > 0.0f)
+				if (on_ground && Input.GetButton("Jump") && stamina > 0.0f && stamina > JumpCost)
 				{
 					Jump(PLAYER_JUMP);
 
@@ -322,6 +322,12 @@ public class player_controller_behavior : MonoBehaviour
 		{
 			srt = StaminaRecoveryTime;
 		}
+
+		if(stamina < 0.0)
+        {
+			stamina = 0.0f;
+        }
+
 		int temp = (int)stamina;
 		StaminaDisplay.text = temp.ToString();
 	}
