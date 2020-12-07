@@ -7,8 +7,26 @@ public class Remote : MonoBehaviour
     private bool b_active;
     public bool b_speakeron;
 
+    public FlyWeight fly_shareddata;
+
+    public Subject S_Notifier = new Subject();
+    Achievments achievmentobserver = new Achievments();
+
+    public BounceObjCommand c_objbounce;
+
+    public void Awake()
+    {
+        c_objbounce = new BounceObjCommand();
+        S_Notifier.AddObserver(achievmentobserver);
+    }
+
+
     // Start is called before the first frame update
-    
+
+    void Start()
+    {
+
+    }
 
     void OnTriggerStay(Collider collision)
     {
@@ -16,6 +34,7 @@ public class Remote : MonoBehaviour
         {
             b_speakeron = true;
             b_active = true;
+            fly_shareddata.S_Notifier.Notify(collision.gameObject, Observer.EventType.Remote);
         }
         else if (b_active == false && b_speakeron == true)
         {

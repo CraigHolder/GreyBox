@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Grab
+  - AchievementH
+  - Particle
   layers:
   - Default
   - TransparentFX

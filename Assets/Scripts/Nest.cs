@@ -7,6 +7,10 @@ public class Nest : MonoBehaviour
 {
     public Text t_scoretext;
     public int i_teamscore = 0;
+
+    public FlyWeight fly_shareddata;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +30,7 @@ public class Nest : MonoBehaviour
             
             i_teamscore += collision.gameObject.GetComponent<Score>().i_score;
             t_scoretext.text = "Score: " + i_teamscore.ToString();
+            fly_shareddata.S_Notifier.Notify(GameObject.FindGameObjectWithTag("Player"), Observer.EventType.Return);
         }
     }
 
@@ -36,6 +41,7 @@ public class Nest : MonoBehaviour
             
             i_teamscore -= collision.gameObject.GetComponent<Score>().i_score;
             t_scoretext.text = "Score: " + i_teamscore.ToString();
+            fly_shareddata.S_Notifier.Notify(GameObject.FindGameObjectWithTag("Player"), Observer.EventType.Steal);
         }
     }
 }

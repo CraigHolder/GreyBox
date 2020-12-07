@@ -2,19 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//TEMPORARY UI STUFF
+using TMPro;
+
 public class PlayerMovement : MonoBehaviour
 {
     public GameObject obj_player;
     public CharacterController c_control;
+    Command c_command;
+
+    public HazardSpill h_curSpill;
+    public int i_lastKey;
+
     public Vector3 vec3_checkpoint;
+
     public float f_speed;
     public float f_jumpspeed;
     public float f_jumptime;
     public float f_gravity;
+
     public FerretState e_currstate;
+
     public bool b_isgrabbing = false;
     public Grabber s_grab;
+
     float f_mouseyprev;
+
+    public bool b_disableachieve = false;
+
+    public FlyWeight fly_shareddata;
+
+
 
     public float f_jumptimer;
 
@@ -24,40 +42,171 @@ public class PlayerMovement : MonoBehaviour
     {
         Idle,
         Jumping,
+        Slipping,
     }
 
+    //TEMPORARY UI STUFF
+    public GameObject text_obj;
+    private TextMeshProUGUI textpro;
+
+    private float f_sprintmult = 1.0f;
+    private bool b_sprinting = false;
+    private bool b_cansprint = true;
+    private bool b_recoverydelay = false;
+    private bool b_recovering = false;
+
+    public const float MAX_STAMINA = 100.0f;
+    private float f_stamina = MAX_STAMINA;
+    private float f_staminadecay = 50;
+    private float f_staminarecov = 12f;
+
+    private float f_staminadelay = 3.0f; //Recovery Delay
 
     // Start is called before the first frame update
     void Start()
     {
+        i_lastKey = 0;
         f_jumptimer = f_jumptime;
         vec3_checkpoint = new Vector3(48, 1, -48);
         Cursor.lockState = CursorLockMode.Locked;
         f_mouseyprev = Input.GetAxis("Mouse Y");
+
+
+        //TEMPORARY UI STUFF
+        textpro = text_obj.GetComponent<TMPro.TextMeshProUGUI>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Movement
-        if (Input.GetKey(KeyCode.W))
+        //print(f_stamina);
+
+        //IF YOU HAVE STAMINA YOU CAN SPRINT
+        if(f_stamina > 0)
         {
-            c_control.Move(transform.forward * f_speed * Time.deltaTime);
-            //c_control.Move(new Vector3(0, 0, i_speed * Time.deltaTime));
+            b_cansprint = true;
         }
-        else if (Input.GetKey(KeyCode.S))
+        else
         {
-            c_control.Move(transform.forward * -f_speed * Time.deltaTime);
+            b_cansprint = false;
         }
 
-        if (Input.GetKey(KeyCode.D))
+        //Delay stamina Recovery on finishing sprint.
+        if (f_stamina < MAX_STAMINA && !b_sprinting && !b_recoverydelay && !b_recovering)
         {
-            c_control.Move(transform.right * f_speed * Time.deltaTime);
+            b_recoverydelay = true;
         }
-        else if (Input.GetKey(KeyCode.A))
+      
+       //STAMINA DECAY
+        if (b_sprinting)
         {
-            c_control.Move(transform.right * -f_speed * Time.deltaTime);
+            //Stamina Decay
+            f_stamina -= f_staminadecay * Time.deltaTime /** 10*/;
+
+            if (f_stamina <= 0.0f)
+            {
+                f_stamina = 0.0f;
+                b_cansprint = false;
+            }
         }
+       
+        // Recovery Delay TIMER
+        if(b_recoverydelay && f_staminadelay > 0)
+        {
+             f_staminadelay -= Time.deltaTime;
+        }
+        // BEGIN RECOVERING
+        if(f_staminadelay <= 0)
+        {
+             
+             f_staminadelay = 3.0f;
+             b_recoverydelay = false;
+             b_recovering = true;
+        }
+
+        if (b_recovering)
+        {
+            f_stamina += f_staminarecov * Time.deltaTime * 5;
+
+            if (f_stamina >= MAX_STAMINA)
+            {
+                f_stamina = MAX_STAMINA;
+            }
+
+        }
+
+
+        //SPRINT
+        if (Input.GetKey(KeyCode.LeftShift) && b_cansprint && f_stamina > 0)
+        {
+            f_sprintmult = 2.5f;
+            b_sprinting = true;
+            b_recovering = false;
+        }
+        else
+        {
+            f_sprintmult = 1.0f;
+            b_sprinting = false;
+        }
+
+        //TEMPORARY UI STUFF
+        int temp = (int)f_stamina;
+        textpro.text = temp.ToString();
+
+        //Movement
+        if (e_currstate != FerretState.Slipping)
+        {
+            if (Input.GetKey(KeyCode.W))
+            {
+                c_control.Move(transform.forward * f_speed * Time.deltaTime * f_sprintmult);
+                i_lastKey = 0;
+                //c_control.Move(new Vector3(0, 0, i_speed * Time.deltaTime));
+            }
+            else if (Input.GetKey(KeyCode.S))
+            {
+                c_control.Move(transform.forward * -f_speed * Time.deltaTime * f_sprintmult);
+                i_lastKey = 1;
+            }
+
+            if (Input.GetKey(KeyCode.D))
+            {
+                c_control.Move(transform.right * f_speed * Time.deltaTime * f_sprintmult);
+                i_lastKey = 2;
+            }
+            else if (Input.GetKey(KeyCode.A))
+            {
+                c_control.Move(transform.right * -f_speed * Time.deltaTime * f_sprintmult);
+                i_lastKey = 3;
+            }
+        }
+        else
+        {
+
+            //curSpill needs to reference something
+            if (h_curSpill != null)
+            {
+                if (h_curSpill.getSurface() == true)
+                {
+                    //Debug.Log("SLIP");
+                    switch (i_lastKey)
+                    {
+                        case 0:
+                            c_control.Move(transform.forward * f_speed * Time.deltaTime * h_curSpill.getSpeed());
+                            break;
+                        case 1:
+                            c_control.Move(transform.forward * -f_speed * Time.deltaTime * h_curSpill.getSpeed());
+                            break;
+                        case 2:
+                            c_control.Move(transform.right * f_speed * Time.deltaTime * h_curSpill.getSpeed());
+                            break;
+                        case 3:
+                            c_control.Move(transform.right * -f_speed * Time.deltaTime * h_curSpill.getSpeed());
+                            break;
+                    }
+                }
+            }
+        }
+
 
         //Jumping
         if (Input.GetKey(KeyCode.Space) && c_control.isGrounded == true)
@@ -99,14 +248,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-        //Grab
-        if (Input.GetKeyDown(KeyCode.E) && b_isgrabbing == false)
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
-            b_isgrabbing = true;
-        }
-        else if (Input.GetKeyDown(KeyCode.E) && b_isgrabbing == true)
-        {
-            b_isgrabbing = false;
+            c_command = new GotoMainMenuCommand();
+            c_command.Execute(c_command, obj_player);
         }
 
         switch (e_currstate)
@@ -118,5 +263,10 @@ public class PlayerMovement : MonoBehaviour
                 c_control.Move(new Vector3(0, f_jumpspeed * Time.deltaTime, 0));
                 break;
         }
+    }
+
+    public float getStamina()
+    {
+        return f_stamina;
     }
 }
