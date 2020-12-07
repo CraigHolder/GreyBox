@@ -43,8 +43,8 @@ GameObject:
   - component: {fileID: 4068130456894104867}
   - component: {fileID: 4068130456894104866}
   - component: {fileID: 4068130456894104870}
-  - component: {fileID: 4068130456894104864}
   - component: {fileID: 4068130456894104865}
+  - component: {fileID: 5397255126262956491}
   m_Layer: 0
   m_Name: default
   m_TagString: Grab
@@ -60,7 +60,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4068130456894104892}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.3121, y: 0, z: 0.0519}
+  m_LocalPosition: {x: 0.3121, y: 0.05, z: 0.0519}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4068130456207298754}
@@ -131,20 +131,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!136 &4068130456894104864
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4068130456894104892}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.0604645
-  m_Height: 0.33415544
-  m_Direction: 1
-  m_Center: {x: 0.0000004752173, y: 0.12705131, z: 0.0020454992}
 --- !u!114 &4068130456894104865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,3 +144,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   i_score: 10
+  vec3_grabpoint: {x: 0, y: 0.018, z: 0}
+  vec3_grabrotation: {x: 90, y: 0, z: 0}
+--- !u!64 &5397255126262956491
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4068130456894104892}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2432090755550338912, guid: c8e4219930a9d3e4aab77b9f11e7d18d, type: 3}

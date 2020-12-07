@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 9169790494605909309}
   m_Layer: 0
   m_Name: default
-  m_TagString: Untagged
+  m_TagString: Grab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -127,6 +127,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   i_score: 500
+  vec3_grabpoint: {x: 0, y: -0.047, z: 0}
+  vec3_grabrotation: {x: 0, y: 90, z: 90}
 --- !u!1 &8322874276110275547
 GameObject:
   m_ObjectHideFlags: 0

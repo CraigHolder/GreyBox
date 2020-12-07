@@ -127,6 +127,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   i_score: 25
+  vec3_grabpoint: {x: 0, y: 0.04, z: 0}
+  vec3_grabrotation: {x: 180, y: 0, z: 0}
 --- !u!1 &8682866100097083059
 GameObject:
   m_ObjectHideFlags: 0
@@ -137,7 +139,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8710849327150416322}
   m_Layer: 0
-  m_Name: Can 1
+  m_Name: Can
   m_TagString: Grab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

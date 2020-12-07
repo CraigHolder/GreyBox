@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor;
 using TMPro;
 using UnityEngine.Windows;
+#if UNITY_EDITOR
+using UnityEditor;
 
 //References:
 // https://forum.unity.com/threads/creating-prefabs-from-models-by-script.606760/
@@ -240,7 +241,7 @@ public class ObjLoader : MonoBehaviour
 
     }
 }
-
+#endif
 // Garbage Code:
 /*
  

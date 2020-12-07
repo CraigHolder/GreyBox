@@ -21,6 +21,7 @@ public class player_controller_behavior : MonoBehaviour
 	//bool is_climbing = false;
 	bool on_ground = false;
 
+
 	[Header("Config")]
 	public bool b_disableachieve = false;
 	public float MaxStamina = 100.0f;

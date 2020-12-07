@@ -158,3 +158,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   i_score: 10
+  vec3_grabpoint: {x: 0, y: -0.01, z: 0}
+  vec3_grabrotation: {x: 0, y: 90, z: 90}

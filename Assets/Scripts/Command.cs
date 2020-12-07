@@ -160,6 +160,41 @@ public class GotoTestSceneCommand : Command
     }
 }
 
+public class GotoGameSceneCommand : Command
+{
+    override public void Execute(Command command, GameObject obj_selected)
+    {
+        if (b_undotracker == true)
+        {
+            if ((L_previouscommands.Count + i_Commandpos) < L_previouscommands.Count)
+            {
+                L_previouscommands.Clear();
+                i_Commandpos = 0;
+                b_undotracker = false;
+            }
+        }
+
+        obj_Controlled = obj_selected;
+        ToGameScene();
+        L_previouscommands.Add(command);
+    }
+
+    override public void Redo()
+    {
+        ToGameScene();
+    }
+
+    override public void Undo()
+    {
+        //obj_Controlled.transform.Rotate(-5, 0, 0);
+    }
+
+    void ToGameScene()
+    {
+        SceneManager.LoadScene("TimeTrial");
+    }
+}
+
 public class GotoTutorialCommand : Command
 {
     override public void Execute(Command command, GameObject obj_selected)

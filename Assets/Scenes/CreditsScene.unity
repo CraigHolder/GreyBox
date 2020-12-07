@@ -388,14 +388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da17f7ca9fc2a3f4c810e54f3fd34078, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  L_AchievmentText:
-  - {fileID: 1876934387}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  L_AchievmentText: []
 --- !u!1 &403652206
 GameObject:
   m_ObjectHideFlags: 0
@@ -894,8 +887,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -375, y: 122}
-  m_SizeDelta: {x: 566.8, y: 258.4}
+  m_AnchoredPosition: {x: -375, y: 62}
+  m_SizeDelta: {x: 566.8, y: 382.88}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1876934387
 MonoBehaviour:
@@ -937,23 +930,23 @@ MonoBehaviour:
 
     http://creativecommons.org/licenses/by/4.0/
 
-    
+
 
     "Neon
     Laser Horizon" Kevin MacLeod (incompetech.com)
 
-    Licensed under Creative
-    Commons: By Attribution 4.0 License
+    Licensed under Creative Commons:
+    By Attribution 4.0 License
 
     http://creativecommons.org/licenses/by/4.0/
 
-    
+
 
     "Newer
     Wave" Kevin MacLeod (incompetech.com)
 
-    Licensed under Creative Commons:
-    By Attribution 4.0 License
+    Licensed under Creative Commons: By
+    Attribution 4.0 License
 
     http://creativecommons.org/licenses/by/4.0/
 

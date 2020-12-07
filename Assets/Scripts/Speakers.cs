@@ -7,6 +7,8 @@ public class Speakers : MonoBehaviour
     public Remote s_remote;
     CharacterController c_control;
     BoxCollider col_trigger;
+    Vector3 vec3_defaultscale;
+
     //SpeakerState e_state = SpeakerState.Off;
     //
     //Subject S_Notifier = new Subject();
@@ -22,7 +24,7 @@ public class Speakers : MonoBehaviour
 
     void Start()
     {
-
+        vec3_defaultscale = this.transform.localScale;
         col_trigger = this.GetComponent<BoxCollider>();
         
     }
@@ -58,6 +60,7 @@ public class Speakers : MonoBehaviour
         {
             case SpeakerState.On:
                 col_trigger.enabled = true;
+                this.transform.localScale = vec3_defaultscale + new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
                 break;
             case SpeakerState.Off:
                 col_trigger.enabled = false;

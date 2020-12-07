@@ -13,6 +13,8 @@ public class TimeTrial : MonoBehaviour
     Command c_command;
     public Nest s_nest;
 
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,7 +26,13 @@ public class TimeTrial : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(f_timeremaining <= 0f)
+        if (Input.GetKey(KeyCode.Tab))
+        {
+            c_command = new GotoMainMenuCommand();
+            c_command.Execute(c_command, this.gameObject);
+        }
+
+        if (f_timeremaining <= 0f)
         {
             t_timetext.text = "Time: 0";
             t_scoretext.gameObject.SetActive(true);
