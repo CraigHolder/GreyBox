@@ -6,6 +6,9 @@ public class Remote : MonoBehaviour
 {
     private bool b_active;
     public bool b_speakeron;
+    public MeshRenderer mr_light;
+    public Material M_on;
+    public Material M_off;
 
     public FlyWeight fly_shareddata;
 
@@ -25,7 +28,7 @@ public class Remote : MonoBehaviour
 
     void Start()
     {
-
+        mr_light.material = M_off;
     }
 
     void OnTriggerStay(Collider collision)
@@ -34,11 +37,13 @@ public class Remote : MonoBehaviour
         {
             b_speakeron = true;
             b_active = true;
+            mr_light.material = M_on;
             fly_shareddata.S_Notifier.Notify(collision.gameObject, Observer.EventType.Remote);
         }
         else if (b_active == false && b_speakeron == true)
         {
             b_speakeron = false;
+            mr_light.material = M_off;
             b_active = true;
         }
 
