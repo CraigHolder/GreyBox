@@ -30,8 +30,9 @@ public class PlayerMovement : MonoBehaviour
 
     public bool b_disableachieve = false;
 
-    Subject S_Notifier = new Subject();
-    Achievments achievmentobserver = new Achievments();
+    public FlyWeight fly_shareddata;
+
+
 
     public float f_jumptimer;
 
@@ -70,7 +71,6 @@ public class PlayerMovement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         f_mouseyprev = Input.GetAxis("Mouse Y");
 
-        S_Notifier.AddObserver(achievmentobserver);
 
         //TEMPORARY UI STUFF
         textpro = text_obj.GetComponent<TMPro.TextMeshProUGUI>();
@@ -150,7 +150,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //TEMPORARY UI STUFF
-        textpro.text = f_stamina.ToString("#");
+        int temp = (int)f_stamina;
+        textpro.text = temp.ToString();
 
         //Movement
         if (e_currstate != FerretState.Slipping)
@@ -246,16 +247,6 @@ public class PlayerMovement : MonoBehaviour
            obj_cam.transform.Rotate(Input.GetAxis("Mouse Y") * -0.5f, 0, 0);
         }
 
-
-        //Grab
-        if (Input.GetKeyDown(KeyCode.E) && b_isgrabbing == false)
-        {
-            b_isgrabbing = true;
-        }
-        else if (Input.GetKeyDown(KeyCode.E) && b_isgrabbing == true)
-        {
-            b_isgrabbing = false;
-        }
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {

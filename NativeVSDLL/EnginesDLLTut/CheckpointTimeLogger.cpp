@@ -8,6 +8,7 @@ void CheckpointTimeLogger::ResetLogger()
 
 void CheckpointTimeLogger::SaveCheckpointTime(float RTBC)
 {
+
 	//std::ofstream myfile;
 	std::fstream wasd;
 	//if (wasd.good())
@@ -27,7 +28,6 @@ void CheckpointTimeLogger::SaveCheckpointTime(float RTBC)
 	else {
 		std::cout << "Whoopsies" << std::endl;
 	}
-
 	m_RTBC.push_back(RTBC);
 
 	m_TRT += RTBC;

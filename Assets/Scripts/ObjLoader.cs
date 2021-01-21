@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor;
 using TMPro;
 using UnityEngine.Windows;
+#if UNITY_EDITOR
+using UnityEditor;
 
 //References:
 // https://forum.unity.com/threads/creating-prefabs-from-models-by-script.606760/
@@ -41,6 +42,7 @@ public class ObjLoader : MonoBehaviour
     {
         r_rigyBoi = obj_Object.GetComponent<Rigidbody>();
         m_Mat = obj_Object.GetComponent<MeshRenderer>().material;
+        Cursor.lockState = CursorLockMode.None;
         //ph_Friction = new PhysicMaterial();
     }
 
@@ -56,13 +58,15 @@ public class ObjLoader : MonoBehaviour
 
     public void OpenExplorer()
     {
-        pathway = EditorUtility.OpenFilePanel("Overwrite with png", "", "png");
+        Cursor.lockState = CursorLockMode.None;
+        pathway = UnityEditor.EditorUtility.OpenFilePanel("Overwrite with png", "", "png");
         GetMat();
     }
 
     public void OpenModelExplorer()
     {
-        pathway2 = EditorUtility.OpenFilePanel("Overwrite with png", "", "obj");
+        Cursor.lockState = CursorLockMode.None;
+        pathway2 = UnityEditor.EditorUtility.OpenFilePanel("Overwrite with png", "", "obj");
         GetMod();
     }
 
@@ -237,7 +241,7 @@ public class ObjLoader : MonoBehaviour
 
     }
 }
-
+#endif
 // Garbage Code:
 /*
  

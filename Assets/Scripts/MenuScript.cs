@@ -66,9 +66,21 @@ public class MenuScript : MonoBehaviour
         c_command.Execute(c_command, obj_placeholder);
     }
 
+    public void GotoGameScene()
+    {
+        c_command = new GotoGameSceneCommand();
+        c_command.Execute(c_command, obj_placeholder);
+    }
+
     public void GotoTutorial()
     {
         c_command = new GotoTutorialCommand();
+        c_command.Execute(c_command, obj_placeholder);
+    }
+
+    public void GotoCredits()
+    {
+        c_command = new GotoCreditsCommand();
         c_command.Execute(c_command, obj_placeholder);
     }
 

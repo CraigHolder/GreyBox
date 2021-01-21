@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="AudioFile" id="{a365c576-ec5c-4d29-959c-c4837b1f916a}">
+		<property name="assetPath">
+			<value>Laserpack.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>185.67836734693878</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{edbd6aa2-f7f7-4418-8275-6ec9435ae11f}</destination>
+		</relationship>
+	</object>
+</objects>
