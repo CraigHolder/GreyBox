@@ -38,7 +38,7 @@ public class player_controller_behavior : MonoBehaviour
 	public float PLAYER_JUMP = 20.0f;
 	public float JumpCost = 25.0f;
 	public float GravityModifier = 3.0f;
-	public float SprintModifier = 5.5f;
+	public float SprintModifier = 1200.5f;
 	public float SprintCost = 25.0f;
 	public float SprintCooldown = 0.0f;
 	public float SprintDuration = 0.0f;
