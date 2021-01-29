@@ -27,6 +27,7 @@ public class ManageColour : MonoBehaviour
     private void Start()
     {
         ApplyColour();
+        SaveColour();
     }
 
     public void SaveColour()
@@ -65,12 +66,21 @@ public class ManageColour : MonoBehaviour
         if (currentMaterial == 0)
         {
             PlayerPrefs.SetInt("RedColour", i_Colour);
+            PlayerPrefs.SetInt("PlayerTeam", 0);
         }
         else
         {
 
             PlayerPrefs.SetInt("BlueColour", i_Colour);
+            PlayerPrefs.SetInt("PlayerTeam", 1);
         }
+    }
+
+    public void FinalizeColours()
+    {
+        PlayerPrefs.SetInt("Skin", i_Skin);
+        PlayerPrefs.SetInt("BlueColour", i_Colour);
+        PlayerPrefs.SetInt("RedColour", i_Colour);
     }
 
     public void SwitchSkin()

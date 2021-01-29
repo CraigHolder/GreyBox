@@ -79,7 +79,7 @@ public class ManageBodyItems : MonoBehaviour
         }
     }
 
-    public void FinalizeChar()
+    public void FinalizeBody()
     {
         PlayerPrefs.SetInt("Body", bCurrentItem);
         PlayerPrefs.SetInt("Hat", hCurrentItem);

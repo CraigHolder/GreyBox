@@ -16417,6 +16417,14 @@ PrefabInstance:
       propertyPath: StaminaDisplay
       value: 
       objectReference: {fileID: 1373900953}
+    - target: {fileID: 7183940643789434604, guid: 84f886b2f039e6d4e8cfa5d2746534d4, type: 3}
+      propertyPath: CameraSpeed
+      value: 360
+      objectReference: {fileID: 0}
+    - target: {fileID: 7183940643789434604, guid: 84f886b2f039e6d4e8cfa5d2746534d4, type: 3}
+      propertyPath: PLAYER_SPEED
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 7221735896339400034, guid: 84f886b2f039e6d4e8cfa5d2746534d4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -106.31

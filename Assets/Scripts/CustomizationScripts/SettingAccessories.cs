@@ -35,6 +35,8 @@ public class SettingAccessories : MonoBehaviour
         i_BlueColour = PlayerPrefs.GetInt("BlueColour");
         i_RedColour = PlayerPrefs.GetInt("RedColour");
         i_Skin = PlayerPrefs.GetInt("Skin");
+
+        i_PlayerTeam = PlayerPrefs.GetInt("PlayerTeam");
     }
 
     // Update is called once per frame
