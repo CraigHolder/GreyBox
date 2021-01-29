@@ -164,7 +164,7 @@ public class ManageColour : MonoBehaviour
         DragonWings.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Dragon_Wings/Dragon_Wings" + s_TeamColour);
         Cape.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Cape/Cape" + s_TeamColour);
         //Masks
-        //Goggles.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Goggles/Goggles" + s_TeamColour);
+        Goggles.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Goggles/Goggles" + s_TeamColour);
         Mask.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Mask/Mask" + s_TeamColour);
         //Hats
         ArcherHat.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/ArcherHat/ArcherHat" + s_TeamColour);

@@ -16424,6 +16424,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Grab
       objectReference: {fileID: 0}
+    - target: {fileID: 6425039293273827086, guid: 5031a8e0a9609c9488b4ff547d65a0f2, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -2432090755550338912, guid: a667b73d0235c9f4ebc3c59d2d0bcf81, type: 3}
     - target: {fileID: 8213858109372849732, guid: 5031a8e0a9609c9488b4ff547d65a0f2, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
@@ -16480,6 +16484,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9081492300060109586, guid: 5031a8e0a9609c9488b4ff547d65a0f2, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -2432090755550338912, guid: a667b73d0235c9f4ebc3c59d2d0bcf81, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5031a8e0a9609c9488b4ff547d65a0f2, type: 3}
 --- !u!1001 &9169790495013059185
