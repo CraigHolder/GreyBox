@@ -12,7 +12,8 @@ public class player_controller_behavior : MonoBehaviour
 		Walking,
 		Jumping,
 		Slipping,
-		Climbing
+		Climbing,
+		Headbutt
 	}
 
 	FerretState state = FerretState.Idle;
@@ -37,8 +38,10 @@ public class player_controller_behavior : MonoBehaviour
 	public float PLAYER_JUMP = 20.0f;
 	public float JumpCost = 25.0f;
 	public float GravityModifier = 3.0f;
-	public float SprintModifier = 2.5f;
+	public float SprintModifier = 1200.5f;
 	public float SprintCost = 25.0f;
+	public float SprintCooldown = 0.0f;
+	public float SprintDuration = 0.0f;
 
 	float player_orientation = 0.0f;
 	Vector3 frwd_up_vel = new Vector3(); // For front-end physics
@@ -170,8 +173,14 @@ public class player_controller_behavior : MonoBehaviour
 				dir = Quaternion.Euler(0.0f, player_orientation, 0.0f) * Vector3.forward;
 				ApplyGravity(ref movement, dt);
 				movement += (dir * PLAYER_SPEED) * dt;
-
 				break;
+
+			case FerretState.Headbutt:
+				dir = Quaternion.Euler(0.0f, player_orientation, 0.0f) * Vector3.forward;
+				ApplyGravity(ref movement, dt);
+				movement += (dir * PLAYER_SPEED * SprintModifier) * dt;
+				break;
+
 			default:
 				if (on_ground && Input.GetButton("Jump") && stamina > 0.0f && stamina > JumpCost)
 				{
@@ -219,12 +228,17 @@ public class player_controller_behavior : MonoBehaviour
 
 					Vector3 input_motion = (dir * PLAYER_SPEED) * dt;
 
-					if (on_ground && sprint > 0.0f && stamina > 0.0f)
-					{
-						input_motion *= SprintModifier;
+					//if (on_ground && sprint > 0.0f && stamina > 0.0f)
+					//{
+					//	input_motion *= SprintModifier;
+					//
+					//	stamina -= SprintCost * dt;
+					//}
 
-						stamina -= SprintCost * dt;
-					}
+					if (sprint > 0.0f && stamina > 0.0f && stamina > SprintCost && SprintCooldown <= 0.0f)
+                    {
+						Headbutt();
+                    }
 
 					movement += input_motion;
 
@@ -331,6 +345,31 @@ public class player_controller_behavior : MonoBehaviour
 
 		int temp = (int)stamina;
 		StaminaDisplay.text = temp.ToString();
+
+
+		//Cooldowns
+		if(SprintCooldown > 0.0f)
+        {
+			SprintCooldown -= dt;
+        }
+
+		if(SprintCooldown < 0.0f)
+        {
+			SprintCooldown = 0.0f;
+        }
+
+
+		//Headbutt Duration
+		if(SprintDuration > 0.0f)
+        {
+			SprintDuration -= dt;
+        }
+
+		if(SprintDuration <= 0.0f && state == FerretState.Headbutt)
+        {
+			SprintDuration = 0.0f;
+			state = FerretState.Idle;
+        }
 	}
 
 
@@ -491,6 +530,19 @@ public class player_controller_behavior : MonoBehaviour
 		}
 		
 	}
+
+	public void Headbutt()
+    {
+		if (state != FerretState.Headbutt)
+		{
+			state = FerretState.Headbutt;
+			SprintCooldown = 3.0f; //How long before you can Headbutt again
+			SprintDuration = 0.5f; //How long the headbutt lasts
+			stamina -= SprintCost;
+		}
+		
+		
+    }
 
 	public void DropItem()
 	{
