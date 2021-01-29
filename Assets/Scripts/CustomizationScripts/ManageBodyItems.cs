@@ -10,14 +10,29 @@ public class ManageBodyItems : MonoBehaviour
     public GameObject player;
 
     public GameObject[] bodyItems;
-    private int bCurrentItem;
     public GameObject[] hatItems;
-    private int hCurrentItem;
     public GameObject[] maskItems;
 
-    private int mCurrentItem;
+    private int bCurrentItem = 0;
+    private int hCurrentItem = 0;
+    private int mCurrentItem = 0;
     private bool b_Left = false;
     private bool b_Right = false;
+
+    void Start()
+    {
+        if (PlayerPrefs.HasKey("Body")) {
+            PlayerPrefs.SetInt("Body", bCurrentItem);
+        }
+        if (PlayerPrefs.HasKey("Hat"))
+        {
+            PlayerPrefs.SetInt("Hat", hCurrentItem);
+        }
+        if (PlayerPrefs.HasKey("Mask"))
+        {
+            PlayerPrefs.SetInt("Mask", mCurrentItem);
+        }
+    }
 
     void Update()
     {
@@ -55,7 +70,7 @@ public class ManageBodyItems : MonoBehaviour
             if (c == currentItem)
             {
                 items[c].SetActive(true);
-                items[c].transform.rotation = player.transform.rotation;
+                //items[c].transform.rotation = player.transform.rotation;
             }
             else
             {
@@ -69,11 +84,12 @@ public class ManageBodyItems : MonoBehaviour
         PlayerPrefs.SetInt("Body", bCurrentItem);
         PlayerPrefs.SetInt("Hat", hCurrentItem);
         PlayerPrefs.SetInt("Mask", mCurrentItem);
+        PlayerPrefs.Save();
     }
 
     public void SwitchBodyItems()
     {
-        if (bCurrentItem == bodyItems.Length - 1)
+        if (bCurrentItem == bodyItems.Length)
         {
             bCurrentItem = 0;
         }
@@ -84,7 +100,7 @@ public class ManageBodyItems : MonoBehaviour
     }
     public void SwitchHatItems()
     {
-        if (hCurrentItem == hatItems.Length - 1)
+        if (hCurrentItem == hatItems.Length)
         {
             hCurrentItem = 0;
         }
@@ -95,7 +111,7 @@ public class ManageBodyItems : MonoBehaviour
     }
     public void SwitchMaskItems()
     {
-        if (mCurrentItem == maskItems.Length - 1)
+        if (mCurrentItem == maskItems.Length)
         {
             mCurrentItem = 0;
         }

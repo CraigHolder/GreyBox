@@ -86,13 +86,13 @@ public class SettingAccessories : MonoBehaviour
         switch (i_Skin)
         {
             case 0:
-                player.GetComponent<SkinnedMeshRenderer>().material = Resources.Load<Material>("Materials/FerretBaseColour");
+                player.GetComponent<SkinnedMeshRenderer>().material = Resources.Load<Material>("Materials/Ferret/FerretBaseColour");
                 break;
             case 1:
-                player.GetComponent<SkinnedMeshRenderer>().material = Resources.Load<Material>("Materials/FerretAlbino");
+                player.GetComponent<SkinnedMeshRenderer>().material = Resources.Load<Material>("Materials/Ferret/FerretAlbino");
                 break;
             case 2:
-                player.GetComponent<SkinnedMeshRenderer>().material = Resources.Load<Material>("Materials/FerretDarkBrown");
+                player.GetComponent<SkinnedMeshRenderer>().material = Resources.Load<Material>("Materials/Ferret/FerretDarkBrown");
                 break;
         }
 
@@ -134,14 +134,14 @@ public class SettingAccessories : MonoBehaviour
         /*****************************/
 
        // //bodyItems;
-       bodyItems[0].GetComponent<SkinnedMeshRenderer>().material = Resources.Load<Material>("Materials/Cape" + s_TeamColour);
-       // bodyItems[1].GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Dragon_Wings" + s_TeamColour);
+       bodyItems[0].GetComponent<SkinnedMeshRenderer>().material = Resources.Load<Material>("Materials/Cape/Cape" + s_TeamColour);
+       bodyItems[1].GetComponent<SkinnedMeshRenderer>().material = Resources.Load<Material>("Materials/Dragon_Wings/Dragon_Wings" + s_TeamColour);
        // //maskItems;
-       // maskItems[0].GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Mask" + s_TeamColour);
-       // maskItems[1].GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Goggles" + s_TeamColour);
+       //maskItems[0].GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Mask/Mask" + s_TeamColour);
+       // maskItems[1].GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Goggles/Goggles" + s_TeamColour);
        // //hatItems;
-       // hatItems[0].GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Tophat" + s_TeamColour);
-       hatItems[1].GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/ArcherHat" + s_TeamColour);
+       hatItems[0].GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Tophat/Tophat" + s_TeamColour);
+       hatItems[1].GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/ArcherHat/ArcherHat" + s_TeamColour);
 
         //TopHat.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Tophat" + s_TeamColour);
         //DragonWings.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Dragon_Wings" + s_TeamColour);
