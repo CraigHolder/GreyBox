@@ -114,7 +114,8 @@ public class Grabber : MonoBehaviour
 
             t_itemhandle.gameObject.GetComponent<FixedJoint>().connectedBody = obj_curritem.GetComponent<Rigidbody>();
 
-            s_player.GetComponent<player_controller_behavior>().CURR_PLAYER_SPEED = s_player.GetComponent<player_controller_behavior>().PLAYER_SPEED / (obj_curritem.GetComponent<Rigidbody>().mass * 0.2f);
+
+            s_player.GetComponent<player_controller_behavior>().CURR_PLAYER_SPEED = s_player.GetComponent<player_controller_behavior>().PLAYER_SPEED - (1 / obj_curritem.GetComponent<Rigidbody>().mass);
 
             //obj_mouth.GetComponent<ConfigurableJoint>().connectedBody = obj_curritem.GetComponent<Rigidbody>();
             obj_curritem.layer = 8;
