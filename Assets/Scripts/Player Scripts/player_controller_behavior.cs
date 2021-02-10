@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using TMPro;
+using UnityEngine.UI;
 
 public class player_controller_behavior : MonoBehaviour
 {
@@ -53,6 +54,7 @@ public class player_controller_behavior : MonoBehaviour
 	private Quaternion handle_rot;
 	private float[] dist_from_last;
 	public Grabber grabber = null;
+	public Image staminabar;
 
 	private Vector3[] origins;
 
@@ -386,9 +388,9 @@ public class player_controller_behavior : MonoBehaviour
         {
 			stamina = 0.0f;
         }
-
-		int temp = (int)stamina;
-		StaminaDisplay.text = temp.ToString();
+		staminabar.fillAmount = stamina / 100f;
+		//int temp = (int)stamina;
+		//StaminaDisplay.text = temp.ToString();
 	}
 
 
