@@ -3949,6 +3949,8 @@ MonoBehaviour:
   handle: {fileID: 1407157486567457106}
   grabber: {fileID: 2456656224247451687}
   staminabar: {fileID: 2653718215255512396}
+  fullstaminabar: {fileID: 4394253547514880918}
+  stambartimer: 2
   trail:
   - {fileID: 5513703588687302511}
   - {fileID: 4935191976000206161}

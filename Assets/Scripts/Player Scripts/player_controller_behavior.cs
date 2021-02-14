@@ -32,6 +32,8 @@ public class player_controller_behavior : MonoBehaviour
 	public TMP_Text StaminaDisplay = null;
 	private float stamina;
 	private float srt = 0.0f;
+	public float stambartime = 2f;
+	float stamtimer;
 
 	[Header("Movement Attributes")]
 	public float PLAYER_SPEED = 10.0f;
@@ -55,6 +57,7 @@ public class player_controller_behavior : MonoBehaviour
 	private float[] dist_from_last;
 	public Grabber grabber = null;
 	public Image staminabar;
+	public GameObject fullstaminabar;
 
 	private Vector3[] origins;
 
@@ -83,7 +86,7 @@ public class player_controller_behavior : MonoBehaviour
 	void Start()
     {
 		stamina = MaxStamina;
-
+		stamtimer = stambartime;
 		Cursor.lockState = CursorLockMode.Locked;
 
 		handle_rot = handle.rotation;
@@ -375,8 +378,11 @@ public class player_controller_behavior : MonoBehaviour
 			else
 			{
 				stamina += StaminaRecovery * dt;
-				if (stamina > MaxStamina)
+				if (stamina >= MaxStamina)
+                {
 					stamina = MaxStamina;
+					stamtimer -= Time.deltaTime;
+				}
 			}
 		}
 		else
@@ -388,7 +394,22 @@ public class player_controller_behavior : MonoBehaviour
         {
 			stamina = 0.0f;
         }
+		if (stamina != MaxStamina)
+        {
+			stamtimer = stambartime;
+
+		}
 		staminabar.fillAmount = stamina / 100f;
+
+		if (stamtimer <= 0)
+        {
+			//staminabar.gameObject
+			fullstaminabar.SetActive(false);
+		}
+        else
+        {
+			fullstaminabar.SetActive(true);
+		}
 		//int temp = (int)stamina;
 		//StaminaDisplay.text = temp.ToString();
 	}
