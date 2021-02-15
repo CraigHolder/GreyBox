@@ -359,8 +359,8 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1331022725118077837}
   m_LocalRotation: {x: -0.7071068, y: 0.000000053385072, z: -0.000000053385087, w: -0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0.0073}
-  m_LocalScale: {x: 0.0000659324, y: 0.00006593239, z: 0.00006593239}
+  m_LocalPosition: {x: 0, y: 0, z: 0.0063}
+  m_LocalScale: {x: 0.00005974743, y: 0.00005974742, z: 0.00005974742}
   m_Children:
   - {fileID: 420524142280530409}
   m_Father: {fileID: 5513703588687302511}
@@ -368,8 +368,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.0491, y: 0.0096}
-  m_SizeDelta: {x: 1437, y: 644}
+  m_AnchoredPosition: {x: 0.0452, y: -0}
+  m_SizeDelta: {x: 1427, y: 644}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &2019017533090284401
 Canvas:
@@ -381,7 +381,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 2456656222714925348}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -3937,6 +3937,7 @@ MonoBehaviour:
   StaminaRecovery: 10
   StaminaRecoveryTime: 1
   StaminaDisplay: {fileID: 0}
+  stambartime: 2
   PLAYER_SPEED: 20
   CURR_PLAYER_SPEED: 10
   ROT_SPEED: 360
@@ -3950,7 +3951,6 @@ MonoBehaviour:
   grabber: {fileID: 2456656224247451687}
   staminabar: {fileID: 2653718215255512396}
   fullstaminabar: {fileID: 4394253547514880918}
-  stambartimer: 2
   trail:
   - {fileID: 5513703588687302511}
   - {fileID: 4935191976000206161}
