@@ -7,6 +7,8 @@ TagManager:
   - Grab
   - AchievementH
   - Particle
+  - Slip
+  - Important
   layers:
   - Default
   - TransparentFX
@@ -16,8 +18,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Held
+  - Player
   - 
   - 
   - 
