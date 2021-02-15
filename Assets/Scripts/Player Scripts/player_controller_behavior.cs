@@ -161,7 +161,7 @@ public class player_controller_behavior : MonoBehaviour
 		}
 
 		//RAGDOLL TEST
-		RagdollEnabled(false);
+		//RagdollEnabled(false);
 		//SetupRagdoll();
     }
 
@@ -209,7 +209,7 @@ public class player_controller_behavior : MonoBehaviour
 			origins[c] = trail[c].position;
 		}
 
-		float sprint = Input.GetAxis("Sprint");
+		//sprint = Input.GetAxis("Sprint");
 
 		bool hit_obj = false;
 		bool moved = false;
