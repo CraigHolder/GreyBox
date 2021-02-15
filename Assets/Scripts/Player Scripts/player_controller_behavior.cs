@@ -12,7 +12,8 @@ public class player_controller_behavior : MonoBehaviour
 		Walking,
 		Jumping,
 		Slipping,
-		Climbing
+		Climbing,
+		Ragdoll
 	}
 
 	FerretState state = FerretState.Idle;
@@ -20,6 +21,8 @@ public class player_controller_behavior : MonoBehaviour
 	bool can_climb = false;
 	//bool is_climbing = false;
 	bool on_ground = false;
+
+	bool reversing = false;
 
 
 	[Header("Config")]
@@ -54,13 +57,18 @@ public class player_controller_behavior : MonoBehaviour
 
 	private Vector3[] origins;
 
-	private CharacterController butt = null;
-	private Transform back_handle = null;
+	public CharacterController butt = null;
+	public Transform back_handle = null;
 
 	[Header("Trail Settings")]
 	public Transform[] trail;
 	private Quaternion[] start_rots;
+	private Vector3[] start_dir;
 	public float max_distance = 0.8f;
+
+	[Header("Ragdoll Settings")]
+	public Transform SkeletonRoot;
+	public Transform Ragdoll;
 
 	[Header("Climb Settings")]
 	public float LookTheta = 45.0f;
@@ -74,6 +82,9 @@ public class player_controller_behavior : MonoBehaviour
 	public float CameraDistance = 12.0f;
 
 	public Vector3 vec3_checkpoint;
+
+	[Header("Debug Settings")]
+	public Transform Reversing_Marker;
 
 	// Start is called before the first frame update
 	void Start()
@@ -92,22 +103,44 @@ public class player_controller_behavior : MonoBehaviour
 		start_rots = new Quaternion[trail.Length];
 		dist_from_last = new float[trail.Length];
 		origins = new Vector3[trail.Length];
+		start_dir = new Vector3[trail.Length];
 
 		for (int c = 0; c < trail.Length; c++) {
 			start_rots[c] = trail[c].rotation;
 
 			if (c == 0)
+			{
 				dist_from_last[c] = 0.0f;
+
+				start_dir[c] = (trail[c].position - trail[c+1].position).normalized;
+			}
 			else
+			{
+				Vector3 t_to_p = trail[c - 1].position - trail[c].position;
+
+				if (c == trail.Length - 1)
+				{
+					start_dir[c] = t_to_p.normalized;
+				}
+				else
+				{
+					Vector3 n_to_t = trail[c].position - trail[c+1].position;
+
+					start_dir[c] = ((t_to_p + n_to_t) / 2).normalized;
+				}
+
 				dist_from_last[c] = (trail[c].position - trail[c - 1].position).magnitude;
+			}
 
 			origins[c] = trail[c].position;
 		}
 
 		if (butt != null)
 		{
-			back_handle = trail[trail.Length - 1];
+			//back_handle = trail[trail.Length - 1];
 			butt.enabled = false;
+
+			Physics.IgnoreCollision(this.GetComponent<CharacterController>(), butt, true);
 		}
 
 		if (Cam != null)
@@ -116,6 +149,10 @@ public class player_controller_behavior : MonoBehaviour
 			Cam.CameraDistance = CameraDistance;
 			Cam.CameraSpeed = CameraSpeed;
 		}
+
+		//RAGDOLL TEST
+		RagdollEnabled(false);
+		//SetupRagdoll();
     }
 
     // Update is called once per frame
@@ -132,21 +169,23 @@ public class player_controller_behavior : MonoBehaviour
 			state = FerretState.Idle;
 		}
 
+		for (int c = 0; c < origins.Length; c++)
+		{
+			origins[c] = trail[c].position;
+		}
+
 		float sprint = Input.GetAxis("Sprint");
 
 		bool hit_obj = false;
 		bool moved = false;
 		bool butt_moved = false;
 
-		for (int c = 0; c < origins.Length; c++)
-		{
-			origins[c] = trail[c].position;
-		}
-
 		float dt = Time.deltaTime;
 
 		float joystick_x = Input.GetAxis("Horizontal");
 		float joystick_y = Input.GetAxis("Vertical");
+
+		float reverse = Input.GetAxis("Reverse");
 
 		float magnitude = new Vector2(joystick_x, joystick_y).magnitude;
 
@@ -172,6 +211,9 @@ public class player_controller_behavior : MonoBehaviour
 				movement += (dir * PLAYER_SPEED) * dt;
 
 				break;
+			case FerretState.Ragdoll:
+				ApplyRagdoll();
+				break;
 			default:
 				if (on_ground && Input.GetButton("Jump") && stamina > 0.0f && stamina > JumpCost)
 				{
@@ -184,6 +226,7 @@ public class player_controller_behavior : MonoBehaviour
 
 				if (magnitude > 0.01f)
 				{
+
 					float theta = (Mathf.Atan2(joystick_x, joystick_y) * Mathf.Rad2Deg);
 
 					if (Cam != null)
@@ -198,39 +241,87 @@ public class player_controller_behavior : MonoBehaviour
 						theta -= 360.0f;
 					}
 
-					float t_change = 0.0f;
-					if (theta != player_orientation)
-						t_change = (theta - player_orientation) / Mathf.Abs(theta - player_orientation);
-
-					player_orientation += t_change * ROT_SPEED * dt;
-
-					if (player_orientation > 360.0f)
+					if (reverse < 1.0f)
 					{
-						player_orientation -= 360.0f;
+						reversing = false;
+						float t_change_dir = 0.0f;
+						if (theta != player_orientation)
+							t_change_dir = (theta - player_orientation) / Mathf.Abs(theta - player_orientation);
+
+						float t_change_mag = ROT_SPEED * dt;
+
+						if (t_change_mag > Mathf.Abs(theta - player_orientation))
+							t_change_mag -= (t_change_mag - Mathf.Abs(theta - player_orientation));
+
+						player_orientation += t_change_dir * t_change_mag;
+
+						if (player_orientation > 360.0f)
+						{
+							player_orientation -= 360.0f;
+						}
+						else if (player_orientation < -360.0f)
+						{
+							player_orientation += 360.0f;
+						}
+
+						transform.rotation = Quaternion.Euler(0.0f, player_orientation, 0.0f) * handle_rot;
+
+						dir = Quaternion.Euler(0.0f, player_orientation, 0.0f) * Vector3.forward;
+
+						Vector3 input_motion = (dir * PLAYER_SPEED) * dt;
+
+						if (on_ground && sprint > 0.0f && stamina > 0.0f)
+						{
+							input_motion *= SprintModifier;
+
+							stamina -= SprintCost * dt;
+						}
+
+						movement += input_motion;
+
+						if (handle != null)
+						{
+							handle.rotation = transform.rotation;
+						}
+
+						if (butt != null && back_handle != null)
+						{
+							butt.enabled = false;
+							butt.transform.position = back_handle.position;
+							//butt.enabled = true;
+						}
 					}
-					else if (player_orientation < -360.0f)
+					else
 					{
-						player_orientation += 360.0f;
-					}
+						reversing = true;
+						Vector3 destination_point = handle.position + (Quaternion.Euler(0, theta, 0) * Vector3.forward * (max_distance * trail.Length-1)) + new Vector3(0.0f, butt.transform.position.y - handle.position.y, 0.0f);
 
-					transform.rotation = Quaternion.Euler(0.0f, player_orientation, 0.0f) * handle_rot;
+						if(Reversing_Marker != null)
+							Reversing_Marker.position = destination_point;
 
-					dir = Quaternion.Euler(0.0f, player_orientation, 0.0f) * Vector3.forward;
+						butt.GetComponent<CharacterController>().enabled = false;
+						butt.transform.position = back_handle.position;
+						butt.GetComponent<CharacterController>().enabled = true;
 
-					Vector3 input_motion = (dir * PLAYER_SPEED) * dt;
+						Vector3 butt_dir = (destination_point - butt.transform.position).normalized;
+						float butt_dest_dist = (destination_point - butt.transform.position).magnitude;
 
-					if (on_ground && sprint > 0.0f && stamina > 0.0f)
-					{
-						input_motion *= SprintModifier;
+						if (butt_dest_dist < PLAYER_SPEED * dt)
+						{
+							float diff = (PLAYER_SPEED * dt) - butt_dest_dist;
 
-						stamina -= SprintCost * dt;
-					}
+							butt.Move(butt_dir * butt_dest_dist);
+							cc.Move((destination_point - handle.position).normalized * diff);
+						}
+						else
+						{
+							butt.Move(butt_dir * PLAYER_SPEED * dt);
+						}
 
-					movement += input_motion;
+						back_handle.position = butt.transform.position;
+						//butt.enabled = false;
 
-					if (handle != null)
-					{
-						handle.rotation = transform.rotation;
+						origins[origins.Length - 1] = back_handle.position;
 					}
 				}
 				break;
@@ -279,8 +370,8 @@ public class player_controller_behavior : MonoBehaviour
 			handle.position = transform.position;
 		}
 
-		if(!hit_obj && (moved || butt_moved))
-			AdjustTail();
+		//if(!hit_obj && (moved || butt_moved))
+		AdjustTail();
 
 		/*
 		if (butt != null)
@@ -330,7 +421,9 @@ public class player_controller_behavior : MonoBehaviour
         }
 
 		int temp = (int)stamina;
-		StaminaDisplay.text = temp.ToString();
+
+		if(StaminaDisplay != null)
+			StaminaDisplay.text = temp.ToString();
 	}
 
 
@@ -372,6 +465,7 @@ public class player_controller_behavior : MonoBehaviour
 	{
 		if (butt == null)
 			return;
+		butt.enabled = false;
 		butt.transform.position = back_handle.position;
 		butt.enabled = true;
 
@@ -383,8 +477,6 @@ public class player_controller_behavior : MonoBehaviour
 			back_up_vel = Vector3.zero;
 
 		back_handle.transform.position = butt.transform.position;
-
-		butt.enabled = false;
 	}
 
 	private void AdjustTail()
@@ -392,7 +484,7 @@ public class player_controller_behavior : MonoBehaviour
 		Vector3[] new_pos = new Vector3[trail.Length];
 		new_pos[0] = trail[0].position;
 
-		// first pass
+		// first pass, mainly determines the position of the skeleton.
 		for (int c = 1; c < trail.Length; c++)
 		{
 
@@ -429,8 +521,36 @@ public class player_controller_behavior : MonoBehaviour
 			new_pos[c] = t.position;
 		}
 
-		//second pass
+		Vector3[] back_pass_pos = new Vector3[trail.Length]; // to store the back pass calculated positions.
+		Vector3[] average_pos = new Vector3[trail.Length];
 
+		// Test Intermediate pass
+		if (reversing)
+		{
+
+			for (int c = trail.Length - 1; c >= 0; c--)
+			{
+				if (c == trail.Length - 1)
+					back_pass_pos[c] = butt.transform.position;
+				else
+				{
+					Vector3 dir = back_pass_pos[c + 1] - origins[c];
+
+					back_pass_pos[c] = origins[c] + dir.normalized * (dir.magnitude - max_distance);
+				}
+			}
+
+			for (int c = 1; c < trail.Length; c++)
+			{
+				average_pos[c] = (new_pos[c] + back_pass_pos[c]) / 2;
+			}
+		}
+		else
+		{
+			average_pos = new_pos;
+		}
+
+		//second pass
 		for (int c = 0; c < trail.Length; c++)
 		{
 			Transform prev = (c > 0) ? trail[c - 1] : null;
@@ -449,7 +569,7 @@ public class player_controller_behavior : MonoBehaviour
 
 				local_up = (t.up + next.up + prev.up) / 3;
 
-				t.position = new_pos[c];
+				t.position = average_pos[c];
 			}
 			else if (prev != null)
 			{
@@ -457,7 +577,7 @@ public class player_controller_behavior : MonoBehaviour
 
 				local_up = (t.up + prev.up) / 2;
 
-				t.position = new_pos[c];
+				t.position = average_pos[c];
 			}
 			else if (next != null)
 			{
@@ -466,28 +586,66 @@ public class player_controller_behavior : MonoBehaviour
 				dir = (t.position - next.position).normalized;
 			}
 
-			t.rotation = Quaternion.LookRotation(dir, Vector3.up);
-			//t.rotation = Quaternion.LookRotation(dir, head.up);
+			/****************************
+			 * Handle the main body's rotation.
+			 * *************************/
 
-			//t.localRotation = Quaternion.Euler(t.localRotation.eulerAngles.x, 0.0f, t.localRotation.eulerAngles.z);
+			//float x_change = Vector2.Angle(new Vector2(dir.y, dir.z), new Vector2(start_dir[c].y, start_dir[c].z));
+			//float y_change = Vector2.Angle(new Vector2(dir.x, dir.z), new Vector2(start_dir[c].x, start_dir[c].z));
 
-			//if (t.localRotation.eulerAngles.y > 5.0f || t.localRotation.eulerAngles.y < -5.0f)
+			//t.rotation = start_rots[c];
+
+			//Quaternion q = Quaternion.identity;
+			//if (Vector3.Dot(start_dir[c], dir) < 1.0f && Vector3.Dot(start_dir[c], dir) > -1.0f)
 			//{
-			//	Debug.Log("HOI!!!!!!!");
+			//	Vector3 cross = Vector3.Cross(start_dir[c], dir);
+
+			//	q.x = cross.x;
+			//	q.y = cross.y;
+			//	q.z = cross.z;
+
+			//	q.w = Mathf.Sqrt(start_dir[c].magnitude * start_dir[c].magnitude) * (dir.magnitude * dir.magnitude) + Vector3.Dot(start_dir[c], dir);
 			//}
 
+			//t.rotation = q * start_rots[c];
+			//t.rotation = Quaternion.LookRotation(dir, head.up);
+			t.rotation = Quaternion.LookRotation(dir, Vector3.up);
+
+				//t.localRotation = Quaternion.Euler(t.localRotation.eulerAngles.x, 0.0f, t.localRotation.eulerAngles.z);
+
+				//if (t.localRotation.eulerAngles.y > 5.0f || t.localRotation.eulerAngles.y < -5.0f)
+				//{
+				//	Debug.Log("HOI!!!!!!!");
+				//}
+
+
+			// Determine the Head's rotation.
 			if (c == 0 && head != null)
 			{
+				if (reversing)
+				{
+					Vector3 inverse_dir3 = dir;
+					Vector3 orientation_dir3 = Quaternion.Euler(0.0f, player_orientation, 0.0f) * Vector3.forward;
+
+					Vector2 new_orientation = new Vector2(inverse_dir3.x, inverse_dir3.z);
+					Vector2 cur_orientation = new Vector2(orientation_dir3.x, orientation_dir3.z);
+
+					float diff = Vector2.SignedAngle(cur_orientation, new_orientation);
+
+					player_orientation -= diff;
+				}
+
 				float look_t = Mathf.Lerp(0.0f, -LookTheta, climb_timer / LookTime);
 
-				if(can_climb)
-					head.rotation = Quaternion.Euler(look_t, player_orientation, t.rotation.eulerAngles.z) * head_rot;
+				if (can_climb)
+					head.rotation = Quaternion.Euler(look_t, player_orientation, 0.0f) * head_rot;
 				else
 					head.rotation = Quaternion.Euler(t.rotation.eulerAngles.x, player_orientation, t.rotation.eulerAngles.z) * head_rot;
 			}
 
-			t.rotation *= start_rots[c];
 
+			// Apply The Starting Rotations of the ferret in order to maintain the desired shape.
+			t.rotation *= start_rots[c];
 		}
 		
 	}
@@ -496,5 +654,75 @@ public class player_controller_behavior : MonoBehaviour
 	{
 		if(grabber != null)
 			grabber.Drop();
+	}
+
+
+	/************************************
+	 *		Ragdoll Functions			*
+	 ************************************/
+
+	// Ragdoll Enabled
+	/*
+	 *	- enables/disables Ragdoll
+	 */
+	public void RagdollEnabled(bool b)
+	{
+		Ragdoll.gameObject.SetActive(b);
+	}
+
+	// Ragdoll Setup
+	/*
+	 * - Sets the State to Ragdoll
+	 * - Initializes the Ragdoll Joint positions to match the current skeleton position.
+	 */
+	public void SetupRagdoll()
+	{
+		state = FerretState.Ragdoll;
+
+		RagdollMatch(SkeletonRoot, Ragdoll, true);
+	}
+
+	//	Apply Ragdoll
+	/*
+	 * - Matches the current skeleton to the ragdoll's transforms.
+	 */
+	private void ApplyRagdoll()
+	{
+		RagdollMatch(SkeletonRoot, Ragdoll);
+	}
+
+	// Ragdoll Match
+	/*
+	 * Inputs:
+	 *	Transform skeleton	- Transform of the skeleton's bone
+	 *	Transform ragdoll	- Transform of the Ragdoll's associated bone
+	 *	bool rag_to_skel	- Boolean will determine which bone is being modified, true = the ragdoll is modified to match the skeleton; false = the skeleton is modified to match the ragdoll.
+	 *	
+	 * - Recursive, returns if skeleton or ragdoll has no children.
+	 * - changes the transform of either skeleton or ragdoll to match the other based on rag_to_bone.
+	 * - Calls RagdollMatch for each child of skeleton if ragdoll has an associated child.
+	 */
+	private void RagdollMatch(Transform skeleton, Transform ragdoll, bool rag_to_skel = false)
+	{
+		Transform associated = ragdoll.Find(skeleton.gameObject.name);
+
+		if (associated == null)
+			return;
+
+		if (rag_to_skel)
+		{
+			associated.position = skeleton.position;
+			associated.rotation = skeleton.rotation;
+		}
+		else
+		{
+			skeleton.position = associated.position;
+			skeleton.rotation = associated.rotation;
+		}
+
+		for (int c = 0; c < skeleton.childCount; c++)
+		{
+			RagdollMatch(skeleton.GetChild(c), ragdoll, rag_to_skel);
+		}
 	}
 }
