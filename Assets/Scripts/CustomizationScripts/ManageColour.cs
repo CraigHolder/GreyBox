@@ -127,10 +127,14 @@ public class ManageColour : MonoBehaviour
     {
         if (currentMaterial == 1)
         {
+            i_Colour = PlayerPrefs.GetInt("RedColour");
+
             currentMaterial = 0;
         }
         else
         {
+            i_Colour = PlayerPrefs.GetInt("BlueColour");
+
             currentMaterial++;
         }
 
