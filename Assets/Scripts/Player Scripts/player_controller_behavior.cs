@@ -28,6 +28,8 @@ public class player_controller_behavior : MonoBehaviour
 
 	public int i_playerID;
 
+	
+
 	[Header("Config")]
 	public bool b_disableachieve = false;
 	public float MaxStamina = 100.0f;
@@ -70,6 +72,9 @@ public class player_controller_behavior : MonoBehaviour
 	public CharacterController butt = null;
 	public Transform back_handle = null;
 
+	[Header("Particle FX")]
+	public ParticleSystem Dash_Particles;
+
 	[Header("Trail Settings")]
 	public Transform[] trail;
 	private Quaternion[] start_rots;
@@ -95,6 +100,8 @@ public class player_controller_behavior : MonoBehaviour
 
 	[Header("Debug Settings")]
 	public Transform Reversing_Marker;
+
+	
 
 	// Start is called before the first frame update
 	void Start()
@@ -545,6 +552,7 @@ public class player_controller_behavior : MonoBehaviour
 		if(SprintDuration <= 0.0f && state == FerretState.Headbutt)
         {
 			SprintDuration = 0.0f;
+			Dash_Particles.Stop();
 			state = FerretState.Idle;
         }
 	}
@@ -778,6 +786,7 @@ public class player_controller_behavior : MonoBehaviour
 		if (state != FerretState.Headbutt)
 		{
 			state = FerretState.Headbutt;
+			Dash_Particles.Play();
 			SprintCooldown = 3.0f; //How long before you can Headbutt again
 			SprintDuration = 0.5f; //How long the headbutt lasts
 			stamina -= SprintCost;
