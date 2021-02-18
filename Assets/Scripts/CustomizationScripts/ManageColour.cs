@@ -16,6 +16,7 @@ public class ManageColour : MonoBehaviour
 
     public RawImage ri_RedTeam;
     public RawImage ri_BlueTeam;
+    public RawImage ri_Skin;
 
     private int currentMaterial = 0;
     private int i_Skin = 0;
@@ -98,16 +99,35 @@ public class ManageColour : MonoBehaviour
         {
             case 0:
                 player.GetComponent<SkinnedMeshRenderer>().material = Resources.Load<Material>("Materials/Ferret/FerretBaseColour");
+                ri_Skin.texture = Resources.Load<Texture>("Materials/Ferret/FerretBaseColour");
                 break;
             case 1:
                 player.GetComponent<SkinnedMeshRenderer>().material = Resources.Load<Material>("Materials/Ferret/FerretAlbino");
+                ri_Skin.texture = Resources.Load<Texture>("Materials/Ferret/FerretAlbino");
                 break;
             case 2:
                 player.GetComponent<SkinnedMeshRenderer>().material = Resources.Load<Material>("Materials/Ferret/FerretDarkBrown");
+                ri_Skin.texture = Resources.Load<Texture>("Materials/Ferret/FerretDarkBrown");
                 break;
         }
         PlayerPrefs.SetInt("Skin", i_Skin);
     }
+
+    //public void SetSkimImage()
+    //{
+    //    switch (i_Skin)
+    //    {
+    //        case 0:
+    //            ri_Skin.texture = Resources.Load<Texture>("Materials/Ferret/FerretBasic");
+    //            break;
+    //        case 1:
+    //            ri_Skin.texture = Resources.Load<Texture>("Materials/Ferret/FerretAlbino");
+    //            break;
+    //        case 2:
+    //            ri_Skin.texture = Resources.Load<Texture>("Materials/Ferret/Ferret");
+    //            break;
+    //    }
+    //}
 
     public void SwitchColour()
     {
@@ -121,6 +141,7 @@ public class ManageColour : MonoBehaviour
         }
 
         ApplyColour();
+        SaveColour();
     }
 
     public void SwitchTeams()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 //USE PLAYER PREFS: RESEARCH ON DOCUMENTATION
 
@@ -13,9 +14,15 @@ public class ManageBodyItems : MonoBehaviour
     public GameObject[] hatItems;
     public GameObject[] maskItems;
 
+    public RawImage ri_Mask;
+    public RawImage ri_Hat;
+    public RawImage ri_Torso;
+
     private int bCurrentItem = 0;
     private int hCurrentItem = 0;
     private int mCurrentItem = 0;
+
+    private bool b_Change = true;
     private bool b_Left = false;
     private bool b_Right = false;
 
@@ -46,19 +53,26 @@ public class ManageBodyItems : MonoBehaviour
         }
 
 
-
-        for (int i = 0; i < 3; i++) {
-            switch (i)
+        if (b_Change)
+        {
+            for (int i = 0; i < 3; i++)
             {
-                case 0:
-                    Activate(0, bCurrentItem, bodyItems);
-                    break;
-                case 1:
-                    Activate(1, hCurrentItem, hatItems);
-                    break;
-                case 2:
-                    Activate(2, mCurrentItem, maskItems);
-                    break;
+                switch (i)
+                {
+                    case 0:
+                        Activate(0, bCurrentItem, bodyItems);
+                        SetTorsoImage();
+                        break;
+                    case 1:
+                        Activate(1, hCurrentItem, hatItems);
+                        SetHatImage();
+                        break;
+                    case 2:
+                        Activate(2, mCurrentItem, maskItems);
+                        SetMaskImage();
+                        b_Change = false;
+                        break;
+                }
             }
         }
     }
@@ -89,6 +103,7 @@ public class ManageBodyItems : MonoBehaviour
 
     public void SwitchBodyItems()
     {
+        b_Change = true;
         if (bCurrentItem == bodyItems.Length)
         {
             bCurrentItem = 0;
@@ -100,6 +115,7 @@ public class ManageBodyItems : MonoBehaviour
     }
     public void SwitchHatItems()
     {
+        b_Change = true;
         if (hCurrentItem == hatItems.Length)
         {
             hCurrentItem = 0;
@@ -111,6 +127,7 @@ public class ManageBodyItems : MonoBehaviour
     }
     public void SwitchMaskItems()
     {
+        b_Change = true;
         if (mCurrentItem == maskItems.Length)
         {
             mCurrentItem = 0;
@@ -118,6 +135,52 @@ public class ManageBodyItems : MonoBehaviour
         else
         {
             mCurrentItem++;
+        }
+    }
+
+    public void SetMaskImage()
+    {
+        switch(mCurrentItem)
+        {
+            case 0:
+                ri_Mask.texture = Resources.Load<Texture>("UI/UITextures/_ask");
+                break;
+            case 1:
+                ri_Mask.texture = Resources.Load<Texture>("UI/UITextures/_oggles");
+                break;
+            case 2:
+                ri_Mask.texture = Resources.Load<Texture>("UI/UITextures/_parrow1");
+                break;
+        }
+    }
+    public void SetHatImage()
+    {
+        switch (hCurrentItem)
+        {
+            case 0:
+                ri_Hat.texture = Resources.Load<Texture>("UI/UITextures/loadingTEXT2");
+                break;
+            case 1:
+                ri_Hat.texture = Resources.Load<Texture>("UI/UITextures/_at");
+                break;
+            case 2:
+                ri_Hat.texture = Resources.Load<Texture>("UI/UITextures/_parrow1");
+                break;
+        }
+    }
+    public void SetTorsoImage()
+    {
+        switch (bCurrentItem)
+        {
+            case 0:
+                ri_Torso.texture = Resources.Load<Texture>("UI/UITextures/_ape");
+                break;
+            case 1:
+                ri_Torso.texture = Resources.Load<Texture>("UI/UITextures/_atwings");
+                break;
+            case 2:
+                ri_Torso.texture = Resources.Load<Texture>("UI/UITextures/_parrow1");
+                break;
         }
     }
 
