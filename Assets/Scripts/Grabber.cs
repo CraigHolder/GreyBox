@@ -108,9 +108,14 @@ public class Grabber : MonoBehaviour
         {
             obj_curritem = collision.gameObject;
             //obj_curritem.GetComponent<Rigidbody>().isKinematic = true;
-
-
-            vec3_grabloc = obj_curritem.GetComponent<Score>().vec3_grabpoint;
+            Vector3 closestpoint = collision.ClosestPoint(t_itemhandle.position);
+           // Debug.Log("closestpoint1 " + closestpoint);
+            collision.gameObject.transform.Translate((t_itemhandle.position - closestpoint));
+           // Debug.Log("closestpoint - t_itemhandle1 " + (closestpoint - t_itemhandle.position));
+            //closestpoint = collision.ClosestPoint(t_itemhandle.position);
+            //Debug.Log("closestpoint2 " + closestpoint);
+            //Debug.Log("closestpoint - t_itemhandle2 " + (closestpoint - t_itemhandle.position));
+            //vec3_grabloc = obj_curritem.GetComponent<Score>().vec3_grabpoint;
 
             t_itemhandle.gameObject.GetComponent<FixedJoint>().connectedBody = obj_curritem.GetComponent<Rigidbody>();
 
@@ -139,8 +144,6 @@ public class Grabber : MonoBehaviour
             //obj_curritem.transform.localRotation = Quaternion.Euler(vec3_grabrot);
             //obj_curritem.transform.SetPositionAndRotation(t_mouth.transform.position + vec3_grabloc, t_mouth.transform.localRotation * Quaternion.Euler(vec3_grabrot));
 
-            Debug.Log(vec3_grabloc);
-            Debug.Log(vec3_grabrot);
             //obj_curritem.transform.localPosition = vec3_grabloc;
             //obj_curritem.transform.localRotation = Quaternion.Euler(vec3_grabrot);
 

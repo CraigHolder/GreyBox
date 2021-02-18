@@ -9733,6 +9733,14 @@ PrefabInstance:
       propertyPath: m_NormalizedViewPortRect.x
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7078236712724855757, guid: 705b6fe625d9eb44d9c474e8448f8de9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7078236712762012339, guid: 705b6fe625d9eb44d9c474e8448f8de9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7168624975787460627, guid: 705b6fe625d9eb44d9c474e8448f8de9, type: 3}
       propertyPath: m_ConnectedAnchor.x
       value: 88.00721
