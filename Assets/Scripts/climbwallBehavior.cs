@@ -8,7 +8,9 @@ public class climbwallBehavior : MonoBehaviour
 	{
 	if (other.gameObject.tag == "Player")
 		{
-			other.gameObject.GetComponent<player_controller_behavior>().PlayerCanClimb(true);
+			player_controller_behavior pc = other.gameObject.GetComponent<player_controller_behavior>();
+			if (pc != null)
+				pc.PlayerCanClimb(true);
 		}
 	}
 
@@ -16,7 +18,9 @@ public class climbwallBehavior : MonoBehaviour
 	{
 		if (other.gameObject.tag == "Player")
 		{
-			other.gameObject.GetComponent<player_controller_behavior>().PlayerCanClimb(false);
+			player_controller_behavior pc = other.gameObject.GetComponent<player_controller_behavior>();
+			if (pc != null)
+				pc.PlayerCanClimb(false);
 		}
 	}
 }

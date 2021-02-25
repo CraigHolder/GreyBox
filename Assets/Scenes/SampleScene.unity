@@ -874,7 +874,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &69009053
 Transform:
   m_ObjectHideFlags: 0
@@ -16532,6 +16532,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7301922011083237495, guid: 6cede907683993448a61d923f0348659, type: 3}
+      propertyPath: t_scoretext
+      value: 
+      objectReference: {fileID: 1524027982}
     - target: {fileID: 7607310864827054049, guid: 6cede907683993448a61d923f0348659, type: 3}
       propertyPath: m_Name
       value: Blue_Nest
@@ -16545,6 +16549,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1272493405778316694, guid: da2e15f521f4fd44990fec24e6e94d12, type: 3}
+      propertyPath: t_scoretext
+      value: 
+      objectReference: {fileID: 789187449}
     - target: {fileID: 7154255674854521715, guid: da2e15f521f4fd44990fec24e6e94d12, type: 3}
       propertyPath: m_Name
       value: Nest_Red
