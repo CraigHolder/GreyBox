@@ -13,7 +13,7 @@ public class Rug : MonoBehaviour
 
     void Start()
     {
-        s_Player = GameObject.FindGameObjectWithTag("Player").GetComponent<player_controller_behavior>();
+        s_Player = GameObject.FindGameObjectWithTag("PlayerController").GetComponent<player_controller_behavior>();
         f_jumpspeeddef = s_Player.PLAYER_JUMP;
         f_jumptimedef = s_Player.JumpCost;
     }
@@ -21,7 +21,7 @@ public class Rug : MonoBehaviour
     // Start is called before the first frame update
     void OnTriggerStay(Collider collision)
     {
-        if (b_active == false && collision.gameObject.tag == "Player")
+        if (b_active == false && collision.gameObject.tag == "PlayerController")
         {
             s_Player = collision.gameObject.GetComponent<player_controller_behavior>();
             s_Player.PLAYER_SPEED *= f_speedforce;
@@ -32,7 +32,7 @@ public class Rug : MonoBehaviour
 
             b_active = true;
         }
-        else if (collision.gameObject.tag == "Player")
+        else if (collision.gameObject.tag == "PlayerController")
         {
             //s_Player.b_isgrabbing = false;
             s_Player.DropItem();
@@ -41,7 +41,7 @@ public class Rug : MonoBehaviour
     void OnTriggerExit(Collider collision)
     {
         //s_Player = collisionInfo.gameObject.GetComponent<PlayerMovement>();
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "PlayerController")
         {
 
             b_active = false;

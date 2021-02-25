@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 3890854383024999859}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 29.372753, y: 42.16474, z: 67.39545}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 3946547370313344593}
   m_Father: {fileID: 0}
@@ -158,5 +158,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   i_score: 22
-  vec3_grabpoint: {x: 0, y: 0, z: 0}
-  vec3_grabrotation: {x: 90, y: 0, z: 0}
+  connectedplayers: []
