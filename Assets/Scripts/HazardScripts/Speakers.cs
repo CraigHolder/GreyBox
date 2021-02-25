@@ -27,8 +27,8 @@ public class Speakers : MonoBehaviour
     {
         vec3_defaultscale = this.transform.localScale;
         col_trigger = this.GetComponent<BoxCollider>();
-        effects[0].gameObject.SetActive(false);
-        effects[1].gameObject.SetActive(false);
+        //effects[0].gameObject.SetActive(false);
+        //effects[1].gameObject.SetActive(false);
     }
 
     void OnTriggerStay(Collider collision)
@@ -54,15 +54,15 @@ public class Speakers : MonoBehaviour
         {
             this.GetComponent<Renderer>().material.color = Color.red;
             //b_on = true;
-            effects[0].gameObject.SetActive(true);
-            effects[1].gameObject.SetActive(true);
+            //effects[0].gameObject.SetActive(true);
+            //effects[1].gameObject.SetActive(true);
             fly_shareddata.e_speakerstate = SpeakerState.On;
         }
         else if (s_remote.b_speakeron == false && fly_shareddata.e_speakerstate == SpeakerState.On)
         {
             this.GetComponent<Renderer>().material.color = Color.yellow;
-            effects[0].gameObject.SetActive(false);
-            effects[1].gameObject.SetActive(false);
+            //effects[0].gameObject.SetActive(false);
+            //effects[1].gameObject.SetActive(false);
             fly_shareddata.e_speakerstate = SpeakerState.Off;
         }
 

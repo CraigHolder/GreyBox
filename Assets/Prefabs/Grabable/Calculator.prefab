@@ -110,8 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   i_score: 20
-  vec3_grabpoint: {x: 0, y: 0.01, z: 0}
-  vec3_grabrotation: {x: 90, y: 90, z: 0}
+  connectedplayers: []
 --- !u!54 &8110120598828003218
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -153,7 +152,7 @@ Transform:
   m_GameObject: {fileID: 5213960390359937216}
   m_LocalRotation: {x: -0, y: 0.4673927, z: -0, w: 0.88404983}
   m_LocalPosition: {x: -46.887054, y: 44.54172, z: 11.117637}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 5431431067903007522}
   m_Father: {fileID: 0}
