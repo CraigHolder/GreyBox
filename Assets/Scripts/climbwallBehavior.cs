@@ -6,7 +6,7 @@ public class climbwallBehavior : MonoBehaviour
 {
 	private void OnTriggerEnter(Collider other)
 	{
-	if (other.gameObject.tag == "Player")
+	if (other.gameObject.tag == "PlayerController")
 		{
 			player_controller_behavior pc = other.gameObject.GetComponent<player_controller_behavior>();
 			if (pc != null)
@@ -16,7 +16,7 @@ public class climbwallBehavior : MonoBehaviour
 
 	private void OnTriggerExit(Collider other)
 	{
-		if (other.gameObject.tag == "Player")
+		if (other.gameObject.tag == "PlayerController")
 		{
 			player_controller_behavior pc = other.gameObject.GetComponent<player_controller_behavior>();
 			if (pc != null)
