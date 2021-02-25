@@ -9,6 +9,7 @@ TagManager:
   - Particle
   - Slip
   - Important
+  - PlayerController
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - 
   - Held
   - Player
-  - 
+  - Grabber
   - 
   - 
   - 

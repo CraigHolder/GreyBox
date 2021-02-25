@@ -6905,7 +6905,7 @@ GameObject:
   - component: {fileID: 4967776491345220487}
   - component: {fileID: 3648424399724572713}
   - component: {fileID: 6328461733654210995}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: GrabberDetect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8939,7 +8939,7 @@ GameObject:
   - component: {fileID: 7078236712651946695}
   - component: {fileID: 7078236712651946694}
   - component: {fileID: 7078236712651946689}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Grabber
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9036,6 +9036,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   s_player: {fileID: 8747653854808916106}
   obj_curritem: {fileID: 0}
+  connectedplayers: []
   col_frontcontrol: {fileID: 8747653854808916104}
   col_collider: {fileID: 0}
   obj_mouth: {fileID: 7078236711716068607}
@@ -11028,7 +11029,7 @@ GameObject:
   - component: {fileID: 9146619151878875904}
   m_Layer: 9
   m_Name: PlayerFrank
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11099,7 +11100,7 @@ GameObject:
   - component: {fileID: 8747653854808916104}
   m_Layer: 9
   m_Name: Front_Controller
-  m_TagString: Player
+  m_TagString: PlayerController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11153,6 +11154,7 @@ MonoBehaviour:
   grabber: {fileID: 7078236712651946689}
   staminabar: {fileID: 7277499996804693930}
   fullstaminabar: {fileID: 8995587628265179504}
+  connectedplayers: []
   butt: {fileID: 7078236713143966843}
   back_handle: {fileID: 3384578373493102686}
   trail:
