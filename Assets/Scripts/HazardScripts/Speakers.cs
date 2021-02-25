@@ -8,6 +8,7 @@ public class Speakers : MonoBehaviour
     CharacterController c_control;
     BoxCollider col_trigger;
     Vector3 vec3_defaultscale;
+    public List<ParticleSystem> effects;
 
     //SpeakerState e_state = SpeakerState.Off;
     //
@@ -26,16 +27,21 @@ public class Speakers : MonoBehaviour
     {
         vec3_defaultscale = this.transform.localScale;
         col_trigger = this.GetComponent<BoxCollider>();
-        
+        effects[0].gameObject.SetActive(false);
+        effects[1].gameObject.SetActive(false);
     }
 
     void OnTriggerStay(Collider collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "PlayerController")
         {
             c_control = collision.gameObject.GetComponent<CharacterController>();
             c_control.Move(transform.forward * -100 * Time.deltaTime);
-			collision.gameObject.GetComponent<player_controller_behavior>().DropItem();
+            if(collision.gameObject.GetComponent<player_controller_behavior>() != null)
+            {
+
+                collision.gameObject.GetComponent<player_controller_behavior>().DropItem();
+            }
 			
             fly_shareddata.S_Notifier.Notify(collision.gameObject, Observer.EventType.Push);
         }
@@ -48,11 +54,15 @@ public class Speakers : MonoBehaviour
         {
             this.GetComponent<Renderer>().material.color = Color.red;
             //b_on = true;
+            effects[0].gameObject.SetActive(true);
+            effects[1].gameObject.SetActive(true);
             fly_shareddata.e_speakerstate = SpeakerState.On;
         }
         else if (s_remote.b_speakeron == false && fly_shareddata.e_speakerstate == SpeakerState.On)
         {
             this.GetComponent<Renderer>().material.color = Color.yellow;
+            effects[0].gameObject.SetActive(false);
+            effects[1].gameObject.SetActive(false);
             fly_shareddata.e_speakerstate = SpeakerState.Off;
         }
 

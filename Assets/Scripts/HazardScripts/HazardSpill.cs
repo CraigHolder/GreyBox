@@ -32,7 +32,7 @@ public class HazardSpill : MonoBehaviour
     // Start is called before the first frame update
     void OnTriggerEnter(Collider collision)
     {
-        if (b_active == false && collision.gameObject.tag == "Player")
+        if (b_active == false && collision.gameObject.tag == "PlayerController")
         {
             s_Player = collision.gameObject.GetComponent<player_controller_behavior>();
 			//s_Player.f_speed *= f_speedforce;
@@ -45,17 +45,20 @@ public class HazardSpill : MonoBehaviour
 
             b_active = true;
         }
-        else if (collision.gameObject.tag == "Player")
+        else if (collision.gameObject.tag == "PlayerController")
         {
             //s_Player.b_isgrabbing = false;
 			s_Player = collision.gameObject.GetComponent<player_controller_behavior>();
-			s_Player.DropItem();
+            if(s_Player != null)
+            {
+                s_Player.DropItem();
+            }
 		}
     }
     void OnTriggerExit(Collider collision)
     {
         //s_Player = collisionInfo.gameObject.GetComponent<PlayerMovement>();
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "PlayerController")
         {
 
             b_active = false;

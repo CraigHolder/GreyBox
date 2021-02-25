@@ -33,20 +33,23 @@ public class Remote : MonoBehaviour
 
     void OnTriggerStay(Collider collision)
     {
-        if (b_active == false && b_speakeron == false)
+        if (collision.gameObject.tag == "PlayerController")
         {
-            b_speakeron = true;
-            b_active = true;
-            mr_light.material = M_on;
-            fly_shareddata.S_Notifier.Notify(collision.gameObject, Observer.EventType.Remote);
-        }
-        else if (b_active == false && b_speakeron == true)
-        {
-            b_speakeron = false;
-            mr_light.material = M_off;
-            b_active = true;
-        }
+            if (b_active == false && b_speakeron == false)
+            {
+                b_speakeron = true;
+                b_active = true;
+                mr_light.material = M_on;
+                fly_shareddata.S_Notifier.Notify(collision.gameObject, Observer.EventType.Remote);
+            }
+            else if (b_active == false && b_speakeron == true)
+            {
+                b_speakeron = false;
+                mr_light.material = M_off;
+                b_active = true;
+            }
 
+        }
     }
     void OnTriggerExit(Collider collision)
     {

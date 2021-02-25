@@ -6,6 +6,7 @@ public class Grabber : MonoBehaviour
 {
     public GameObject s_player;
     public GameObject obj_curritem;
+    public List<player_controller_behavior> connectedplayers;
 
     public CapsuleCollider col_frontcontrol;
     
@@ -77,10 +78,23 @@ public class Grabber : MonoBehaviour
                 break;
         }
 
-        
 
 
-		if (b_isgrabbing == true)
+        //Tug of War
+        //if (connectedplayers.Count >= 2)
+        //{
+        //    s_player.GetComponent<player_controller_behavior>().TugoWar(true);
+        //
+        //    s_player.GetComponent<player_controller_behavior>().connectedplayers = connectedplayers;
+        //}
+        //else
+        //{
+        //    s_player.GetComponent<player_controller_behavior>().TugoWar(false);
+        //    s_player.GetComponent<player_controller_behavior>().connectedplayers.Clear();
+        //}
+
+
+        if (b_isgrabbing == true)
         {
             col_collider.enabled = true;
         }
@@ -94,12 +108,15 @@ public class Grabber : MonoBehaviour
                 t_itemhandle.gameObject.GetComponent<FixedJoint>().connectedBody = null;
                 s_player.GetComponent<player_controller_behavior>().CURR_PLAYER_SPEED = s_player.GetComponent<player_controller_behavior>().PLAYER_SPEED;
                 obj_curritem.layer = 0;
+                connectedplayers.Clear();
+                obj_curritem.GetComponent<Score>().connectedplayers.Remove(s_player.GetComponent<player_controller_behavior>());
+
                 //obj_curritem.GetComponent<Collider>().isTrigger = false;
                 //obj_curritem.transform.SetParent(null);
                 obj_curritem = null;
             }
-
         }
+        
     }
 
     void OnTriggerStay(Collider collision)
@@ -108,9 +125,17 @@ public class Grabber : MonoBehaviour
         {
             obj_curritem = collision.gameObject;
             //obj_curritem.GetComponent<Rigidbody>().isKinematic = true;
+            Vector3 closestpoint = collision.ClosestPoint(t_itemhandle.position);
+           // Debug.Log("closestpoint1 " + closestpoint);
 
-
-            vec3_grabloc = obj_curritem.GetComponent<Score>().vec3_grabpoint;
+            collision.gameObject.transform.Translate(t_itemhandle.position - closestpoint);
+            // Debug.Log("closestpoint - t_itemhandle1 " + (closestpoint - t_itemhandle.position));
+            //closestpoint = collision.ClosestPoint(t_itemhandle.position);
+            //Debug.Log("closestpoint2 " + closestpoint);
+            //Debug.Log("closestpoint - t_itemhandle2 " + (closestpoint - t_itemhandle.position));
+            //vec3_grabloc = obj_curritem.GetComponent<Score>().vec3_grabpoint;
+            collision.gameObject.GetComponent<Score>().connectedplayers.Add(s_player.GetComponent<player_controller_behavior>());
+            connectedplayers = collision.gameObject.GetComponent<Score>().connectedplayers;
 
             t_itemhandle.gameObject.GetComponent<FixedJoint>().connectedBody = obj_curritem.GetComponent<Rigidbody>();
 
@@ -139,8 +164,6 @@ public class Grabber : MonoBehaviour
             //obj_curritem.transform.localRotation = Quaternion.Euler(vec3_grabrot);
             //obj_curritem.transform.SetPositionAndRotation(t_mouth.transform.position + vec3_grabloc, t_mouth.transform.localRotation * Quaternion.Euler(vec3_grabrot));
 
-            Debug.Log(vec3_grabloc);
-            Debug.Log(vec3_grabrot);
             //obj_curritem.transform.localPosition = vec3_grabloc;
             //obj_curritem.transform.localRotation = Quaternion.Euler(vec3_grabrot);
 

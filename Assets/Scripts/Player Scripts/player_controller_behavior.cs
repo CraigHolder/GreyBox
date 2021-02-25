@@ -15,7 +15,8 @@ public class player_controller_behavior : MonoBehaviour
 		Slipping,
 		Climbing,
 		Ragdoll,
-		Headbutt
+		Headbutt,
+		War
 	}
 
 	FerretState state = FerretState.Idle;
@@ -66,6 +67,7 @@ public class player_controller_behavior : MonoBehaviour
 	public Grabber grabber = null;
 	public Image staminabar;
 	public GameObject fullstaminabar;
+	public List<player_controller_behavior> connectedplayers;
 
 	private Vector3[] origins;
 
@@ -276,6 +278,59 @@ public class player_controller_behavior : MonoBehaviour
 			case FerretState.Ragdoll:
 				ApplyRagdoll();
 				break;
+			//case FerretState.War:
+
+			//	//reverse code
+			//	ApplyGravity(ref movement, dt);
+			//	//
+			//	if (magnitude > 0.01f)
+			//	{
+
+			//		float thetaw = (Mathf.Atan2(joystick_x, joystick_y) * Mathf.Rad2Deg);
+
+			//		if (Cam != null)
+			//			thetaw += Cam.GetTheta();
+
+			//		if (Mathf.Abs(thetaw - player_orientation) > Mathf.Abs((thetaw + 360.0f) - player_orientation))
+			//		{
+			//			thetaw += 360.0f;
+			//		}
+			//		else if (Mathf.Abs(thetaw - player_orientation) > Mathf.Abs((thetaw - 360.0f) - player_orientation))
+			//		{
+			//			thetaw -= 360.0f;
+			//		}
+
+			//		//reverse
+			//		reversing = true;
+			//		Vector3 destination_pointw = handle.position + (Quaternion.Euler(0, thetaw, 0) * Vector3.forward * (max_distance * trail.Length - 1)) + new Vector3(0.0f, butt.transform.position.y - handle.position.y, 0.0f);
+
+			//		if (Reversing_Marker != null)
+			//			Reversing_Marker.position = destination_pointw;
+
+			//		butt.GetComponent<CharacterController>().enabled = false;
+			//		butt.transform.position = back_handle.position;
+			//		butt.GetComponent<CharacterController>().enabled = true;
+
+			//		Vector3 butt_dir = (destination_pointw - butt.transform.position).normalized;
+			//		float butt_dest_dist = (destination_pointw - butt.transform.position).magnitude;
+
+			//		if (butt_dest_dist < PLAYER_SPEED * dt)
+			//		{
+			//			float diff = (PLAYER_SPEED * dt) - butt_dest_dist;
+
+			//			butt.Move(butt_dir * butt_dest_dist);
+			//			cc.Move((destination_pointw - handle.position).normalized * diff);
+			//		}
+			//		else
+			//		{
+			//			butt.Move(butt_dir * PLAYER_SPEED * dt);
+			//		}
+			//	}
+			//	back_handle.position = butt.transform.position;
+			//	//butt.enabled = false;
+
+			//	origins[origins.Length - 1] = back_handle.position;
+			//	break;
 			default:
 
 				switch (i_playerID)
@@ -578,6 +633,16 @@ public class player_controller_behavior : MonoBehaviour
 		{
 			state = FerretState.Slipping;
 			DropItem();
+		}
+		else
+			state = FerretState.Idle;
+	}
+
+	public void TugoWar(bool f)
+	{
+		if (f)
+		{
+			state = FerretState.War;
 		}
 		else
 			state = FerretState.Idle;

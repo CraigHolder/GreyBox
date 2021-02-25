@@ -21,7 +21,7 @@ public class Bounce : MonoBehaviour
     // Start is called before the first frame update
     void OnTriggerStay(Collider collision)
     {
-        if (b_active == false && collision.gameObject.tag == "Player")
+        if (b_active == false && collision.gameObject.tag == "PlayerController")
         {
             fly_shareddata.S_Notifier.Notify(collision.gameObject, Observer.EventType.Bounce);
 
@@ -40,7 +40,7 @@ public class Bounce : MonoBehaviour
             a_audiosource.Play();
             b_active = true;
         }
-        else if (collision.gameObject.tag == "Grab" && collision.gameObject.GetComponent<Rigidbody>().isKinematic == false)
+        if (collision.gameObject.tag == "Grab" && collision.gameObject.GetComponent<Score>().connectedplayers.Count == 0)
         {
             fly_shareddata.c_objbounce.Execute(fly_shareddata.c_objbounce, collision.gameObject);
 
@@ -51,7 +51,7 @@ public class Bounce : MonoBehaviour
     void OnTriggerExit(Collider collision)
     {
         //s_Player = collisionInfo.gameObject.GetComponent<PlayerMovement>();
-        if(collision.gameObject.tag == "Player")
+        if(collision.gameObject.tag == "PlayerController")
         {
 
             b_active = false;
