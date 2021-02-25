@@ -28,6 +28,7 @@ public class ManageBodyItems : MonoBehaviour
 
     void Start()
     {
+        //Checks for preexisting parts and applies them if they exist.
         if (PlayerPrefs.HasKey("Body")) {
             PlayerPrefs.SetInt("Body", bCurrentItem);
         }
@@ -43,6 +44,7 @@ public class ManageBodyItems : MonoBehaviour
 
     void Update()
     {
+        //Rotation variables from the buttons cause rotation.
         if (b_Left)
         {
             player.transform.Rotate(0, 100 * Time.deltaTime, 0);
@@ -52,7 +54,7 @@ public class ManageBodyItems : MonoBehaviour
             player.transform.Rotate(0, -100 * Time.deltaTime, 0);
         }
 
-
+        //If there has been a change, applies all the parts.
         if (b_Change)
         {
             for (int i = 0; i < 3; i++)
@@ -79,6 +81,7 @@ public class ManageBodyItems : MonoBehaviour
 
     public void Activate(int part, int currentItem, GameObject[] items)
     {
+        //Loops through the cosmetics, setting the items selected to true and the other to false.
         for (int c = 0; c < items.Length; c++)
         {
             if (c == currentItem)
@@ -95,12 +98,14 @@ public class ManageBodyItems : MonoBehaviour
 
     public void FinalizeBody()
     {
+        //Saves player's chosen cosmetics
         PlayerPrefs.SetInt("Body", bCurrentItem);
         PlayerPrefs.SetInt("Hat", hCurrentItem);
         PlayerPrefs.SetInt("Mask", mCurrentItem);
         PlayerPrefs.Save();
     }
 
+    // Cycling through different types of items.
     public void SwitchBodyItems()
     {
         b_Change = true;
@@ -137,7 +142,9 @@ public class ManageBodyItems : MonoBehaviour
             mCurrentItem++;
         }
     }
+    /////////////////////////////////////////////////
 
+    //Applying meshes.
     public void SetMaskImage()
     {
         switch(mCurrentItem)
@@ -183,6 +190,7 @@ public class ManageBodyItems : MonoBehaviour
                 break;
         }
     }
+    /////////////////////////////////////////////////////////////////////////////////////
 
     public void RotateLeft()
     {

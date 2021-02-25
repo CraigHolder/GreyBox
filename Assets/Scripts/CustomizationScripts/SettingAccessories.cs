@@ -44,6 +44,7 @@ public class SettingAccessories : MonoBehaviour
     {
         if (!b_Accessoriezed)
         {
+            //Loops through and turns on all of the chosen accessories.
             for (int i = 0; i < 3; i++)
             {
                 switch (i)
@@ -68,6 +69,7 @@ public class SettingAccessories : MonoBehaviour
     public void Activate(int part, int currentItem, GameObject[] items)
     {
         ApplyColour();
+        //After gaining the colours, activates correct accessories and disables all others.
         for (int c = 0; c < items.Length; c++)
         {
             if (c == currentItem)
@@ -85,6 +87,7 @@ public class SettingAccessories : MonoBehaviour
 
     public void ApplyColour()
     {
+        //First gives the player their fur colour.
         switch (i_Skin)
         {
             case 0:
@@ -100,6 +103,7 @@ public class SettingAccessories : MonoBehaviour
 
         string s_TeamColour = "";
 
+        //Learns the players team and uses that to determine which colour to set the temp variable to.
         if (i_PlayerTeam == 0)
         {
             switch (i_RedColour)
@@ -135,15 +139,16 @@ public class SettingAccessories : MonoBehaviour
         /*       VERY IMPORTANT      */
         /*****************************/
 
-       // //bodyItems;
-       bodyItems[0].GetComponent<SkinnedMeshRenderer>().material = Resources.Load<Material>("Materials/Cape/Cape" + s_TeamColour);
-       bodyItems[1].GetComponent<SkinnedMeshRenderer>().material = Resources.Load<Material>("Materials/Dragon_Wings/Dragon_Wings" + s_TeamColour);
-       // //maskItems;
-       maskItems[0].GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Mask/Mask" + s_TeamColour);
-       maskItems[1].GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Goggles/Goggles" + s_TeamColour);
-       // //hatItems;
-       hatItems[0].GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Tophat/Tophat" + s_TeamColour);
-       hatItems[1].GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/ArcherHat/ArcherHat" + s_TeamColour);
+        //applies all cosmetics with their colour value mats to the player.
+        // //bodyItems;
+        bodyItems[0].GetComponent<SkinnedMeshRenderer>().material = Resources.Load<Material>("Materials/Cape/Cape" + s_TeamColour);
+        bodyItems[1].GetComponent<SkinnedMeshRenderer>().material = Resources.Load<Material>("Materials/Dragon_Wings/Dragon_Wings" + s_TeamColour);
+        // //maskItems;
+        maskItems[0].GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Mask/Mask" + s_TeamColour);
+        maskItems[1].GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Goggles/Goggles" + s_TeamColour);
+        // //hatItems;
+        hatItems[0].GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Tophat/Tophat" + s_TeamColour);
+        hatItems[1].GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/ArcherHat/ArcherHat" + s_TeamColour);
 
         //TopHat.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Tophat" + s_TeamColour);
         //DragonWings.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Dragon_Wings" + s_TeamColour);
