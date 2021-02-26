@@ -226,7 +226,7 @@ public class GotoGameSceneCommand : Command
 
     void ToGameScene()
     {
-        SceneManager.LoadScene("TimeTrial");
+        SceneManager.LoadScene("FerretDomain");
     }
 }
 

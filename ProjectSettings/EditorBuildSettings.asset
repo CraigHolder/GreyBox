@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CreationMenu.unity
     guid: 7a9c1593ce104d441bd2110476bdebfc
+  - enabled: 1
+    path: Assets/Scenes/FerretDomain.unity
+    guid: af4ae11e19be57a408af19a5615d4b17
   m_configObjects: {}
