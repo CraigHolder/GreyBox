@@ -56,43 +56,43 @@ public class Achievments : Observer
         switch (e_event)
         {
             case EventType.PickupObject:
-                if(entity.tag == "Player" && entity.GetComponent<player_controller_behavior>().b_disableachieve == false)
+                if(entity.tag == "PlayerController" && entity.GetComponent<player_controller_behavior>().b_disableachieve == false)
                 {
                     Unlock(EventType.PickupObject);
                 }
                 break;
             case EventType.Bounce:
-                if (entity.tag == "Player" && entity.GetComponent<player_controller_behavior>().b_disableachieve == false)
+                if (entity.tag == "PlayerController" && entity.GetComponent<player_controller_behavior>().b_disableachieve == false)
                 {
                     Unlock(EventType.Bounce);
                 }
                 break;
             case EventType.Steal:
-                if (entity.tag == "Player" && entity.GetComponent<player_controller_behavior>().b_disableachieve == false)
+                if (entity.tag == "PlayerController" && entity.GetComponent<player_controller_behavior>().b_disableachieve == false)
                 {
                     Unlock(EventType.Steal);
                 }
                 break;
             case EventType.Return:
-                if (entity.tag == "Player" && entity.GetComponent<player_controller_behavior>().b_disableachieve == false)
+                if (entity.tag == "PlayerController" && entity.GetComponent<player_controller_behavior>().b_disableachieve == false)
                 {
                     Unlock(EventType.Return);
                 }
                 break;
             case EventType.Remote:
-                if (entity.tag == "Player" && entity.GetComponent<player_controller_behavior>().b_disableachieve == false)
+                if (entity.tag == "PlayerController" && entity.GetComponent<player_controller_behavior>().b_disableachieve == false)
                 {
                     Unlock(EventType.Remote);
                 }
                 break;
             case EventType.Tutorial:
-                if (entity.tag == "Player" && entity.GetComponent<player_controller_behavior>().b_disableachieve == false)
+                if (entity.tag == "PlayerController" && entity.GetComponent<player_controller_behavior>().b_disableachieve == false)
                 {
                     Unlock(EventType.Tutorial);
                 }
                 break;
             case EventType.Push:
-                if (entity.tag == "Player" && entity.GetComponent<player_controller_behavior>().b_disableachieve == false)
+                if (entity.tag == "PlayerController" && entity.GetComponent<player_controller_behavior>().b_disableachieve == false)
                 {
                     Unlock(EventType.Push);
                 }
