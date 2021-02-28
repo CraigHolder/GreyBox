@@ -566,21 +566,25 @@ public class player_controller_behavior : MonoBehaviour
 			stamtimer = stambartime;
 
 		}
-		staminabar.fillAmount = stamina / 100f;
 
-		int temp = (int)stamina;
+		if (staminabar != null)
+		{
+			staminabar.fillAmount = stamina / 100f;
 
-		if(StaminaDisplay != null)
-			StaminaDisplay.text = temp.ToString();
+			int temp = (int)stamina;
 
-		if (stamtimer <= 0)
-        {
-			//staminabar.gameObject
-			fullstaminabar.SetActive(false);
-		}
-        else
-        {
-			fullstaminabar.SetActive(true);
+			if (StaminaDisplay != null)
+				StaminaDisplay.text = temp.ToString();
+
+			if (stamtimer <= 0)
+			{
+				//staminabar.gameObject
+				fullstaminabar.SetActive(false);
+			}
+			else
+			{
+				fullstaminabar.SetActive(true);
+			}
 		}
 		//int temp = (int)stamina;
 		//StaminaDisplay.text = temp.ToString();
@@ -934,5 +938,10 @@ public class player_controller_behavior : MonoBehaviour
 		{
 			RagdollMatch(skeleton.GetChild(c), ragdoll, rag_to_skel);
 		}
+	}
+
+	public float GetPlayerOrientation()
+	{
+		return player_orientation;
 	}
 }
