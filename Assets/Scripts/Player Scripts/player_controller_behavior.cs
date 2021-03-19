@@ -68,6 +68,7 @@ public class player_controller_behavior : MonoBehaviour
 	public Image staminabar;
 	public GameObject fullstaminabar;
 	public List<player_controller_behavior> connectedplayers;
+	public MeshRenderer minimapdot;
 
 	private Vector3[] origins;
 
@@ -178,6 +179,8 @@ public class player_controller_behavior : MonoBehaviour
     void Update()
     {
 		float stamina_start = stamina;
+
+		fullstaminabar.transform.LookAt(Cam.transform);
 
 		switch (i_playerID)
 		{
