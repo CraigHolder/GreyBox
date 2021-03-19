@@ -40,6 +40,10 @@ public class ManageBodyItems : MonoBehaviour
         {
             PlayerPrefs.SetInt("Mask", mCurrentItem);
         }
+
+        SetHatImage();
+        SetMaskImage();
+        SetTorsoImage();
     }
 
     void Update()
@@ -165,7 +169,7 @@ public class ManageBodyItems : MonoBehaviour
         switch (hCurrentItem)
         {
             case 0:
-                ri_Hat.texture = Resources.Load<Texture>("UI/UITextures/loadingTEXT2");
+                ri_Hat.texture = Resources.Load<Texture>("UI/UITextures/tophat");
                 break;
             case 1:
                 ri_Hat.texture = Resources.Load<Texture>("UI/UITextures/_at");
