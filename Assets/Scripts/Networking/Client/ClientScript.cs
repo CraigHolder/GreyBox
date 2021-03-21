@@ -14,6 +14,7 @@ public class ClientScript : MonoBehaviour
 {
 	public player_controller_behavior Player;
 	public Transform OtherList;
+	public Transform OtherObjList;
 
 	private Vector3 prev_position;
 
@@ -67,7 +68,10 @@ public class ClientScript : MonoBehaviour
 
 		try
 		{
-			IPAddress serverIp = IPAddress.Parse(server_ip_string);
+			//IPAddress serverIp = IPAddress.Parse(server_ip_string);
+			IPAddress serverIp = IPAddress.Parse(PlayerPrefs.GetString("IPConnect"));
+			Debug.Log(PlayerPrefs.GetString("IPConnect"));
+
 			//IPAddress serverIp = IPAddress.Parse("69.157.101.135");
 			//IPAddress serverIp = IPAddress.Parse("192.168.2.48");
 			//IPAddress serverIp = IPAddress.Parse("127.0.0.1");
@@ -119,6 +123,7 @@ public class ClientScript : MonoBehaviour
 		ErrorPrompt.SetActive(false);
 		//PlayerCount.SetActive(false);
 
+		OtherObjList = GameObject.FindGameObjectWithTag("ItemList").transform;
 		RunClient();
 
 		updateTime = 1.0f / (float)UpdateFramesPerSec;

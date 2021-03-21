@@ -10,6 +10,7 @@ TagManager:
   - Slip
   - Important
   - PlayerController
+  - ItemList
   layers:
   - Default
   - TransparentFX

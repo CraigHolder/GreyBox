@@ -77,6 +77,11 @@ public class MenuScript : MonoBehaviour
         c_command = new GotoServerSceneCommand();
         c_command.Execute(c_command, obj_placeholder);
     }
+    public void GotoLobbyScene()
+    {
+        c_command = new GotoLobbySceneCommand();
+        c_command.Execute(c_command, obj_placeholder);
+    }
     public void GotoClientScene()
     {
         c_command = new GotoClientSceneCommand();
