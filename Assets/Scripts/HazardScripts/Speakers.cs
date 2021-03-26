@@ -8,7 +8,7 @@ public class Speakers : MonoBehaviour
     CharacterController c_control;
     BoxCollider col_trigger;
     Vector3 vec3_defaultscale;
-    public ParticleSystem[] effects;
+    public List<ParticleSystem> effects;
 
     //SpeakerState e_state = SpeakerState.Off;
     //
@@ -27,8 +27,8 @@ public class Speakers : MonoBehaviour
     {
         vec3_defaultscale = this.transform.localScale;
         col_trigger = this.GetComponent<BoxCollider>();
-        effects[0].gameObject.SetActive(false);
-        effects[1].gameObject.SetActive(false);
+        //effects[0].gameObject.SetActive(false);
+        //effects[1].gameObject.SetActive(false);
     }
 
     void OnTriggerStay(Collider collision)
@@ -50,35 +50,29 @@ public class Speakers : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if(on == false && fly_shareddata.e_speakerstate == SpeakerState.On)
-        //{
-        //    this.GetComponent<Renderer>().material.color = Color.red;
-        //    //b_on = true;
-        //    effects[0].gameObject.SetActive(true);
-        //    effects[1].gameObject.SetActive(true);
-        //    on = true;
-        //    //fly_shareddata.e_speakerstate = SpeakerState.On;
-        //}
-        //else if (on == true && fly_shareddata.e_speakerstate == SpeakerState.Off)
-        //{
-        //    this.GetComponent<Renderer>().material.color = Color.yellow;
-        //    effects[1].gameObject.SetActive(false);
-        //    effects[0].gameObject.SetActive(false);
-        //    on = false;
-        //    //fly_shareddata.e_speakerstate = SpeakerState.Off;
-        //}
+        if(s_remote.b_speakeron == true && fly_shareddata.e_speakerstate == SpeakerState.Off)
+        {
+            this.GetComponent<Renderer>().material.color = Color.red;
+            //b_on = true;
+            //effects[0].gameObject.SetActive(true);
+            //effects[1].gameObject.SetActive(true);
+            fly_shareddata.e_speakerstate = SpeakerState.On;
+        }
+        else if (s_remote.b_speakeron == false && fly_shareddata.e_speakerstate == SpeakerState.On)
+        {
+            this.GetComponent<Renderer>().material.color = Color.yellow;
+            //effects[0].gameObject.SetActive(false);
+            //effects[1].gameObject.SetActive(false);
+            fly_shareddata.e_speakerstate = SpeakerState.Off;
+        }
 
         switch (fly_shareddata.e_speakerstate)
         {
             case SpeakerState.On:
                 col_trigger.enabled = true;
-                effects[0].gameObject.SetActive(true);
-                effects[1].gameObject.SetActive(true);
                 this.transform.localScale = vec3_defaultscale + new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
                 break;
             case SpeakerState.Off:
-                effects[1].gameObject.SetActive(false);
-                effects[0].gameObject.SetActive(false);
                 col_trigger.enabled = false;
                 break;
         }

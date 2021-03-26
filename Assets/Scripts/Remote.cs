@@ -15,11 +15,11 @@ public class Remote : MonoBehaviour
     public Subject S_Notifier = new Subject();
     Achievments achievmentobserver = new Achievments();
 
-    //public BounceObjCommand c_objbounce;
+    public BounceObjCommand c_objbounce;
 
     public void Awake()
     {
-        //c_objbounce = new BounceObjCommand();
+        c_objbounce = new BounceObjCommand();
         S_Notifier.AddObserver(achievmentobserver);
     }
 
@@ -40,14 +40,12 @@ public class Remote : MonoBehaviour
                 b_speakeron = true;
                 b_active = true;
                 mr_light.material = M_on;
-                fly_shareddata.e_speakerstate = Speakers.SpeakerState.On;
                 fly_shareddata.S_Notifier.Notify(collision.gameObject, Observer.EventType.Remote);
             }
             else if (b_active == false && b_speakeron == true)
             {
                 b_speakeron = false;
                 mr_light.material = M_off;
-                fly_shareddata.e_speakerstate = Speakers.SpeakerState.Off;
                 b_active = true;
             }
 

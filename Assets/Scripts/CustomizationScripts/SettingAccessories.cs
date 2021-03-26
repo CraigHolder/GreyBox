@@ -15,8 +15,6 @@ public class SettingAccessories : MonoBehaviour
     public GameObject[] maskItems;
     private int mCurrentItem;
 
-    public GameObject orb;
-
     private int i_BlueColour;
     private int i_RedColour;
     private int i_Skin;
@@ -152,8 +150,6 @@ public class SettingAccessories : MonoBehaviour
         hatItems[0].GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Tophat/Tophat" + s_TeamColour);
         hatItems[1].GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/ArcherHat/ArcherHat" + s_TeamColour);
 
-
-        orb.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/TeamColors/" + s_TeamColour);
         //TopHat.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Tophat" + s_TeamColour);
         //DragonWings.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Dragon_Wings" + s_TeamColour);
         //Cape.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Cape" + s_TeamColour);

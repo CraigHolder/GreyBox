@@ -68,7 +68,6 @@ public class player_controller_behavior : MonoBehaviour
 	public Image staminabar;
 	public GameObject fullstaminabar;
 	public List<player_controller_behavior> connectedplayers;
-	public MeshRenderer minimapdot;
 
 	private Vector3[] origins;
 
@@ -179,8 +178,6 @@ public class player_controller_behavior : MonoBehaviour
     void Update()
     {
 		float stamina_start = stamina;
-
-		fullstaminabar.transform.LookAt(Cam.transform);
 
 		switch (i_playerID)
 		{
@@ -569,25 +566,21 @@ public class player_controller_behavior : MonoBehaviour
 			stamtimer = stambartime;
 
 		}
+		staminabar.fillAmount = stamina / 100f;
 
-		if (staminabar != null)
-		{
-			staminabar.fillAmount = stamina / 100f;
+		int temp = (int)stamina;
 
-			int temp = (int)stamina;
+		if(StaminaDisplay != null)
+			StaminaDisplay.text = temp.ToString();
 
-			if (StaminaDisplay != null)
-				StaminaDisplay.text = temp.ToString();
-
-			if (stamtimer <= 0)
-			{
-				//staminabar.gameObject
-				fullstaminabar.SetActive(false);
-			}
-			else
-			{
-				fullstaminabar.SetActive(true);
-			}
+		if (stamtimer <= 0)
+        {
+			//staminabar.gameObject
+			fullstaminabar.SetActive(false);
+		}
+        else
+        {
+			fullstaminabar.SetActive(true);
 		}
 		//int temp = (int)stamina;
 		//StaminaDisplay.text = temp.ToString();
@@ -941,10 +934,5 @@ public class player_controller_behavior : MonoBehaviour
 		{
 			RagdollMatch(skeleton.GetChild(c), ragdoll, rag_to_skel);
 		}
-	}
-
-	public float GetPlayerOrientation()
-	{
-		return player_orientation;
 	}
 }
