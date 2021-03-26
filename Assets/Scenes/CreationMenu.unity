@@ -130,6 +130,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 289026748}
     m_Modifications:
+    - target: {fileID: 3453743664154655152, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 35268f9b0190d7046a97ad4b75131fa2, type: 3}
     - target: {fileID: 3453743664154655157, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
       propertyPath: m_Name
       value: PawMask
@@ -230,6 +234,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: ManageBodyItems, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 3453743664154655159, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
+      propertyPath: m_SpriteState.m_PressedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: edd5b1f2899ba2142a85b727284a0515, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
 --- !u!224 &32000451 stripped
@@ -700,7 +708,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 228, y: 294}
-  m_SizeDelta: {x: 40, y: 40}
+  m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &316031370
 MonoBehaviour:
@@ -722,7 +730,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: 56fbd98d3be62534e9bc0adf1a1edf35, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -866,7 +874,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 228, y: 144}
-  m_SizeDelta: {x: 40, y: 40}
+  m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &400060655
 MonoBehaviour:
@@ -888,7 +896,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: 56fbd98d3be62534e9bc0adf1a1edf35, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -2456,7 +2464,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 228, y: 144}
-  m_SizeDelta: {x: 40, y: 40}
+  m_SizeDelta: {x: 40, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1019207512
 MonoBehaviour:
@@ -2528,7 +2536,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 228, y: 219}
-  m_SizeDelta: {x: 40, y: 40}
+  m_SizeDelta: {x: 40, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1027351936
 MonoBehaviour:
@@ -3132,6 +3140,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 289026748}
     m_Modifications:
+    - target: {fileID: 3453743664154655152, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1f9ee56d20912304db1b60b756894320, type: 3}
     - target: {fileID: 3453743664154655157, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
       propertyPath: m_Name
       value: PawHat
@@ -3232,6 +3244,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: ManageBodyItems, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 3453743664154655159, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
+      propertyPath: m_SpriteState.m_PressedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 227c756a48e60214bb2a4071b7e29325, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
 --- !u!224 &1206695073 stripped
@@ -4439,7 +4455,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 228, y: 294}
-  m_SizeDelta: {x: 40, y: 40}
+  m_SizeDelta: {x: 40, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1477189134
 MonoBehaviour:
@@ -4483,6 +4499,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 289026748}
     m_Modifications:
+    - target: {fileID: 3453743664154655152, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5a90af592b9a8b54583ecfc896a94447, type: 3}
     - target: {fileID: 3453743664154655157, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
       propertyPath: m_Name
       value: PawSkin
@@ -4583,6 +4603,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: ManageColour, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 3453743664154655159, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
+      propertyPath: m_SpriteState.m_PressedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e44b65d54a57b5443a3fb9c65a8b022b, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
 --- !u!224 &1489096905 stripped
@@ -4597,6 +4621,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 289026748}
     m_Modifications:
+    - target: {fileID: 3453743664154655152, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f816f352fd2555247a1dee1ccf5a73c1, type: 3}
     - target: {fileID: 3453743664154655157, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
       propertyPath: m_Name
       value: PawColour
@@ -4697,6 +4725,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: ManageColour, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 3453743664154655159, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
+      propertyPath: m_SpriteState.m_PressedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b7db403d9daa4734a986376872e5f816, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
 --- !u!224 &1493860634 stripped
@@ -5093,6 +5125,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 289026748}
     m_Modifications:
+    - target: {fileID: 3453743664154655152, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 213ff446a86b3474d9bd96bf07137257, type: 3}
     - target: {fileID: 3453743664154655157, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
       propertyPath: m_Name
       value: PawBody
@@ -5193,6 +5229,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: ManageBodyItems, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 3453743664154655159, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
+      propertyPath: m_SpriteState.m_PressedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cd8926b5e27de21459364dbc8a745dbf, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
 --- !u!224 &1754335074 stripped
@@ -6008,6 +6048,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 289026748}
     m_Modifications:
+    - target: {fileID: 3453743664154655152, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2a40d4b7217ed2a418c2bf68bce36fd5, type: 3}
     - target: {fileID: 3453743664154655157, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
       propertyPath: m_Name
       value: PawPrTe
@@ -6108,6 +6152,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: ManageColour, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 3453743664154655159, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
+      propertyPath: m_SpriteState.m_PressedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5168248ef91dda447ae52d0a0c40200c, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
 --- !u!224 &1816098417 stripped
@@ -6849,7 +6897,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 228, y: 219}
-  m_SizeDelta: {x: 40, y: 40}
+  m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2034082644
 MonoBehaviour:
@@ -6871,7 +6919,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: 56fbd98d3be62534e9bc0adf1a1edf35, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -7647,6 +7695,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 289026748}
     m_Modifications:
+    - target: {fileID: 3453743664154655152, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3575dfbb2bf325b42912b5b1cf021d0c, type: 3}
     - target: {fileID: 3453743664154655157, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
       propertyPath: m_Name
       value: PawBack
@@ -7799,6 +7851,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 3453743664154655159, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
+      propertyPath: m_SpriteState.m_PressedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 57ae676c9cc6b9241b13071ff38333f6, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6096df2869520fe49bc7b7894244a973, type: 3}
 --- !u!224 &2129301675 stripped

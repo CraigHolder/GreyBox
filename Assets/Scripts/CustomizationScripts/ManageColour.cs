@@ -18,7 +18,7 @@ public class ManageColour : MonoBehaviour
     public RawImage ri_BlueTeam;
     public RawImage ri_Skin;
 
-    private int currentMaterial = 0;
+    private int currentMaterial = 1;
     private int i_Skin = 0;
     private int i_Colour = 0;
     public string s_TeamColour = "Red";
@@ -27,6 +27,23 @@ public class ManageColour : MonoBehaviour
 
     private void Start()
     {
+        int temp = 0;
+
+        temp = PlayerPrefs.GetInt("Skin");
+        PlayerPrefs.SetInt("Skin", temp);
+        i_Skin = (temp - 1);
+        SwitchSkin();
+
+        temp = PlayerPrefs.GetInt("BlueColour");
+        PlayerPrefs.SetInt("BlueColour", temp);
+        i_Colour = temp;
+        ApplyColour();
+        SaveColour();
+
+        currentMaterial = 0;
+        temp = PlayerPrefs.GetInt("RedColour");
+        PlayerPrefs.SetInt("RedColour", temp);
+        i_Colour = temp;
         ApplyColour();
         SaveColour();
     }
