@@ -207,6 +207,19 @@ public class ClientScript : MonoBehaviour
 
 					client.UpdatePos();
 				}
+				else if (msg.Contains("[updateobjpos]"))
+				{
+					string[] data = msg.Split(';');
+					Transform objparent = OtherObjList.Find(data[1]);
+					Transform obj = objparent.GetChild(0);
+					obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
+					obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
+
+					//obj.GetComponent<Score>().moved = false;
+					//Transform client_trans = OtherList.Find(data[1]);
+					//GameObject client_obj;
+					//client.UpdatePos();
+				}
 				else if (msg.Contains("[setname]"))
 				{
 					ConnectingMsg.SetActive(false);
@@ -249,6 +262,43 @@ public class ClientScript : MonoBehaviour
 			{
 
 			}
+		}
+		Updateobjs();
+	}
+
+	public void Updateobjs()
+	{
+		for (int u = 0; u < OtherObjList.childCount; u++)
+		{
+			Transform cur_objparent = OtherObjList.GetChild(u);
+			Score cur_obj = null;
+			if (cur_objparent.childCount > 0)
+			{
+				cur_obj = cur_objparent.GetChild(0).GetComponent<Score>();
+			}
+			else
+			{
+				cur_obj = cur_objparent.GetComponent<Score>();
+			}
+			if (cur_obj != null)
+            {
+				if (cur_obj.moved)
+				{
+					cur_obj.moved = false;
+
+					string msg = "[setobjpos];" + cur_objparent.name + ";";
+
+					msg += JsonUtility.ToJson(cur_obj.transform.position) + ";" + JsonUtility.ToJson(cur_obj.transform.eulerAngles);
+
+					
+
+					outBuffer = Encoding.ASCII.GetBytes(msg);
+					client.SendTo(outBuffer, remoteEP);
+					Debug.Log(msg);
+
+				}
+			}
+			
 		}
 	}
 

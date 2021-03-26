@@ -6,6 +6,7 @@ public class Grabber : MonoBehaviour
 {
     public GameObject s_player;
     public GameObject obj_curritem;
+    Transform obj_currparent;
     public List<player_controller_behavior> connectedplayers;
 
     public CapsuleCollider col_frontcontrol;
@@ -111,7 +112,7 @@ public class Grabber : MonoBehaviour
                 obj_curritem.layer = 0;
                 connectedplayers.Clear();
                 obj_curritem.GetComponent<Score>().connectedplayers.Remove(s_player.GetComponent<player_controller_behavior>());
-                obj_curritem.transform.SetParent(ItemParent);
+                //obj_curritem.transform.SetParent(ItemParent);
                 //obj_curritem.GetComponent<Collider>().isTrigger = false;
                 //obj_curritem.transform.SetParent(null);
                 obj_curritem = null;

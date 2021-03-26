@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3896278013971038441}
-  m_Mesh: {fileID: -2432090755550338912, guid: 458598b499ea8c24eb12be56ce8d2093, type: 3}
+  m_Mesh: {fileID: -2432090755550338912, guid: 2d3a27f37c472f74a8e8f8e527f9989c, type: 3}
 --- !u!23 &5861125088710462988
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -113,7 +113,7 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: -2432090755550338912, guid: 458598b499ea8c24eb12be56ce8d2093, type: 3}
+  m_Mesh: {fileID: -2432090755550338912, guid: 2d3a27f37c472f74a8e8f8e527f9989c, type: 3}
 --- !u!114 &5142827119339867010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,8 +127,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   i_score: 100
-  vec3_grabpoint: {x: 0, y: 0.05, z: 0}
-  vec3_grabrotation: {x: 0, y: 90, z: 0}
+  connectedplayers: []
+  timer: 0
+  moved: 0
 --- !u!1 &5449241017658898480
 GameObject:
   m_ObjectHideFlags: 0

@@ -24,6 +24,7 @@ public class ServerScript : MonoBehaviour
 	[Header("Clients Config")]
 	public GameObject ClientPrefab;
 	public Transform ClientList;
+	public Transform OtherObjList;
 
 	[Header("Server Config")]
 	public int IdLength = 10;
@@ -77,6 +78,7 @@ public class ServerScript : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
     {
+		OtherObjList = GameObject.FindGameObjectWithTag("ItemList").transform;
 		s_hostName = "";	
 		for (int i = 0; i < IdLength; i++)
 		{
@@ -236,6 +238,47 @@ public class ServerScript : MonoBehaviour
 					}
 				}
 			}
+			else if (msg.ToLower().Contains("[setobjpos]"))
+			{
+				string[] data = msg.Split(';');
+
+				Transform objparent = OtherObjList.Find(data[1]);
+				Transform obj = objparent.GetChild(0);
+				obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
+				obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
+
+				//for (int c = 0; c < data.Length - 4; c++)
+				//{
+				//	client.trail[c].position = JsonUtility.FromJson<Vector3>(data[c + 4]);
+				//}
+
+				//client.UpdatePos();
+
+				if (ClientList.childCount > 1)
+				{
+					string outMsg = msg.Replace("[setobjpos]", "[updateobjpos]");
+
+					outBuffer = Encoding.ASCII.GetBytes(outMsg);
+
+					for (int c = 0; c < ClientList.childCount; c++)
+					{
+						//for (int u = 0; u < OtherObjList.childCount; u ++)
+                        //{
+						//	Transform cur_obj = OtherObjList.GetChild(u);
+						//
+						//}
+						Transform cur_client = ClientList.GetChild(c);
+						string n = cur_client.gameObject.name;
+
+						//if (n.CompareTo(data[1]) == 0)
+						//	continue;
+
+						EndPoint out_client = (EndPoint)client_endpoints[n];
+
+						server.SendTo(outBuffer, out_client);
+					}
+				}
+			}
 			else if (msg.ToLower().Contains("[disconnect]"))
 			{
 				string[] data = msg.Split(';');
@@ -261,6 +304,49 @@ public class ServerScript : MonoBehaviour
 			Console.WriteLine("Received: {0}, From Client: {1}", msg, remoteClient);
 		} catch (Exception e) {
 
+		}
+		Updateobjs();
+	}
+	public void Updateobjs()
+	{
+		for (int u = 0; u < OtherObjList.childCount; u++)
+		{
+			Transform cur_objparent = OtherObjList.GetChild(u);
+			Score cur_obj = null;
+			if (cur_objparent.childCount > 0)
+            {
+				cur_obj = cur_objparent.GetChild(0).GetComponent<Score>();
+			}
+			else
+            {
+				cur_obj = cur_objparent.GetComponent<Score>();
+			}
+
+			if (cur_obj != null)
+            {
+				if (cur_obj.moved)
+				{
+					cur_obj.moved = false;
+
+					string msg = "[updateobjpos];" + cur_objparent.name + ";";
+
+					msg += JsonUtility.ToJson(cur_obj.transform.position) + ";" + JsonUtility.ToJson(cur_obj.transform.eulerAngles);
+
+					
+					for (int c = 0; c < ClientList.childCount; c++)
+					{
+						string user = ClientList.GetChild(c).name;
+						EndPoint remote_client = (EndPoint)client_endpoints[user];
+
+
+						outBuffer = Encoding.ASCII.GetBytes(msg);
+
+						server.SendTo(outBuffer, remote_client);
+						Debug.Log(msg);
+					}
+				}
+			}
+			
 		}
 	}
 

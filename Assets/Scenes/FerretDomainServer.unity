@@ -974,6 +974,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   i_score: 1
   connectedplayers: []
+  timer: 0
+  moved: 0
 --- !u!1 &67043228
 GameObject:
   m_ObjectHideFlags: 0
@@ -15373,7 +15375,7 @@ GameObject:
   - component: {fileID: 801407701}
   m_Layer: 0
   m_Name: Pickupitems
-  m_TagString: Untagged
+  m_TagString: ItemList
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23323,6 +23325,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   i_score: 1
   connectedplayers: []
+  timer: 0
+  moved: 0
 --- !u!4 &1595881689 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2294070960239032960, guid: 366982cfdaac8454d9b983cc0ce4200c, type: 3}

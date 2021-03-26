@@ -7,26 +7,24 @@ public class Score : MonoBehaviour
     public int i_score = 1;
     public List<player_controller_behavior> connectedplayers;
 
-    public float timer;
-    public bool moved;
-    Transform lastpos;
+    public bool moved = false;
+    Vector3 lastpos;
+    Vector3 lastrot;
+
+    void Start()
+    {
+        lastpos = transform.position;
+        lastrot = transform.rotation.eulerAngles;
+    }
 
     void Update()
     {
-        timer -= Time.deltaTime;
-        if(timer <= 0 && moved == true)
+        if(transform.position != lastpos || transform.rotation.eulerAngles != lastrot)
         {
-
-        }
-        if(this.transform != lastpos)
-        {
-            lastpos = this.transform;
-        }
-        else
-        {
-            lastpos = this.transform;
+            moved = true;
+            Debug.Log(this.name + " Moved");
+            lastpos = transform.position;
+            lastrot = transform.rotation.eulerAngles;
         }
     }
-
-
 }
