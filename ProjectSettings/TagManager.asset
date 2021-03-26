@@ -10,6 +10,7 @@ TagManager:
   - Slip
   - Important
   - PlayerController
+  - ItemList
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - Held
   - Player
   - Grabber
-  - 
+  - StaminaBar
   - 
   - 
   - 

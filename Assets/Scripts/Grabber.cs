@@ -6,6 +6,7 @@ public class Grabber : MonoBehaviour
 {
     public GameObject s_player;
     public GameObject obj_curritem;
+    Transform obj_currparent;
     public List<player_controller_behavior> connectedplayers;
 
     public CapsuleCollider col_frontcontrol;
@@ -17,6 +18,7 @@ public class Grabber : MonoBehaviour
     public Vector3 vec3_grabloc;
     public Vector3 vec3_grabrot;
     public Transform t_wasd;
+    public Transform ItemParent;
     public Transform t_itemhandle;
     Subject S_Notifier = new Subject();
     Achievments achievmentobserver = new Achievments();
@@ -30,7 +32,7 @@ public class Grabber : MonoBehaviour
         //s_player = this.GetComponentInParent<PlayerMovement>();
         i_playerID = s_player.GetComponent<player_controller_behavior>().i_playerID;
         col_collider = this.GetComponent<BoxCollider>();
-
+        ItemParent = GameObject.FindGameObjectWithTag("ItemList").transform;
         obj_curritem = null;
 
         S_Notifier.AddObserver(achievmentobserver);
@@ -110,7 +112,7 @@ public class Grabber : MonoBehaviour
                 obj_curritem.layer = 0;
                 connectedplayers.Clear();
                 obj_curritem.GetComponent<Score>().connectedplayers.Remove(s_player.GetComponent<player_controller_behavior>());
-
+                //obj_curritem.transform.SetParent(ItemParent);
                 //obj_curritem.GetComponent<Collider>().isTrigger = false;
                 //obj_curritem.transform.SetParent(null);
                 obj_curritem = null;
@@ -125,17 +127,46 @@ public class Grabber : MonoBehaviour
         {
             obj_curritem = collision.gameObject;
             //obj_curritem.GetComponent<Rigidbody>().isKinematic = true;
-            Vector3 closestpoint = collision.ClosestPoint(t_itemhandle.position);
-           // Debug.Log("closestpoint1 " + closestpoint);
+            Vector3 closestpoint = collision.ClosestPoint(obj_mouth.transform.position);
+            // Debug.Log("closestpoint1 " + closestpoint);
+            //Vector3 translation;
+            float dist = Vector3.Distance(obj_mouth.transform.position, closestpoint);
+            obj_curritem.transform.position = Vector3.MoveTowards(obj_curritem.transform.position, t_itemhandle.position, dist);
 
-            collision.gameObject.transform.Translate(t_itemhandle.position - closestpoint);
-            // Debug.Log("closestpoint - t_itemhandle1 " + (closestpoint - t_itemhandle.position));
+            //obj_curritem.transform.position = t_itemhandle.position - closestpoint;
+            //if(t_itemhandle.position.x <= closestpoint.x)
+            //{
+            //    translation.x = t_itemhandle.position.x - closestpoint.x;
+            //}
+            //else
+            //{
+            //    translation.x = closestpoint.x - t_itemhandle.position.x;
+            //}
+            //if (t_itemhandle.position.y <= closestpoint.y)
+            //{
+            //    translation.y = t_itemhandle.position.y - closestpoint.y;
+            //}
+            //else
+            //{
+            //    translation.y = closestpoint.y - t_itemhandle.position.y;
+            //}
+            //if (t_itemhandle.position.z <= closestpoint.z)
+            //{
+            //    translation.z = t_itemhandle.position.z - closestpoint.z;
+            //}
+            //else
+            //{
+            //    translation.z = closestpoint.z - t_itemhandle.position.z;
+            //}
+            //translation = translation * 2;
+            //collision.gameObject.transform.Translate(translation);
+            //Debug.Log("closestpoint - t_itemhandle1 " + (closestpoint - t_itemhandle.position));
             //closestpoint = collision.ClosestPoint(t_itemhandle.position);
             //Debug.Log("closestpoint2 " + closestpoint);
             //Debug.Log("closestpoint - t_itemhandle2 " + (closestpoint - t_itemhandle.position));
             //vec3_grabloc = obj_curritem.GetComponent<Score>().vec3_grabpoint;
-            collision.gameObject.GetComponent<Score>().connectedplayers.Add(s_player.GetComponent<player_controller_behavior>());
-            connectedplayers = collision.gameObject.GetComponent<Score>().connectedplayers;
+            //collision.gameObject.GetComponent<Score>().connectedplayers.Add(s_player.GetComponent<player_controller_behavior>());
+            //connectedplayers = collision.gameObject.GetComponent<Score>().connectedplayers;
 
             t_itemhandle.gameObject.GetComponent<FixedJoint>().connectedBody = obj_curritem.GetComponent<Rigidbody>();
 
