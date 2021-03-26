@@ -123,7 +123,6 @@ public class Grabber : MonoBehaviour
     {
         if(collision.gameObject.tag == "Grab" && obj_curritem == null)
         {
-            t_itemhandle.position = obj_mouth.transform.position;
             obj_curritem = collision.gameObject;
             //obj_curritem.GetComponent<Rigidbody>().isKinematic = true;
             Vector3 closestpoint = collision.ClosestPoint(t_itemhandle.position);
