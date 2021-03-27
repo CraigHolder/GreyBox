@@ -28,18 +28,24 @@ public class ManageBodyItems : MonoBehaviour
 
     void Start()
     {
+        int temp = 0;
         //Checks for preexisting parts and applies them if they exist.
-        if (PlayerPrefs.HasKey("Body")) {
-            PlayerPrefs.SetInt("Body", bCurrentItem);
-        }
-        if (PlayerPrefs.HasKey("Hat"))
-        {
-            PlayerPrefs.SetInt("Hat", hCurrentItem);
-        }
-        if (PlayerPrefs.HasKey("Mask"))
-        {
-            PlayerPrefs.SetInt("Mask", mCurrentItem);
-        }
+        temp = PlayerPrefs.GetInt("Body");
+        PlayerPrefs.SetInt("Body", temp);
+        bCurrentItem = temp;
+
+        temp = PlayerPrefs.GetInt("Hat");
+        PlayerPrefs.SetInt("Hat", temp);
+        hCurrentItem = temp;
+
+        temp = PlayerPrefs.GetInt("Mask");
+        PlayerPrefs.SetInt("Mask", temp);
+        mCurrentItem = temp;
+
+
+        SetHatImage();
+        SetMaskImage();
+        SetTorsoImage();
     }
 
     void Update()
@@ -147,7 +153,7 @@ public class ManageBodyItems : MonoBehaviour
     //Applying meshes.
     public void SetMaskImage()
     {
-        switch(mCurrentItem)
+        switch (mCurrentItem)
         {
             case 0:
                 ri_Mask.texture = Resources.Load<Texture>("UI/UITextures/_ask");
@@ -156,7 +162,7 @@ public class ManageBodyItems : MonoBehaviour
                 ri_Mask.texture = Resources.Load<Texture>("UI/UITextures/_oggles");
                 break;
             case 2:
-                ri_Mask.texture = Resources.Load<Texture>("UI/UITextures/_parrow1");
+                ri_Mask.texture = Resources.Load<Texture>("UI/UITextures/_parrow2");
                 break;
         }
     }
@@ -165,13 +171,13 @@ public class ManageBodyItems : MonoBehaviour
         switch (hCurrentItem)
         {
             case 0:
-                ri_Hat.texture = Resources.Load<Texture>("UI/UITextures/loadingTEXT2");
+                ri_Hat.texture = Resources.Load<Texture>("UI/UITextures/tophat2");
                 break;
             case 1:
                 ri_Hat.texture = Resources.Load<Texture>("UI/UITextures/_at");
                 break;
             case 2:
-                ri_Hat.texture = Resources.Load<Texture>("UI/UITextures/_parrow1");
+                ri_Hat.texture = Resources.Load<Texture>("UI/UITextures/_parrow2");
                 break;
         }
     }
@@ -186,7 +192,7 @@ public class ManageBodyItems : MonoBehaviour
                 ri_Torso.texture = Resources.Load<Texture>("UI/UITextures/_atwings");
                 break;
             case 2:
-                ri_Torso.texture = Resources.Load<Texture>("UI/UITextures/_parrow1");
+                ri_Torso.texture = Resources.Load<Texture>("UI/UITextures/_parrow2");
                 break;
         }
     }
