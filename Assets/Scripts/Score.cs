@@ -8,6 +8,8 @@ public class Score : MonoBehaviour
     public List<player_controller_behavior> connectedplayers;
 
     public bool moved = false;
+    public bool networkedmoved = false;
+    public bool grabbed = false;
     Vector3 lastpos;
     Vector3 lastrot;
 
@@ -19,12 +21,19 @@ public class Score : MonoBehaviour
 
     void Update()
     {
-        if(transform.position != lastpos || transform.rotation.eulerAngles != lastrot)
+        if((transform.position != lastpos || transform.rotation.eulerAngles != lastrot) && !networkedmoved)
         {
             moved = true;
             Debug.Log(this.name + " Moved");
             lastpos = transform.position;
             lastrot = transform.rotation.eulerAngles;
+        }
+        else if (networkedmoved)
+        {
+            Debug.Log(this.name + " NetworkedMoved");
+            lastpos = transform.position;
+            lastrot = transform.rotation.eulerAngles;
+            networkedmoved = false;
         }
     }
 }

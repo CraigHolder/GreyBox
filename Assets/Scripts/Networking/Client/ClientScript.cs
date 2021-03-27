@@ -132,10 +132,10 @@ public class ClientScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		if (Input.GetKeyDown(KeyCode.Escape))
-		{
-			Application.Quit();
-		}
+		//if (Input.GetKeyDown(KeyCode.Escape))
+		//{
+		//	Application.Quit();
+		//}
 
 
 		if (!disconnected)
@@ -168,6 +168,7 @@ public class ClientScript : MonoBehaviour
 
 					prev_position = pos;
 				}
+				Updateobjs();
 			}
 
 			try
@@ -214,6 +215,7 @@ public class ClientScript : MonoBehaviour
 					Transform obj = objparent.GetChild(0);
 					obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
 					obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
+					obj.GetComponent<Score>().networkedmoved = true;
 
 					//obj.GetComponent<Score>().moved = false;
 					//Transform client_trans = OtherList.Find(data[1]);
@@ -263,7 +265,7 @@ public class ClientScript : MonoBehaviour
 
 			}
 		}
-		Updateobjs();
+		
 	}
 
 	public void Updateobjs()
@@ -288,14 +290,11 @@ public class ClientScript : MonoBehaviour
 
 					string msg = "[setobjpos];" + cur_objparent.name + ";";
 
-					msg += JsonUtility.ToJson(cur_obj.transform.position) + ";" + JsonUtility.ToJson(cur_obj.transform.eulerAngles);
-
-					
+					msg += JsonUtility.ToJson(cur_obj.transform.position) + ";" + JsonUtility.ToJson(cur_obj.transform.eulerAngles) + ";" + myId + ";" + JsonUtility.ToJson(cur_obj.grabbed);
 
 					outBuffer = Encoding.ASCII.GetBytes(msg);
 					client.SendTo(outBuffer, remoteEP);
 					Debug.Log(msg);
-
 				}
 			}
 			

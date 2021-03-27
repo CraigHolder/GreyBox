@@ -93,10 +93,10 @@ public class ServerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		if (Input.GetKeyDown(KeyCode.Escape))
-		{
-			Application.Quit();
-		}
+		//if (Input.GetKeyDown(KeyCode.Escape))
+		//{
+		//	Application.Quit();
+		//}
 
 		updateTimer += Time.deltaTime;
 
@@ -129,6 +129,8 @@ public class ServerScript : MonoBehaviour
 					server.SendTo(outBuffer, remote_client);
 				}
 			}
+
+			Updateobjs();
 		}
 
 		try
@@ -244,15 +246,12 @@ public class ServerScript : MonoBehaviour
 
 				Transform objparent = OtherObjList.Find(data[1]);
 				Transform obj = objparent.GetChild(0);
-				obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
-				obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
-
-				//for (int c = 0; c < data.Length - 4; c++)
-				//{
-				//	client.trail[c].position = JsonUtility.FromJson<Vector3>(data[c + 4]);
-				//}
-
-				//client.UpdatePos();
+				if(!obj.GetComponent<Score>().moved || JsonUtility.FromJson<Boolean>(data[5]) == true)
+                {
+					obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
+					obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
+					obj.GetComponent<Score>().networkedmoved = true;
+				}
 
 				if (ClientList.childCount > 1)
 				{
@@ -270,8 +269,8 @@ public class ServerScript : MonoBehaviour
 						Transform cur_client = ClientList.GetChild(c);
 						string n = cur_client.gameObject.name;
 
-						//if (n.CompareTo(data[1]) == 0)
-						//	continue;
+						if (n.CompareTo(data[4]) == 0)
+							continue;
 
 						EndPoint out_client = (EndPoint)client_endpoints[n];
 
@@ -305,7 +304,6 @@ public class ServerScript : MonoBehaviour
 		} catch (Exception e) {
 
 		}
-		Updateobjs();
 	}
 	public void Updateobjs()
 	{

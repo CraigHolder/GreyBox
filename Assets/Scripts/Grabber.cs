@@ -107,6 +107,8 @@ public class Grabber : MonoBehaviour
             {
                 //obj_curritem.GetComponent<Rigidbody>().isKinematic = false;
                 //obj_mouth.GetComponent<ConfigurableJoint>().connectedBody = null;
+
+                obj_curritem.GetComponent<Score>().grabbed = false;
                 t_itemhandle.gameObject.GetComponent<FixedJoint>().connectedBody = null;
                 s_player.GetComponent<player_controller_behavior>().CURR_PLAYER_SPEED = s_player.GetComponent<player_controller_behavior>().PLAYER_SPEED;
                 obj_curritem.layer = 0;
@@ -126,6 +128,7 @@ public class Grabber : MonoBehaviour
         if(collision.gameObject.tag == "Grab" && obj_curritem == null)
         {
             t_itemhandle.position = obj_mouth.transform.position;
+            collision.gameObject.GetComponent<Score>().grabbed = true;
             obj_curritem = collision.gameObject;
             //obj_curritem.GetComponent<Rigidbody>().isKinematic = true;
             Vector3 closestpoint = collision.ClosestPoint(obj_mouth.transform.position);
