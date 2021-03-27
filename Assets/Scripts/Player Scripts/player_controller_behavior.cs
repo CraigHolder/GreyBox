@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
+// ANIMS SIDE
 public class player_controller_behavior : MonoBehaviour
 {
 	public enum FerretState
