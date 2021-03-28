@@ -54,17 +54,17 @@ public class ClientScript : MonoBehaviour
 
 	public void RunClient()
 	{
-		string config_path = "config.txt";
-
-		StreamReader config_reader = new StreamReader(config_path, true);
-
-		string line = config_reader.ReadLine();
-		string server_ip_string = "127.0.0.1";
-
-		if (line.Contains("ip:"))
-		{
-			server_ip_string = line.Split(':')[1];
-		}
+		//string config_path = "config.txt";
+		//
+		//StreamReader config_reader = new StreamReader(config_path, true);
+		//
+		//string line = config_reader.ReadLine();
+		//string server_ip_string = "127.0.0.1";
+		//
+		//if (line.Contains("ip:"))
+		//{
+		//	server_ip_string = line.Split(':')[1];
+		//}
 
 		try
 		{
@@ -213,9 +213,63 @@ public class ClientScript : MonoBehaviour
 					string[] data = msg.Split(';');
 					Transform objparent = OtherObjList.Find(data[1]);
 					Transform obj = objparent.GetChild(0);
-					obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
-					obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
-					obj.GetComponent<Score>().networkedmoved = true;
+
+					switch (obj.GetComponent<Score>().state)
+					{
+						case 0:
+							switch (int.Parse(data[4]))
+							{
+								case 1:
+									obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
+									obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
+									obj.GetComponent<Score>().networkedmoved = true;
+									break;
+								case 2:
+									obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
+									obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
+									obj.GetComponent<Score>().networkedmoved = true;
+									break;
+							}
+							break;
+						case 1:
+							switch (int.Parse(data[4]))
+							{
+								case 0:
+
+									break;
+								case 1:
+
+									break;
+								case 2:
+									obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
+									obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
+									obj.GetComponent<Score>().networkedmoved = true;
+									break;
+							}
+							break;
+						case 2:
+							switch (int.Parse(data[4]))
+							{
+								case 0:
+
+									break;
+								case 1:
+
+									break;
+								case 2:
+
+									break;
+							}
+							break;
+					}
+
+					//if (!obj.GetComponent<Score>().moved || JsonUtility.FromJson<Boolean>(data[4]) == true)
+                    //{
+					//	obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
+					//	obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
+					//	obj.GetComponent<Score>().networkedmoved = true;
+					//}
+						
 
 					//obj.GetComponent<Score>().moved = false;
 					//Transform client_trans = OtherList.Find(data[1]);
@@ -284,13 +338,12 @@ public class ClientScript : MonoBehaviour
 			}
 			if (cur_obj != null)
             {
-				if (cur_obj.moved)
+				if (cur_obj.state != 0)
 				{
-					cur_obj.moved = false;
 
 					string msg = "[setobjpos];" + cur_objparent.name + ";";
 
-					msg += JsonUtility.ToJson(cur_obj.transform.position) + ";" + JsonUtility.ToJson(cur_obj.transform.eulerAngles) + ";" + myId + ";" + JsonUtility.ToJson(cur_obj.grabbed);
+					msg += JsonUtility.ToJson(cur_obj.transform.position) + ";" + JsonUtility.ToJson(cur_obj.transform.eulerAngles) + ";" + myId + ";" +  cur_obj.state.ToString();
 
 					outBuffer = Encoding.ASCII.GetBytes(msg);
 					client.SendTo(outBuffer, remoteEP);

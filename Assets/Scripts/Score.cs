@@ -10,8 +10,13 @@ public class Score : MonoBehaviour
     public bool moved = false;
     public bool networkedmoved = false;
     public bool grabbed = false;
+
+    public int state;
+
     Vector3 lastpos;
     Vector3 lastrot;
+
+    //float timer = 0.25f;
 
     void Start()
     {
@@ -21,19 +26,43 @@ public class Score : MonoBehaviour
 
     void Update()
     {
-        if((transform.position != lastpos || transform.rotation.eulerAngles != lastrot) && !networkedmoved)
+        if(((Vector3.Distance(transform.position, lastpos)  >= 0.1 && transform.rotation.eulerAngles != lastrot) && !networkedmoved))
         {
             moved = true;
+            state = 1;
             Debug.Log(this.name + " Moved");
             lastpos = transform.position;
             lastrot = transform.rotation.eulerAngles;
+            //timer = 0.25f;
         }
-        else if (networkedmoved)
+        else
+        {
+            moved = false;
+            state = 0;
+        }
+        if(grabbed)
+        {
+            state = 2;
+        }
+
+
+        if (networkedmoved)
         {
             Debug.Log(this.name + " NetworkedMoved");
             lastpos = transform.position;
             lastrot = transform.rotation.eulerAngles;
             networkedmoved = false;
+            //timer = 0.25f;
         }
+
+        
+
+
+
+        //if (grabbed && (transform.position == lastpos || transform.rotation.eulerAngles == lastrot))
+        //{
+        //    grabbed = false;
+        //}
+
     }
 }

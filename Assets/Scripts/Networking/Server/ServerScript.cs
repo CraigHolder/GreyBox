@@ -246,19 +246,66 @@ public class ServerScript : MonoBehaviour
 
 				Transform objparent = OtherObjList.Find(data[1]);
 				Transform obj = objparent.GetChild(0);
-				if(!obj.GetComponent<Score>().moved || JsonUtility.FromJson<Boolean>(data[5]) == true)
+
+				switch (obj.GetComponent<Score>().state)
                 {
-					obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
-					obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
-					obj.GetComponent<Score>().networkedmoved = true;
+					case 0:
+						switch(int.Parse(data[5]))
+                        {
+							case 1:
+								obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
+								obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
+								obj.GetComponent<Score>().networkedmoved = true;
+								break;
+							case 2:
+								obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
+								obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
+								obj.GetComponent<Score>().networkedmoved = true;
+								break;
+						}
+						break;
+					case 1:
+						switch (int.Parse(data[5]))
+						{
+							case 0:
+
+								break;
+							case 1:
+
+								break;
+							case 2:
+								obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
+								obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
+								obj.GetComponent<Score>().networkedmoved = true;
+								break;
+						}
+						break;
+					case 2:
+						switch (int.Parse(data[5]))
+						{
+							case 0:
+
+								break;
+							case 1:
+
+								break;
+							case 2:
+
+								break;
+						}
+						break;
 				}
 
-				if (ClientList.childCount > 1)
+
+				//if(!obj.GetComponent<Score>().moved || JsonUtility.FromJson<int>(data[5]) == true)
+                //{
+				//	obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
+				//	obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
+				//	obj.GetComponent<Score>().networkedmoved = true;
+				//}
+
+				if (ClientList.childCount > 0)
 				{
-					string outMsg = msg.Replace("[setobjpos]", "[updateobjpos]");
-
-					outBuffer = Encoding.ASCII.GetBytes(outMsg);
-
 					for (int c = 0; c < ClientList.childCount; c++)
 					{
 						//for (int u = 0; u < OtherObjList.childCount; u ++)
@@ -272,6 +319,8 @@ public class ServerScript : MonoBehaviour
 						if (n.CompareTo(data[4]) == 0)
 							continue;
 
+						string outMsg = msg.Replace("[setobjpos]", "[updateobjpos]");
+						outBuffer = Encoding.ASCII.GetBytes(outMsg);
 						EndPoint out_client = (EndPoint)client_endpoints[n];
 
 						server.SendTo(outBuffer, out_client);
@@ -322,13 +371,11 @@ public class ServerScript : MonoBehaviour
 
 			if (cur_obj != null)
             {
-				if (cur_obj.moved)
+				if (cur_obj.state != 0)
 				{
-					cur_obj.moved = false;
-
 					string msg = "[updateobjpos];" + cur_objparent.name + ";";
 
-					msg += JsonUtility.ToJson(cur_obj.transform.position) + ";" + JsonUtility.ToJson(cur_obj.transform.eulerAngles);
+					msg += JsonUtility.ToJson(cur_obj.transform.position) + ";" + JsonUtility.ToJson(cur_obj.transform.eulerAngles) + ";" + cur_obj.state.ToString();
 
 					
 					for (int c = 0; c < ClientList.childCount; c++)
