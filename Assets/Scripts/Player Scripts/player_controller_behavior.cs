@@ -180,6 +180,9 @@ public class player_controller_behavior : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+
+		fullstaminabar.transform.LookAt(Cam.transform);
+
 		float stamina_start = stamina;
 
 		switch (i_playerID)
@@ -488,7 +491,7 @@ public class player_controller_behavior : MonoBehaviour
 				//frwd_up_vel = Vector3.zero;
 				on_ground = true;
 
-				if(state != FerretState.Headbutt) { state = FerretState.Idle; }
+				if(state != FerretState.Headbutt && state != FerretState.Slipping) { state = FerretState.Idle; }
 
 				frwd_up_vel.y = Physics.gravity.y / 2.0f;
 
@@ -643,7 +646,7 @@ public class player_controller_behavior : MonoBehaviour
 			state = FerretState.Idle;
 		}
 
-		if (SprintDuration <= 0.0f && state == FerretState.Climbing || state == FerretState.Slipping || state == FerretState.Ragdoll)
+		if (SprintDuration <= 0.0f || state == FerretState.Climbing || state == FerretState.Slipping || state == FerretState.Ragdoll)
         {
 			SprintDuration = 0.0f;
 			Dash_Particles.Stop();
