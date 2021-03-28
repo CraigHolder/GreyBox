@@ -169,6 +169,7 @@ public class ClientScript : MonoBehaviour
 					prev_position = pos;
 				}
 				Updateobjs();
+				UpdateFerretState();
 			}
 
 			try
@@ -207,6 +208,19 @@ public class ClientScript : MonoBehaviour
 					}
 
 					client.UpdatePos();
+				}
+				else if (msg.Contains("[updatestate]"))
+                {
+					string[] data = msg.Split(';');
+
+					Transform client_trans = OtherList.Find(data[1]);
+					GameObject client_obj = client_trans.gameObject;
+
+					PuppetScript client = client_obj.GetComponent<PuppetScript>();
+
+					client.setState(int.Parse(data[2]));
+					client.AnimateFerret();
+
 				}
 				else if (msg.Contains("[updateobjpos]"))
 				{
@@ -299,6 +313,19 @@ public class ClientScript : MonoBehaviour
 			}
 			
 		}
+	}
+
+	public void UpdateFerretState()
+    {
+		int state = Player.GetFerretState();
+
+		string msg = "[setstate];" + myId + ";";
+		msg += state.ToString() + ";";
+
+		outBuffer = Encoding.ASCII.GetBytes(msg);
+
+		//Debug.Log(msg);
+		client.SendTo(outBuffer, remoteEP);
 	}
 
 	private void OnApplicationQuit()

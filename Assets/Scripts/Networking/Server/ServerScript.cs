@@ -119,7 +119,7 @@ public class ServerScript : MonoBehaviour
 				}
 
 				outBuffer = Encoding.ASCII.GetBytes(msg);
-
+				
 				//Debug.Log(msg);
 				for (int c = 0; c < ClientList.childCount; c++)
 				{
@@ -130,6 +130,7 @@ public class ServerScript : MonoBehaviour
 				}
 			}
 
+			UpdateFerretState();
 			Updateobjs();
 		}
 
@@ -179,7 +180,7 @@ public class ServerScript : MonoBehaviour
 				server.SendTo(outBuffer, remoteClient);
 
 				// Send Server Settings to the Client
-				outBuffer = Encoding.ASCII.GetBytes("[settings];"+ MaxUsers.ToString());
+				outBuffer = Encoding.ASCII.GetBytes("[settings];" + MaxUsers.ToString());
 
 				server.SendTo(outBuffer, remoteClient);
 
@@ -246,8 +247,8 @@ public class ServerScript : MonoBehaviour
 
 				Transform objparent = OtherObjList.Find(data[1]);
 				Transform obj = objparent.GetChild(0);
-				if(!obj.GetComponent<Score>().moved || JsonUtility.FromJson<Boolean>(data[5]) == true)
-                {
+				if (!obj.GetComponent<Score>().moved || JsonUtility.FromJson<Boolean>(data[5]) == true)
+				{
 					obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
 					obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
 					obj.GetComponent<Score>().networkedmoved = true;
@@ -262,7 +263,7 @@ public class ServerScript : MonoBehaviour
 					for (int c = 0; c < ClientList.childCount; c++)
 					{
 						//for (int u = 0; u < OtherObjList.childCount; u ++)
-                        //{
+						//{
 						//	Transform cur_obj = OtherObjList.GetChild(u);
 						//
 						//}
@@ -298,6 +299,36 @@ public class ServerScript : MonoBehaviour
 					outBuffer = Encoding.ASCII.GetBytes("[cull];" + data[1]);
 
 					server.SendTo(outBuffer, remote_client);
+				}
+			}
+			else if (msg.ToLower().Contains("[setstate]")) //FOR ANIMATIONS
+			{
+				string[] data = msg.Split(';');
+				PuppetScript client = ClientList.Find(data[1]).GetComponent<PuppetScript>();
+
+				int c_state = int.Parse(data[2]); //Should be state int
+
+				client.setState(c_state);
+				client.AnimateFerret();
+
+				if (ClientList.childCount > 1)
+				{
+					string outMsg = msg.Replace("[setstate]", "[updatestate]");
+
+					outBuffer = Encoding.ASCII.GetBytes(outMsg);
+
+					for (int c = 0; c < ClientList.childCount; c++)
+					{
+						Transform cur_client = ClientList.GetChild(c);
+						string n = cur_client.gameObject.name;
+
+						if (n.CompareTo(data[1]) == 0)
+							continue;
+
+						EndPoint out_client = (EndPoint)client_endpoints[n];
+
+						server.SendTo(outBuffer, out_client);
+					}
 				}
 			}
 			Console.WriteLine("Received: {0}, From Client: {1}", msg, remoteClient);
@@ -346,6 +377,26 @@ public class ServerScript : MonoBehaviour
 			}
 			
 		}
+	}
+
+	public void UpdateFerretState()
+    {
+		int state = host_player.GetFerretState();
+
+		string msg = "[updatestate];" + s_hostName + ";";
+		msg += state.ToString() + ";";
+
+		outBuffer = Encoding.ASCII.GetBytes(msg);
+
+		//Debug.Log(msg);
+		for (int c = 0; c < ClientList.childCount; c++)
+		{
+			string user = ClientList.GetChild(c).name;
+			EndPoint remote_client = (EndPoint)client_endpoints[user];
+
+			server.SendTo(outBuffer, remote_client);
+		}
+
 	}
 
 	private void OnApplicationQuit()

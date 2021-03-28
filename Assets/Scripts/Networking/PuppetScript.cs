@@ -13,8 +13,24 @@ public class PuppetScript : MonoBehaviour
 	private Quaternion[] start_rots;
 	public float max_distance = 0.8f;
 
+	public Animator anims;
+
 	public float orientation = 0.0f;
 	Vector3[] origin_pos;
+
+	int state = 0;
+
+	public enum FerretState
+	{
+		Idle,
+		Walking,
+		Jumping,
+		Slipping,
+		Climbing,
+		Ragdoll,
+		Headbutt,
+		War
+	}
 
 	public void Start()
 	{
@@ -31,6 +47,8 @@ public class PuppetScript : MonoBehaviour
 		}
 
 		origin_pos = new Vector3[trail.Length];
+
+		anims = this.GetComponentInParent<Animator>();
 	}
 
 	public void UpdatePos()
@@ -92,4 +110,31 @@ public class PuppetScript : MonoBehaviour
 			t.rotation *= start_rots[c];
 		}
 	}
+
+	public void AnimateFerret()
+    {
+        if (state == (int)FerretState.Idle || state == (int)FerretState.Slipping)
+        {
+			anims.Play("Idle", -1);
+        }
+		else if(state == (int)FerretState.Walking || state == (int)FerretState.Headbutt || state == (int)FerretState.Climbing)
+        {
+			anims.Play("Running", -1);
+		}
+		else if (state == (int)FerretState.Jumping)
+		{
+			anims.Play("Falling", -1);
+		}
+
+	}
+
+	public int getState()
+    {
+		return state;
+    }
+
+	public void setState(int s)
+    {
+		state = s;
+    }
 }
