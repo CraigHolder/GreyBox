@@ -15,6 +15,11 @@ public class LobbyScript : MonoBehaviour
         public bool isJoining;
 
     }
+    public int playerID;
+    //playerID = 
+    /*
+     if 
+     */
 
     public Server toJoin;
     public Server toHost;
@@ -23,6 +28,8 @@ public class LobbyScript : MonoBehaviour
     public Toggle t_IsPriv;
     public TMP_InputField IF_LobbyName;
     public TMP_InputField IF_LobbyPass;
+
+    public TMP_Text t_LobbyN;
 
     //Joining:
     public Server tempServer;
@@ -41,7 +48,7 @@ public class LobbyScript : MonoBehaviour
         
     }
 
-    void StartServer()
+    public void StartServer()
     {
 
         toHost.name = IF_LobbyName.text;
@@ -49,9 +56,11 @@ public class LobbyScript : MonoBehaviour
         toHost.isPrivate = t_IsPriv.isOn;
         toHost.isJoining = false;
 
+        t_LobbyN.text = IF_LobbyName.text;
+
     }
 
-    void JoinServer()
+    public void JoinServer()
     {
         toJoin.name = tempServer.name;
         toJoin.ID = tempServer.ID;
