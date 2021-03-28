@@ -331,7 +331,8 @@ public class ServerScript : MonoBehaviour
 					}
 				}
 			}
-			Console.WriteLine("Received: {0}, From Client: {1}", msg, remoteClient);
+			//Console.WriteLine("Received: {0}, From Client: {1}", msg, remoteClient);
+			Debug.Log("Received: " + msg + " From Client: " + remoteClient);
 		} catch (Exception e) {
 
 		}

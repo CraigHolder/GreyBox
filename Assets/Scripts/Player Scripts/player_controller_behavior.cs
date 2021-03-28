@@ -528,32 +528,36 @@ public class player_controller_behavior : MonoBehaviour
         //Debug.Log(movement);
 
         //ANIMATIONS
-
-		if(state != FerretState.Slipping || state != FerretState.Climbing)
+		if(state != FerretState.Climbing)
         {
-			if (state != FerretState.Jumping)
+			if (state != FerretState.Slipping)
 			{
-
-				if (state != FerretState.Headbutt)
+				if (state != FerretState.Jumping)
 				{
-					if (joystick_x != 0 || joystick_y != 0 && on_ground)
-					{
-						state = FerretState.Walking;
 
-						if (!on_ground)
+					if (state != FerretState.Headbutt)
+					{
+						if (joystick_x != 0 || joystick_y != 0 && on_ground)
 						{
-							state = FerretState.Jumping;
+							state = FerretState.Walking;
+
+							if (!on_ground)
+							{
+								state = FerretState.Jumping;
+							}
+						}
+						else
+						{
+							state = FerretState.Idle;
 						}
 					}
-					else
-					{
-						state = FerretState.Idle;
-					}
+
 				}
 
 			}
-
 		}
+
+		
 
 		if (!on_ground && state == FerretState.Jumping)
 		{

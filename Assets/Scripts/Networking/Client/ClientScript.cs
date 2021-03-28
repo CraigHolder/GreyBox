@@ -54,17 +54,17 @@ public class ClientScript : MonoBehaviour
 
 	public void RunClient()
 	{
-		string config_path = "config.txt";
-
-		StreamReader config_reader = new StreamReader(config_path, true);
-
-		string line = config_reader.ReadLine();
-		string server_ip_string = "127.0.0.1";
-
-		if (line.Contains("ip:"))
-		{
-			server_ip_string = line.Split(':')[1];
-		}
+		//string config_path = "config.txt";
+		//
+		//StreamReader config_reader = new StreamReader(config_path, true);
+		//
+		//string line = config_reader.ReadLine();
+		//string server_ip_string = "127.0.0.1";
+		//
+		//if (line.Contains("ip:"))
+		//{
+		//	server_ip_string = line.Split(':')[1];
+		//}
 
 		try
 		{
@@ -168,6 +168,7 @@ public class ClientScript : MonoBehaviour
 
 					prev_position = pos;
 				}
+
 				Updateobjs();
 				UpdateFerretState();
 			}

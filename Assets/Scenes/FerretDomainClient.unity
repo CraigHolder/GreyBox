@@ -47596,6 +47596,10 @@ PrefabInstance:
       propertyPath: OtherObjList
       value: 
       objectReference: {fileID: 801407701}
+    - target: {fileID: 7791281568213069777, guid: fe9abaf29e584e947b8b9628853129b7, type: 3}
+      propertyPath: OtherTemplate
+      value: 
+      objectReference: {fileID: 2868639671519131345, guid: e9938d63ec3cddf41bdb33ab7b7712b4, type: 3}
     - target: {fileID: 7791281568213069778, guid: fe9abaf29e584e947b8b9628853129b7, type: 3}
       propertyPath: m_Name
       value: Client Manager
