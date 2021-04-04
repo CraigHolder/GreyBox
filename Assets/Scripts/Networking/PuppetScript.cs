@@ -16,6 +16,14 @@ public class PuppetScript : MonoBehaviour
 	public float orientation = 0.0f;
 	Vector3[] origin_pos;
 
+	[Header("Movement Attributes")]
+	public float GravityModifier = 3.0f;
+	float player_orientation = 0.0f;
+	public float ROT_SPEED = 45.0f;
+	public float PLAYER_SPEED = 10.0f;
+	private Quaternion handle_rot; 
+	Vector3 frwd_up_vel = new Vector3();
+
 	public void Start()
 	{
 		start_rots = new Quaternion[trail.Length];
@@ -31,6 +39,109 @@ public class PuppetScript : MonoBehaviour
 		}
 
 		origin_pos = new Vector3[trail.Length];
+	}
+
+	public void DeadReckoning(float joystick_x, float joystick_y)
+    {
+		//Controls
+		float dt = Time.deltaTime;
+
+
+		float reverse = Input.GetAxis("Reverse");
+
+		float magnitude = new Vector2(joystick_x, joystick_y).magnitude;
+
+		Vector3 movement = new Vector3();
+
+		Vector3 dir;
+
+		ApplyGravity(ref movement, dt);
+
+		if (magnitude > 0.01f)
+		{
+			float theta = (Mathf.Atan2(joystick_x, joystick_y) * Mathf.Rad2Deg);
+
+			//if (Cam != null)
+			//	theta += Cam.GetTheta();
+
+			if (Mathf.Abs(theta - player_orientation) > Mathf.Abs((theta + 360.0f) - player_orientation))
+			{
+				theta += 360.0f;
+			}
+			else if (Mathf.Abs(theta - player_orientation) > Mathf.Abs((theta - 360.0f) - player_orientation))
+			{
+				theta -= 360.0f;
+			}
+
+			if (reverse < 1.0f)
+			{
+				//reversing = false;
+				float t_change_dir = 0.0f;
+				if (theta != player_orientation)
+					t_change_dir = (theta - player_orientation) / Mathf.Abs(theta - player_orientation);
+
+				float t_change_mag = ROT_SPEED * dt;
+
+				if (t_change_mag > Mathf.Abs(theta - player_orientation))
+					t_change_mag -= (t_change_mag - Mathf.Abs(theta - player_orientation));
+
+				player_orientation += t_change_dir * t_change_mag;
+
+				if (player_orientation > 360.0f)
+				{
+					player_orientation -= 360.0f;
+				}
+				else if (player_orientation < -360.0f)
+				{
+					player_orientation += 360.0f;
+				}
+
+				transform.rotation = Quaternion.Euler(0.0f, player_orientation, 0.0f) * handle_rot;
+
+				dir = Quaternion.Euler(0.0f, player_orientation, 0.0f) * Vector3.forward;
+
+				Vector3 input_motion = (dir * PLAYER_SPEED) * dt;
+
+				//if (on_ground && sprint > 0.0f && stamina > 0.0f)
+				//{
+				//	input_motion *= SprintModifier;
+				//
+				//	stamina -= SprintCost * dt;
+				//}
+
+				//if (sprint > 0.0f && stamina > 0.0f && stamina > SprintCost && SprintCooldown <= 0.0f)
+				//{
+				//	Headbutt();
+				//}
+
+				movement += input_motion;
+
+				//if (handle != null)
+				//{
+				//	handle.rotation = transform.rotation;
+				//}
+				//
+				//if (butt != null && back_handle != null)
+				//{
+				//	butt.enabled = false;
+				//	butt.transform.position = back_handle.position;
+				//	//butt.enabled = true;
+				//}
+			}
+			
+
+		}
+		UpdatePos();
+	}
+
+	private void ApplyGravity(ref Vector3 movement, float dt)
+	{
+		frwd_up_vel += Physics.gravity * dt * GravityModifier;
+
+		if (frwd_up_vel.y < Physics.gravity.y * GravityModifier)
+			frwd_up_vel.y = Physics.gravity.y * GravityModifier;
+
+		movement += frwd_up_vel * dt;
 	}
 
 	public void UpdatePos()

@@ -16,6 +16,8 @@ public class ClientScript : MonoBehaviour
 	public Transform OtherList;
 	public Transform OtherObjList;
 
+	public GameObject remote;
+
 	private Vector3 prev_position;
 
 	public GameObject OtherTemplate;
@@ -124,6 +126,7 @@ public class ClientScript : MonoBehaviour
 		//PlayerCount.SetActive(false);
 
 		OtherObjList = GameObject.FindGameObjectWithTag("ItemList").transform;
+		remote = GameObject.FindGameObjectWithTag("Remote");
 		RunClient();
 
 		updateTime = 1.0f / (float)UpdateFramesPerSec;
@@ -154,7 +157,7 @@ public class ClientScript : MonoBehaviour
 					//init msg with the player id
 					string msg = "[setpos];" + myId + ";";
 
-					msg += JsonUtility.ToJson(pos) + ";" + Player.GetPlayerOrientation().ToString();
+					msg += JsonUtility.ToJson(pos) + ";" + Player.GetPlayerOrientation().ToString() + ";" + Player.joystick_x.ToString() + ";" + Player.joystick_y.ToString();
 
 					for (int c = 0; c < Player.trail.Length; c++)
 					{
@@ -197,16 +200,32 @@ public class ClientScript : MonoBehaviour
 					}
 
 					PuppetScript client = client_obj.GetComponent<PuppetScript>();
-
+					client.DeadReckoning(float.Parse(data[4]), float.Parse(data[5]));
 					client.Root.position = JsonUtility.FromJson<Vector3>(data[2]);
 					client.orientation = float.Parse(data[3]);
 
 					for (int c = 0; c < data.Length - 4; c++)
 					{
-						client.trail[c].position = JsonUtility.FromJson<Vector3>(data[c + 4]);
+						client.trail[c].position = JsonUtility.FromJson<Vector3>(data[c + 6]);
 					}
 
 					client.UpdatePos();
+				}
+				else if (msg.ToLower().Contains("[updatespeaker]"))
+				{
+					string[] data = msg.Split(';');
+
+					remote.GetComponent<Remote>().b_speakeron = bool.Parse(data[1]);
+					if (remote.GetComponent<Remote>().b_speakeron == true)
+					{
+						remote.GetComponent<Remote>().mr_light.material = remote.GetComponent<Remote>().M_on;
+						remote.GetComponent<Remote>().fly_shareddata.e_speakerstate = Speakers.SpeakerState.On;
+					}
+					else
+					{
+						remote.GetComponent<Remote>().mr_light.material = remote.GetComponent<Remote>().M_off;
+						remote.GetComponent<Remote>().fly_shareddata.e_speakerstate = Speakers.SpeakerState.Off;
+					}
 				}
 				else if (msg.Contains("[updateobjpos]"))
 				{
@@ -351,6 +370,14 @@ public class ClientScript : MonoBehaviour
 				}
 			}
 			
+		}
+		if (remote.GetComponent<Remote>().b_active == true)
+		{
+			string msg = "[setspeaker];" + remote.GetComponent<Remote>().b_speakeron.ToString() + ";" + myId;
+			
+			outBuffer = Encoding.ASCII.GetBytes(msg);
+			client.SendTo(outBuffer, remoteEP);
+			Debug.Log(msg);
 		}
 	}
 

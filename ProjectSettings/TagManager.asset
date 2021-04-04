@@ -11,6 +11,7 @@ TagManager:
   - Important
   - PlayerController
   - ItemList
+  - Remote
   layers:
   - Default
   - TransparentFX

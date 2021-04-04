@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Remote : MonoBehaviour
 {
-    private bool b_active;
+    public bool b_active;
     public bool b_speakeron;
     public MeshRenderer mr_light;
     public Material M_on;

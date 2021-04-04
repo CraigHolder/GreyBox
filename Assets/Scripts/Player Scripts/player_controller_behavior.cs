@@ -69,6 +69,8 @@ public class player_controller_behavior : MonoBehaviour
 	public GameObject fullstaminabar;
 	public List<player_controller_behavior> connectedplayers;
 	public MeshRenderer minimapdot;
+	public float joystick_x = 0;
+	public float joystick_y = 0;
 
 	private Vector3[] origins;
 
@@ -230,8 +232,8 @@ public class player_controller_behavior : MonoBehaviour
 		float dt = Time.deltaTime;
 
 		//Controls
-		float joystick_x = 0;
-		float joystick_y = 0;
+		
+		
 		switch (i_playerID)
         {
 			case 1:

@@ -25,6 +25,7 @@ public class ServerScript : MonoBehaviour
 	public GameObject ClientPrefab;
 	public Transform ClientList;
 	public Transform OtherObjList;
+	public GameObject remote;
 
 	[Header("Server Config")]
 	public int IdLength = 10;
@@ -79,6 +80,7 @@ public class ServerScript : MonoBehaviour
 	void Start()
     {
 		OtherObjList = GameObject.FindGameObjectWithTag("ItemList").transform;
+		remote = GameObject.FindGameObjectWithTag("Remote");
 		s_hostName = "";	
 		for (int i = 0; i < IdLength; i++)
 		{
@@ -111,7 +113,7 @@ public class ServerScript : MonoBehaviour
 				//init msg with the player id
 				string msg = "[updatepos];" + s_hostName + ";";
 
-				msg += JsonUtility.ToJson(pos) + ";" + host_player.GetPlayerOrientation().ToString();
+				msg += JsonUtility.ToJson(pos) + ";" + host_player.GetPlayerOrientation().ToString() + ";" + host_player.joystick_x.ToString() + ";" + host_player.joystick_y.ToString();
 
 				for (int c = 0; c < host_player.trail.Length; c++)
 				{
@@ -212,10 +214,11 @@ public class ServerScript : MonoBehaviour
 				PuppetScript client = ClientList.Find(data[1]).GetComponent<PuppetScript>();
 				client.Root.position = JsonUtility.FromJson<Vector3>(data[2]);
 				client.orientation = float.Parse(data[3]);
+				client.DeadReckoning(float.Parse(data[4]), float.Parse(data[5]));
 
 				for (int c = 0; c < data.Length - 4; c++)
 				{
-					client.trail[c].position = JsonUtility.FromJson<Vector3>(data[c + 4]);
+					client.trail[c].position = JsonUtility.FromJson<Vector3>(data[c + 6]);
 				}
 
 				client.UpdatePos();
@@ -232,6 +235,43 @@ public class ServerScript : MonoBehaviour
 						string n = cur_client.gameObject.name;
 
 						if (n.CompareTo(data[1]) == 0)
+							continue;
+
+						EndPoint out_client = (EndPoint)client_endpoints[n];
+
+						server.SendTo(outBuffer, out_client);
+					}
+				}
+			}
+			else if (msg.ToLower().Contains("[setspeaker]"))
+			{
+				string[] data = msg.Split(';');
+
+				remote.GetComponent<Remote>().b_speakeron = bool.Parse(data[1]);
+				if(remote.GetComponent<Remote>().b_speakeron == true)
+                {
+					remote.GetComponent<Remote>().mr_light.material = remote.GetComponent<Remote>().M_on;
+					remote.GetComponent<Remote>().fly_shareddata.e_speakerstate = Speakers.SpeakerState.On;
+				}
+                else
+                {
+					remote.GetComponent<Remote>().mr_light.material = remote.GetComponent<Remote>().M_off;
+					remote.GetComponent<Remote>().fly_shareddata.e_speakerstate = Speakers.SpeakerState.Off;
+				}
+
+
+				if (ClientList.childCount > 1)
+				{
+					string outMsg = msg.Replace("[setspeaker]", "[updatespeaker]");
+
+					outBuffer = Encoding.ASCII.GetBytes(outMsg);
+
+					for (int c = 0; c < ClientList.childCount; c++)
+					{
+						Transform cur_client = ClientList.GetChild(c);
+						string n = cur_client.gameObject.name;
+
+						if (n.CompareTo(data[2]) == 0)
 							continue;
 
 						EndPoint out_client = (EndPoint)client_endpoints[n];
@@ -392,8 +432,26 @@ public class ServerScript : MonoBehaviour
 				}
 			}
 			
+			
+		}
+		if (remote.GetComponent<Remote>().b_active == true)
+        {
+			string msg = "[updatespeaker];" + remote.GetComponent<Remote>().b_speakeron.ToString();
+
+			for (int c = 0; c < ClientList.childCount; c++)
+			{
+				string user = ClientList.GetChild(c).name;
+				EndPoint remote_client = (EndPoint)client_endpoints[user];
+
+
+				outBuffer = Encoding.ASCII.GetBytes(msg);
+
+				server.SendTo(outBuffer, remote_client);
+				Debug.Log(msg);
+			}
 		}
 	}
+
 
 	private void OnApplicationQuit()
 	{
