@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
+// ANIMS SIDE
 public class player_controller_behavior : MonoBehaviour
 {
 	public enum FerretState
@@ -29,7 +30,7 @@ public class player_controller_behavior : MonoBehaviour
 
 	public int i_playerID;
 
-	
+
 
 	[Header("Config")]
 	public bool b_disableachieve = false;
@@ -106,11 +107,13 @@ public class player_controller_behavior : MonoBehaviour
 	[Header("Debug Settings")]
 	public Transform Reversing_Marker;
 
-	
+	[Header("Animations")]
+	public Animator Ferret_Anims;
+
 
 	// Start is called before the first frame update
 	void Start()
-    {
+	{
 		stamina = MaxStamina;
 		stamtimer = stambartime;
 		Cursor.lockState = CursorLockMode.Locked;
@@ -134,7 +137,7 @@ public class player_controller_behavior : MonoBehaviour
 			{
 				dist_from_last[c] = 0.0f;
 
-				start_dir[c] = (trail[c].position - trail[c+1].position).normalized;
+				start_dir[c] = (trail[c].position - trail[c + 1].position).normalized;
 			}
 			else
 			{
@@ -146,7 +149,7 @@ public class player_controller_behavior : MonoBehaviour
 				}
 				else
 				{
-					Vector3 n_to_t = trail[c].position - trail[c+1].position;
+					Vector3 n_to_t = trail[c].position - trail[c + 1].position;
 
 					start_dir[c] = ((t_to_p + n_to_t) / 2).normalized;
 				}
@@ -175,14 +178,15 @@ public class player_controller_behavior : MonoBehaviour
 		//RAGDOLL TEST
 		//RagdollEnabled(false);
 		//SetupRagdoll();
-    }
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
-		float stamina_start = stamina;
+	// Update is called once per frame
+	void Update()
+	{
 
 		fullstaminabar.transform.LookAt(Cam.transform);
+
+		float stamina_start = stamina;
 
 		switch (i_playerID)
 		{
@@ -235,7 +239,7 @@ public class player_controller_behavior : MonoBehaviour
 		
 		
 		switch (i_playerID)
-        {
+		{
 			case 1:
 				joystick_x = Input.GetAxis("Horizontal");
 				joystick_y = Input.GetAxis("Vertical");
@@ -245,7 +249,7 @@ public class player_controller_behavior : MonoBehaviour
 				joystick_y = Input.GetAxis("Vertical2");
 				break;
 		}
-		
+
 
 		float reverse = Input.GetAxis("Reverse");
 
@@ -267,6 +271,7 @@ public class player_controller_behavior : MonoBehaviour
 		{
 			case FerretState.Climbing:
 				movement += Vector3.up * CURR_PLAYER_SPEED * dt;
+				state = FerretState.Climbing;
 				break;
 
 			case FerretState.Slipping:
@@ -358,7 +363,7 @@ public class player_controller_behavior : MonoBehaviour
 						break;
 				}
 
-				
+
 
 				ApplyGravity(ref movement, dt);
 
@@ -418,6 +423,7 @@ public class player_controller_behavior : MonoBehaviour
 						if (sprint > 0.0f && stamina > 0.0f && stamina > SprintCost && SprintCooldown <= 0.0f)
 						{
 							Headbutt();
+							state = FerretState.Headbutt;
 						}
 
 						movement += input_motion;
@@ -437,9 +443,9 @@ public class player_controller_behavior : MonoBehaviour
 					else
 					{
 						reversing = true;
-						Vector3 destination_point = handle.position + (Quaternion.Euler(0, theta, 0) * Vector3.forward * (max_distance * trail.Length-1)) + new Vector3(0.0f, butt.transform.position.y - handle.position.y, 0.0f);
+						Vector3 destination_point = handle.position + (Quaternion.Euler(0, theta, 0) * Vector3.forward * (max_distance * trail.Length - 1)) + new Vector3(0.0f, butt.transform.position.y - handle.position.y, 0.0f);
 
-						if(Reversing_Marker != null)
+						if (Reversing_Marker != null)
 							Reversing_Marker.position = destination_point;
 
 						butt.GetComponent<CharacterController>().enabled = false;
@@ -479,7 +485,7 @@ public class player_controller_behavior : MonoBehaviour
 
 			Vector3 end_pos = cc.transform.position;
 
-			if (hits.HasFlag(CollisionFlags.Sides)){
+			if (hits.HasFlag(CollisionFlags.Sides)) {
 				//Debug.Log("HOI!!!");
 				hit_obj = true;
 			}
@@ -487,6 +493,9 @@ public class player_controller_behavior : MonoBehaviour
 			{
 				//frwd_up_vel = Vector3.zero;
 				on_ground = true;
+
+				if(state != FerretState.Headbutt && state != FerretState.Slipping) { state = FerretState.Idle; }
+
 				frwd_up_vel.y = Physics.gravity.y / 2.0f;
 
 				Vector3 b_start = trail[trail.Length - 1].transform.position;
@@ -499,6 +508,8 @@ public class player_controller_behavior : MonoBehaviour
 			else
 			{
 				on_ground = false;
+				if(state != FerretState.Climbing && state != FerretState.Headbutt) { state = FerretState.Jumping; }
+				
 			}
 
 			if (!Mathf.Approximately((end_pos - start_pos).magnitude, 0.0f))
@@ -507,12 +518,61 @@ public class player_controller_behavior : MonoBehaviour
 		else
 		{
 			transform.position += movement;
+
+			
+
 		}
 
 		if (handle != null)
 		{
 			handle.position = transform.position;
 		}
+
+        //Debug.Log(movement);
+
+        //ANIMATIONS
+		if(state != FerretState.Climbing)
+        {
+			if (state != FerretState.Slipping)
+			{
+				if (state != FerretState.Jumping)
+				{
+
+					if (state != FerretState.Headbutt)
+					{
+						if (joystick_x != 0 || joystick_y != 0 && on_ground)
+						{
+							state = FerretState.Walking;
+
+							if (!on_ground)
+							{
+								state = FerretState.Jumping;
+							}
+						}
+						else
+						{
+							state = FerretState.Idle;
+						}
+					}
+
+				}
+
+			}
+		}
+
+		
+
+		if (!on_ground && state == FerretState.Jumping)
+		{
+			Ferret_Anims.Play("Falling", -1); //Not Grounded, do falling	
+		}
+		else if (state == FerretState.Walking || state == FerretState.Climbing)
+		{
+			Ferret_Anims.Play("Running", -1); //If there is movement, do Running
+			
+		}
+		else if(on_ground)
+			Ferret_Anims.Play("Idle", -1); //Not moving
 
 		//if(!hit_obj && (moved || butt_moved))
 		AdjustTail();
@@ -551,7 +611,7 @@ public class player_controller_behavior : MonoBehaviour
 			{
 				stamina += StaminaRecovery * dt;
 				if (stamina >= MaxStamina)
-                {
+				{
 					stamina = MaxStamina;
 					stamtimer -= Time.deltaTime;
 				}
@@ -562,12 +622,12 @@ public class player_controller_behavior : MonoBehaviour
 			srt = StaminaRecoveryTime;
 		}
 
-		if(stamina < 0.0)
-        {
+		if (stamina < 0.0)
+		{
 			stamina = 0.0f;
-        }
+		}
 		if (stamina != MaxStamina)
-        {
+		{
 			stamtimer = stambartime;
 
 		}
@@ -596,29 +656,37 @@ public class player_controller_behavior : MonoBehaviour
 
 
 		//Cooldowns
-		if(SprintCooldown > 0.0f)
-        {
+		if (SprintCooldown > 0.0f)
+		{
 			SprintCooldown -= dt;
-        }
+		}
 
-		if(SprintCooldown < 0.0f)
-        {
+		if (SprintCooldown < 0.0f)
+		{
 			SprintCooldown = 0.0f;
-        }
+		}
 
 
 		//Headbutt Duration
-		if(SprintDuration > 0.0f)
-        {
+		if (SprintDuration > 0.0f)
+		{
 			SprintDuration -= dt;
-        }
+		}
 
-		if(SprintDuration <= 0.0f && state == FerretState.Headbutt)
-        {
+		if (SprintDuration <= 0.0f && state == FerretState.Headbutt)
+		{
 			SprintDuration = 0.0f;
 			Dash_Particles.Stop();
 			state = FerretState.Idle;
+		}
+
+		if (SprintDuration <= 0.0f || state == FerretState.Climbing || state == FerretState.Slipping || state == FerretState.Ragdoll)
+        {
+			SprintDuration = 0.0f;
+			Dash_Particles.Stop();
         }
+
+
 	}
 
 
@@ -634,6 +702,7 @@ public class player_controller_behavior : MonoBehaviour
 	public void Jump(float force)
 	{
 		frwd_up_vel.y = force;
+		state = FerretState.Jumping;
 	}
 
 	public void Slip(bool f)
@@ -949,4 +1018,9 @@ public class player_controller_behavior : MonoBehaviour
 	{
 		return player_orientation;
 	}
+
+	public int GetFerretState()
+    {
+		return (int)state;
+    }
 }
