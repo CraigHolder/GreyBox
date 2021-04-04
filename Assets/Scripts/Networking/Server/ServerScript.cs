@@ -55,7 +55,14 @@ public class ServerScript : MonoBehaviour
 		}
 		else
 		{
-			ip = host.AddressList[1];
+			foreach (IPAddress i in host.AddressList)
+			{
+				Debug.Log(i.ToString());
+				if (i.AddressFamily == AddressFamily.InterNetwork)
+				{
+					ip = i;
+				}
+			}
 		}
 
 		Debug.Log("Server: " + host.HostName + " | IP: " + ip);
