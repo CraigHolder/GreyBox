@@ -132,7 +132,6 @@ public class ClientScript : MonoBehaviour
 			Application.Quit();
 		}
 
-
 		if (!disconnected)
 		{
 

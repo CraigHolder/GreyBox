@@ -54,7 +54,15 @@ public class ServerScript : MonoBehaviour
 		}
 		else
 		{
-			ip = host.AddressList[1];
+			foreach (IPAddress i in host.AddressList)
+			{
+				Debug.Log(i.ToString());
+				if (i.AddressFamily == AddressFamily.InterNetwork)
+				{
+					ip = i;
+				}
+			}
+			//ip = host.AddressList[1];
 		}
 
 		Debug.Log("Server: " + host.HostName + " | IP: " + ip);
@@ -262,6 +270,8 @@ public class ServerScript : MonoBehaviour
 		} catch (Exception e) {
 
 		}
+
+		// [code];id;data1;data2
 	}
 
 	private void OnApplicationQuit()
