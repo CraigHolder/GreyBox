@@ -54,6 +54,8 @@ public class ClientScript : MonoBehaviour
 
 	private int num_players = 1;
 
+	bool initcos = false;
+
 	public void RunClient()
 	{
 		//string config_path = "config.txt";
@@ -174,6 +176,11 @@ public class ClientScript : MonoBehaviour
 
 				Updateobjs();
 				UpdateFerretState();
+				if (!initcos)
+				{
+					CosmeticsInit();
+					initcos = true;
+				}
 			}
 
 			try
@@ -191,7 +198,7 @@ public class ClientScript : MonoBehaviour
 					if (client_trans == null)
 					{
 						client_obj = GameObject.Instantiate(OtherTemplate);
-
+						CosmeticsInit();
 						client_obj.name = data[1];
 						client_obj.transform.parent = OtherList;
 						num_players++;
@@ -228,8 +235,16 @@ public class ClientScript : MonoBehaviour
 						remote.GetComponent<Remote>().mr_light.material = remote.GetComponent<Remote>().M_off;
 						remote.GetComponent<Remote>().fly_shareddata.e_speakerstate = Speakers.SpeakerState.Off;
 					}
+				}
+				else if (msg.ToLower().Contains("[updatecosmetic]"))
+				{
+					string[] data = msg.Split(';');
+					PuppetScript client = OtherList.Find(data[1]).GetComponent<PuppetScript>();
+					client.SetCosmetics(int.Parse(data[2]), int.Parse(data[3]), int.Parse(data[4]), int.Parse(data[5]),
+						int.Parse(data[6]), int.Parse(data[7]), int.Parse(data[8]));
+				}
 				else if (msg.Contains("[updatestate]"))
-                {
+				{
 					string[] data = msg.Split(';');
 
 					Transform client_trans = OtherList.Find(data[1]);
@@ -296,12 +311,12 @@ public class ClientScript : MonoBehaviour
 					}
 
 					//if (!obj.GetComponent<Score>().moved || JsonUtility.FromJson<Boolean>(data[4]) == true)
-                    //{
+					//{
 					//	obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
 					//	obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
 					//	obj.GetComponent<Score>().networkedmoved = true;
 					//}
-						
+
 
 					//obj.GetComponent<Score>().moved = false;
 					//Transform client_trans = OtherList.Find(data[1]);
@@ -405,6 +420,20 @@ public class ClientScript : MonoBehaviour
 
 		//Debug.Log(msg);
 		client.SendTo(outBuffer, remoteEP);
+	}
+
+	public void CosmeticsInit()
+    {
+		string msg = "[setcosmetic];" + myId + ";";
+
+		msg += PlayerPrefs.GetInt("Body").ToString() + ";" + PlayerPrefs.GetInt("Hat").ToString() + ";" + PlayerPrefs.GetInt("Mask").ToString() + ";" +
+			PlayerPrefs.GetInt("BlueColour").ToString() + ";" + PlayerPrefs.GetInt("RedColour").ToString() + ";" + PlayerPrefs.GetInt("Skin").ToString() + ";" + PlayerPrefs.GetInt("PlayerTeam");
+		
+		outBuffer = Encoding.ASCII.GetBytes(msg);
+
+		//Debug.Log(msg);
+		client.SendTo(outBuffer, remoteEP);
+
 	}
 
 	private void OnApplicationQuit()

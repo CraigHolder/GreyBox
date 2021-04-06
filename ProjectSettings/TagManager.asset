@@ -12,6 +12,7 @@ TagManager:
   - PlayerController
   - ItemList
   - Remote
+  - Spawn
   layers:
   - Default
   - TransparentFX

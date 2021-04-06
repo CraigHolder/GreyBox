@@ -6007,7 +6007,23 @@ MonoBehaviour:
   - {fileID: 5869221154695677037}
   - {fileID: 8806135989287343646}
   max_distance: 1
+  anims: {fileID: 0}
   orientation: 0
+  GravityModifier: 3
+  ROT_SPEED: 45
+  PLAYER_SPEED: 10
+  player: {fileID: 5523867684708559245}
+  bodyItems:
+  - {fileID: 7216385771558500383}
+  - {fileID: 557599327695955860}
+  hatItems:
+  - {fileID: 732396791765644773}
+  - {fileID: 4199486277047741864}
+  maskItems:
+  - {fileID: 7958693076722804391}
+  - {fileID: 6621656728617629984}
+  orb: {fileID: 1331038869580769662}
+  i_PlayerTeam: 0
 --- !u!1 &3236776542096342858
 GameObject:
   m_ObjectHideFlags: 0

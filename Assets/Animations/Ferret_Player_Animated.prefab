@@ -6366,7 +6366,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a4f50fd7c2698c94f8e9ddb2ce2e15cc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 56f86142394ee814ba8f6f5791b56de7, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6542,7 +6542,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.0116, y: -0.037}
+  m_AnchoredPosition: {x: -0.0116, y: 0.0049}
   m_SizeDelta: {x: 1427, y: 644}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5807661270039503535
@@ -6933,7 +6933,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5807661270578279873}
   - component: {fileID: 5807661270578279484}
-  - component: {fileID: 5807661270578279485}
   - component: {fileID: 5807661270578279486}
   - component: {fileID: 5807661270578279487}
   - component: {fileID: 5807661270578279872}
@@ -6966,47 +6965,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5807661270578279874}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &5807661270578279485
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5807661270578279874}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &5807661270578279486
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7488,7 +7446,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5807661271058509995}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0.054, y: -0, z: -0.005}
+  m_LocalPosition: {x: 0.054, y: 0, z: -0.005}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5807661271263831098}
@@ -8941,6 +8899,7 @@ GameObject:
   - component: {fileID: 5807661271514578663}
   - component: {fileID: 5807661271514578664}
   - component: {fileID: 5807661271514578665}
+  - component: {fileID: 6081913337585034405}
   m_Layer: 9
   m_Name: Front_Controller
   m_TagString: PlayerController
@@ -8998,6 +8957,9 @@ MonoBehaviour:
   staminabar: {fileID: 5807661269651354349}
   fullstaminabar: {fileID: 5807661271527475962}
   connectedplayers: []
+  minimapdot: {fileID: 0}
+  joystick_x: 0
+  joystick_y: 0
   butt: {fileID: 5807661269638376434}
   back_handle: {fileID: 332319125207645027}
   Dash_Particles: {fileID: 8663194490973892534}
@@ -9053,6 +9015,30 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: -0}
+--- !u!114 &6081913337585034405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5807661271514578666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5eb4424a9220ce649a34983702edec0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 923239572842216675}
+  bodyItems:
+  - {fileID: 5807661271058509995}
+  - {fileID: 5807661269568607460}
+  hatItems:
+  - {fileID: 5807661271482944422}
+  - {fileID: 5807661269513785811}
+  maskItems:
+  - {fileID: 5807661271331751798}
+  - {fileID: 5807661271553005415}
+  orb: {fileID: 5807661270117992705}
+  i_PlayerTeam: 0
 --- !u!1 &5807661271527475962
 GameObject:
   m_ObjectHideFlags: 0
@@ -9119,7 +9105,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: ed4c7383a73b5eb4b9815ca467b54e26, type: 3}
+  m_Texture: {fileID: 2800000, guid: 02a1303db3ad3ad47bbbbc012c2efc40, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -9217,7 +9203,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3825202700217928004}
   - component: {fileID: 4898670037085794288}
-  - component: {fileID: 3313738799646464844}
   m_Layer: 9
   m_Name: stamCam
   m_TagString: Untagged
@@ -9282,14 +9267,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &3313738799646464844
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5941488619524263212}
-  m_Enabled: 1
 --- !u!1 &6270879231218512227
 GameObject:
   m_ObjectHideFlags: 0

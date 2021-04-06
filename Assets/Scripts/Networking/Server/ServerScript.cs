@@ -45,6 +45,8 @@ public class ServerScript : MonoBehaviour
 
 	private static Hashtable client_endpoints = new Hashtable();
 
+	bool initcos = false;
+
 	public void RunServer()
 	{
 		inBuffer = new byte[2048];
@@ -134,6 +136,11 @@ public class ServerScript : MonoBehaviour
 
 			UpdateFerretState();
 			Updateobjs();
+			if(!initcos)
+            {
+				InitFerretCosmetics();
+				initcos = true;
+			}
 		}
 
 		try
@@ -152,6 +159,7 @@ public class ServerScript : MonoBehaviour
 				}
 
 				GameObject newClient = GameObject.Instantiate(ClientPrefab);
+				InitFerretCosmetics();
 				newClient.transform.parent = ClientList;
 
 				Transform exists = null;
@@ -264,6 +272,34 @@ public class ServerScript : MonoBehaviour
 				if (ClientList.childCount > 1)
 				{
 					string outMsg = msg.Replace("[setspeaker]", "[updatespeaker]");
+
+					outBuffer = Encoding.ASCII.GetBytes(outMsg);
+
+					for (int c = 0; c < ClientList.childCount; c++)
+					{
+						Transform cur_client = ClientList.GetChild(c);
+						string n = cur_client.gameObject.name;
+
+						if (n.CompareTo(data[2]) == 0)
+							continue;
+
+						EndPoint out_client = (EndPoint)client_endpoints[n];
+
+						server.SendTo(outBuffer, out_client);
+					}
+				}
+			}
+			else if (msg.ToLower().Contains("[setcosmetic]"))
+			{
+				string[] data = msg.Split(';');
+				PuppetScript client = ClientList.Find(data[1]).GetComponent<PuppetScript>();
+				client.SetCosmetics(int.Parse(data[2]), int.Parse(data[3]), int.Parse(data[4]), int.Parse(data[5]) , 
+					int.Parse(data[6]), int.Parse(data[7]), int.Parse(data[8]));
+
+				
+				if (ClientList.childCount > 1)
+				{
+					string outMsg = msg.Replace("[setcosmetic]", "[updatecosmetic]");
 
 					outBuffer = Encoding.ASCII.GetBytes(outMsg);
 
@@ -486,20 +522,49 @@ public class ServerScript : MonoBehaviour
 
 	public void UpdateFerretState()
     {
-		int state = host_player.GetFerretState();
+        try
+        {
+			int state = host_player.GetFerretState();
 
-		string msg = "[updatestate];" + s_hostName + ";";
-		msg += state.ToString() + ";";
+			string msg = "[updatestate];" + s_hostName + ";";
+			msg += state.ToString() + ";";
 
-		outBuffer = Encoding.ASCII.GetBytes(msg);
+			outBuffer = Encoding.ASCII.GetBytes(msg);
 
-		//Debug.Log(msg);
+			//Debug.Log(msg);
+			for (int c = 0; c < ClientList.childCount; c++)
+			{
+				string user = ClientList.GetChild(c).name;
+				EndPoint remote_client = (EndPoint)client_endpoints[user];
+
+				server.SendTo(outBuffer, remote_client);
+			}
+		}
+		catch (Exception e)
+        {
+
+        }
+
+	}
+
+	public void InitFerretCosmetics()
+	{
+		string msg = "[updatecosmetic];" + s_hostName + ";";
+
+		msg += PlayerPrefs.GetInt("Body").ToString() + ";" + PlayerPrefs.GetInt("Hat").ToString() + ";" + PlayerPrefs.GetInt("Mask").ToString() + ";" + 
+			PlayerPrefs.GetInt("BlueColour").ToString() +";" + PlayerPrefs.GetInt("RedColour").ToString() +";" + PlayerPrefs.GetInt("Skin").ToString() + ";" + PlayerPrefs.GetInt("PlayerTeam");
+
+
 		for (int c = 0; c < ClientList.childCount; c++)
 		{
 			string user = ClientList.GetChild(c).name;
 			EndPoint remote_client = (EndPoint)client_endpoints[user];
 
+
+			outBuffer = Encoding.ASCII.GetBytes(msg);
+
 			server.SendTo(outBuffer, remote_client);
+			Debug.Log(msg);
 		}
 
 	}

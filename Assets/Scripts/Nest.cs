@@ -7,6 +7,7 @@ public class Nest : MonoBehaviour
 {
     public Text t_scoretext;
     public int i_teamscore = 0;
+    public Transform[] Spawns;
 
     public FlyWeight fly_shareddata;
 
