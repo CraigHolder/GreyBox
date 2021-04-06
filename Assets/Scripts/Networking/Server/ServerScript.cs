@@ -51,7 +51,10 @@ public class ServerScript : MonoBehaviour
 
 	private static Hashtable client_endpoints = new Hashtable();
 
+	public int ID;
+
 	//Dylan's Lobby Stuff
+	public bool b_FoundObjs = false;
 	SceneStates sceneStates = SceneStates.LobbyScene;
 
 	public void RunServer()
@@ -96,19 +99,11 @@ public class ServerScript : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
     {
-		switch (sceneStates)
+		OtherObjList = GameObject.FindGameObjectWithTag("ItemList").transform;
+		s_hostName = "";
+		for (int i = 0; i < IdLength; i++)
 		{
-			case SceneStates.GameScene:
-				OtherObjList = GameObject.FindGameObjectWithTag("ItemList").transform;
-				s_hostName = "";
-				for (int i = 0; i < IdLength; i++)
-				{
-					s_hostName += glyphs[UnityEngine.Random.Range(0, glyphs.Length)];
-				}
-				break;
-			case SceneStates.LobbyScene:
-
-				break;
+			s_hostName += glyphs[UnityEngine.Random.Range(0, glyphs.Length)];
 		}
 
 		updateTime = 1.0f / (float)UpdateFramesPerSec;
@@ -393,8 +388,94 @@ public class ServerScript : MonoBehaviour
 
 	public void UpdateLobby()
     {
+		//CONNECTING TO LOBBY
 
-    }
+		try
+		{
+			int rec = server.ReceiveFrom(inBuffer, ref remoteClient);
+			string msg = Encoding.ASCII.GetString(inBuffer, 0, rec);
+
+			if (msg.ToLower().Contains("[connect]"))
+			{
+				if (ClientList.childCount >= MaxUsers)
+				{
+					outBuffer = Encoding.ASCII.GetBytes("[disconnect];Server Full!");
+
+					server.SendTo(outBuffer, remoteClient);
+					return;
+				}
+
+				string name;
+
+				do
+				{
+					name = "";
+
+					for (int i = 0; i < IdLength; i++)
+					{
+						name += glyphs[UnityEngine.Random.Range(0, glyphs.Length)];
+					}
+					
+				} while (name != null);
+
+				Debug.Log("New Client: " + name + " connected!");
+
+				// Send the new User's server ID back to the User.
+				outBuffer = Encoding.ASCII.GetBytes("[setname];" + name);
+
+				client_endpoints[name] = remoteClient;
+
+				server.SendTo(outBuffer, remoteClient);
+
+				// Send Server Settings to the Client
+				outBuffer = Encoding.ASCII.GetBytes("[settings];" + MaxUsers.ToString());
+
+				server.SendTo(outBuffer, remoteClient);
+			}
+			if (msg.ToLower().Contains("[setid]"))
+			{
+				string[] data = msg.Split(';');
+
+				PuppetScript client = ClientList.Find(data[1]).GetComponent<PuppetScript>();
+				client.Root.position = JsonUtility.FromJson<Vector3>(data[2]);
+				client.orientation = float.Parse(data[3]);
+
+				for (int c = 0; c < data.Length - 4; c++)
+				{
+					client.trail[c].position = JsonUtility.FromJson<Vector3>(data[c + 4]);
+				}
+
+				client.UpdatePos();
+
+				if (ClientList.childCount > 1)
+				{
+					string outMsg = msg.Replace("[setid]", "[updateid]");
+
+					outBuffer = Encoding.ASCII.GetBytes(outMsg);
+
+					for (int c = 0; c < ClientList.childCount; c++)
+					{
+						Transform cur_client = ClientList.GetChild(c);
+						string n = cur_client.gameObject.name;
+
+						if (n.CompareTo(data[1]) == 0)
+							continue;
+
+						EndPoint out_client = (EndPoint)client_endpoints[n];
+
+						server.SendTo(outBuffer, out_client);
+					}
+				}
+			}
+		}
+		catch (Exception e)
+		{
+
+		}
+		//
+		//ATTEMPT 1
+		
+	}
 
 	public void Updateobjs()
 	{
