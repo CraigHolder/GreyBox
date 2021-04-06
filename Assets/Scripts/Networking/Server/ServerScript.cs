@@ -9,6 +9,13 @@ using System.Net.Sockets;
 
 public class ServerScript : MonoBehaviour
 {
+	enum SceneStates
+	{
+		LobbyScene,
+		GameScene
+    }
+
+
 	[Header("Host Config")]
 	public player_controller_behavior host_player;
 	private string s_hostName;
@@ -45,7 +52,7 @@ public class ServerScript : MonoBehaviour
 	private static Hashtable client_endpoints = new Hashtable();
 
 	//Dylan's Lobby Stuff
-	public bool b_InLobby;
+	SceneStates sceneStates = SceneStates.LobbyScene;
 
 	public void RunServer()
 	{
@@ -89,9 +96,9 @@ public class ServerScript : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
     {
-		switch (b_InLobby)
+		switch (sceneStates)
 		{
-			case false:
+			case SceneStates.GameScene:
 				OtherObjList = GameObject.FindGameObjectWithTag("ItemList").transform;
 				s_hostName = "";
 				for (int i = 0; i < IdLength; i++)
@@ -99,7 +106,7 @@ public class ServerScript : MonoBehaviour
 					s_hostName += glyphs[UnityEngine.Random.Range(0, glyphs.Length)];
 				}
 				break;
-			case true:
+			case SceneStates.LobbyScene:
 
 				break;
 		}
@@ -117,9 +124,9 @@ public class ServerScript : MonoBehaviour
 		//	Application.Quit();
 		//}
 
-		switch (b_InLobby)
+		switch (sceneStates)
 		{
-			case false:
+			case SceneStates.GameScene:
 					updateTimer += Time.deltaTime;
 
 					if (updateTimer >= updateTime)
@@ -378,7 +385,7 @@ public class ServerScript : MonoBehaviour
 
 					}
 					break;
-			case true:
+			case SceneStates.LobbyScene:
 				UpdateLobby();
 				break;
 		}
