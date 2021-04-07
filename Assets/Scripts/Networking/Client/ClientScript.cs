@@ -454,6 +454,10 @@ public class ClientScript : MonoBehaviour
 				LobbyScript.LobbyClient nC = new LobbyScript.LobbyClient();
 				nC.name = lobbyscript.Playername;
 				nC.position = int.Parse(data[2]);
+				if (nC.position % 2 > 0)
+					lobbyscript.i_CurrTeam = LobbyScript.Team.Blu;
+				else
+					lobbyscript.i_CurrTeam = LobbyScript.Team.Red;
 				lobbyscript.LobbyPlayers.Add(myId, nC);
 				lobbyscript.ID = myId;
 				//CurNumPlayers.text = "1";
