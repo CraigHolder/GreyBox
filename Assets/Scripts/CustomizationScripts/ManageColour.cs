@@ -14,6 +14,8 @@ public class ManageColour : MonoBehaviour
     public GameObject ArcherHat;
     public GameObject Goggles;
 
+    public RawImage[] displayImages;
+
     public RawImage ri_RedTeam;
     public RawImage ri_BlueTeam;
     public RawImage ri_Skin;
@@ -179,6 +181,34 @@ public class ManageColour : MonoBehaviour
         ApplyColour();
     }
 
+    public void ColourButtons()
+    {
+        for (int b = 0; b < displayImages.Length; b++)
+        {
+            switch (s_TeamColour)
+            {
+                case "Red":
+                    displayImages[b].color = Resources.Load<Material>("UI/UIMats/RedMat").color;
+                    break;
+                case "Orange":
+                    displayImages[b].color = Resources.Load<Material>("UI/UIMats/OrangeMat").color;
+                    break;
+                case "Yellow":
+                    displayImages[b].color = Resources.Load<Material>("UI/UIMats/YellowMat").color;
+                    break;
+                case "Blue":
+                    displayImages[b].color = Resources.Load<Material>("UI/UIMats/BlueMat").color;
+                    break;
+                case "Green":
+                    displayImages[b].color = Resources.Load<Material>("UI/UIMats/GreenMat").color;
+                    break;
+                case "Purple":
+                    displayImages[b].color = Resources.Load<Material>("UI/UIMats/PurpleMat").color;
+                    break;
+            }
+        }
+    }
+
     public void ApplyColour()
     {
         if (currentMaterial == 0)
@@ -211,6 +241,8 @@ public class ManageColour : MonoBehaviour
                     break;
             }
         }
+
+        ColourButtons();
 
         //Backparts
         DragonWings.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Dragon_Wings/Dragon_Wings" + s_TeamColour);
