@@ -13,8 +13,6 @@ TagManager:
   - ItemList
   - Remote
   - Spawn
-  - BlueNest
-  - RedNest
   layers:
   - Default
   - TransparentFX
