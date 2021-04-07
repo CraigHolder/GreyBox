@@ -527,7 +527,7 @@ public class ServerScript : MonoBehaviour
 				// Send the new user the position of all currently connected users.
 
 				string outmsg = "[updatepos];";
-				outmsg += s_hostName + ";" + lobbyscript.Playername + ";" + lobbyscript.i_CurrPlacement.ToString();
+				outmsg += s_hostName + ";" + lobbyscript.Playername + ";" + lobbyscript.i_CurrPlacement.ToString() + ";" + lobbyscript.b_Ready.ToString();
 				outBuffer = Encoding.ASCII.GetBytes(outmsg);
 
 				server.SendTo(outBuffer, remoteClient);
@@ -541,13 +541,13 @@ public class ServerScript : MonoBehaviour
 					if (obj.gameObject.name.CompareTo(name) == 0)
 						continue;
 
-					outmsg += obj.gameObject.name + ";" + ((LobbyScript.LobbyClient)lobbyscript.LobbyPlayers[obj.gameObject.name]).name + ";" + ((LobbyScript.LobbyClient)lobbyscript.LobbyPlayers[obj.gameObject.name]).position.ToString();
+					outmsg += obj.gameObject.name + ";" + ((LobbyScript.LobbyClient)lobbyscript.LobbyPlayers[obj.gameObject.name]).name + ";" + ((LobbyScript.LobbyClient)lobbyscript.LobbyPlayers[obj.gameObject.name]).position.ToString() + ";" + ((LobbyScript.LobbyClient)lobbyscript.LobbyPlayers[obj.gameObject.name]).b_ready.ToString();
 
 					outBuffer = Encoding.ASCII.GetBytes(outmsg);
 
 					server.SendTo(outBuffer, remoteClient);
 
-					outmsg = "[updatepos];" + name + ";" + data[1] + ";" + clientPos;
+					outmsg = "[updatepos];" + name + ";" + data[1] + ";" + clientPos + ";" + false.ToString();
 					outBuffer = Encoding.ASCII.GetBytes(outmsg);
 
 					server.SendTo(outBuffer, (EndPoint)client_endpoints[obj.gameObject.name]);
@@ -563,6 +563,7 @@ public class ServerScript : MonoBehaviour
 				LobbyScript.LobbyClient nC = new LobbyScript.LobbyClient();
 				nC.name = data[2];
 				nC.position = int.Parse(data[3]);
+				nC.b_ready = bool.Parse(data[4]);
 
 				lobbyscript.LobbyPlayers[data[1]] = nC;
 
@@ -744,7 +745,7 @@ public class ServerScript : MonoBehaviour
 		string msg = "[updatepos];";
 		LobbyScript.LobbyClient pC = (LobbyScript.LobbyClient)lobbyscript.LobbyPlayers[lobbyscript.ID];
 
-		msg += lobbyscript.ID + ";" + pC.name + ";" + pC.position.ToString();
+		msg += lobbyscript.ID + ";" + pC.name + ";" + pC.position.ToString() + ";" + pC.b_ready.ToString();
 
 		outBuffer = Encoding.ASCII.GetBytes(msg);
 

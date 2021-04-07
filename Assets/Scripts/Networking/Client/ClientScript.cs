@@ -480,6 +480,7 @@ public class ClientScript : MonoBehaviour
 					LobbyScript.LobbyClient nC = new LobbyScript.LobbyClient();
 					nC.name = data[2];
 					nC.position = int.Parse(data[3]);
+					nC.b_ready = bool.Parse(data[4]);
 					lobbyscript.LobbyPlayers.Add(data[1], nC);
 				}
 				else
@@ -488,6 +489,7 @@ public class ClientScript : MonoBehaviour
 					LobbyScript.LobbyClient nC = new LobbyScript.LobbyClient();
 					nC.name = data[2];
 					nC.position = int.Parse(data[3]);
+					nC.b_ready = bool.Parse(data[4]);
 
 					lobbyscript.LobbyPlayers[data[1]] = nC;
 				}

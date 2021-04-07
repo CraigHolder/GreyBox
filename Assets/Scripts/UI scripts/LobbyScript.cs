@@ -15,6 +15,7 @@ public class LobbyScript : MonoBehaviour
 	{
 		public int position;
 		public string name;
+		public bool b_ready;
 	}
 
     public int playerID;
@@ -141,13 +142,35 @@ public class LobbyScript : MonoBehaviour
 		{
 			PlayerNames[c] = "";
 			//tmp_Texts[PlayerPlaces[c]].text = PlayerNames[c];
+			
 		}
+
+		tog_R1.isOn = false;
+		tog_R2.isOn = false;
+		tog_B1.isOn = false;
+		tog_B2.isOn = false;
 
 		foreach (string k in LobbyPlayers.Keys)
 		{
 			LobbyClient c = (LobbyClient)LobbyPlayers[k];
 
 			PlayerNames[c.position] = c.name;
+
+			switch (c.position)
+			{
+				case 0:
+					tog_R1.isOn = c.b_ready;
+					break;
+				case 2:
+					tog_R2.isOn = c.b_ready;
+					break;
+				case 1:
+					tog_B1.isOn = c.b_ready;
+					break;
+				case 3:
+					tog_B2.isOn = c.b_ready;
+					break;
+			}
 		}
 
         for (int c = 0; c < PlayerNames.Length; c++)
@@ -202,7 +225,7 @@ public class LobbyScript : MonoBehaviour
         //Find out if I should make this code!!!
 		b_Ready = !b_Ready;
 
-        switch (i_CurrPlacement)
+		/*switch (i_CurrPlacement)
         {
             case 0:
                 tog_R1.isOn = b_Ready;
@@ -216,8 +239,18 @@ public class LobbyScript : MonoBehaviour
             case 3:
                 tog_B2.isOn = b_Ready;
                 break;
-        }
-    }
+        }*/
+
+		LobbyClient pC = (LobbyClient)LobbyPlayers[ID];
+		pC.b_ready = b_Ready;
+
+		LobbyPlayers[ID] = pC;
+
+		if (clientmanager.activeSelf)
+			clientmanager.GetComponent<ClientScript>().LobbyMoved();
+		else if (servermanager.activeSelf)
+			servermanager.GetComponent<ServerScript>().LobbyMoved();
+	}
 
 	public void RemovePlayer(string key)
 	{
