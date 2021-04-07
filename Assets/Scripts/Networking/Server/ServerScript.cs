@@ -7,7 +7,7 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 
-public class ServerScript : MonoBehaviour
+/*public class ServerScript : MonoBehaviour
 {
 	public enum SceneStates
 	{
@@ -673,3 +673,4 @@ public class ServerScript : MonoBehaviour
 		server.Close();
 	}
 }
+*/

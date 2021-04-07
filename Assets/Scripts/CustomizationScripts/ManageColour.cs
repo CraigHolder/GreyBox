@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ManageColour : MonoBehaviour
 {
@@ -14,9 +15,14 @@ public class ManageColour : MonoBehaviour
     public GameObject ArcherHat;
     public GameObject Goggles;
 
+    public RawImage[] displayImages;
+
     public RawImage ri_RedTeam;
     public RawImage ri_BlueTeam;
     public RawImage ri_Skin;
+    public TMP_InputField tmp_Name;
+
+
 
     private int currentMaterial = 1;
     private int i_Skin = 0;
@@ -24,32 +30,16 @@ public class ManageColour : MonoBehaviour
     public string s_TeamColour = "Red";
 
     private bool b_TeamChanger = false;
+    private bool b_init = false;
 
     private void Start()
     {
-        int temp = 0;
-
-        temp = PlayerPrefs.GetInt("Skin");
-        PlayerPrefs.SetInt("Skin", temp);
-        i_Skin = (temp - 1);
-        SwitchSkin();
-
-        temp = PlayerPrefs.GetInt("BlueColour");
-        PlayerPrefs.SetInt("BlueColour", temp);
-        i_Colour = temp;
-        ApplyColour();
-        SaveColour();
-
-        currentMaterial = 0;
-        temp = PlayerPrefs.GetInt("RedColour");
-        PlayerPrefs.SetInt("RedColour", temp);
-        i_Colour = temp;
-        ApplyColour();
-        SaveColour();
+        InitCustom();
     }
 
     public void SaveColour()
     {
+
         if (currentMaterial == 0)
         {
             switch (i_Colour)
@@ -96,6 +86,9 @@ public class ManageColour : MonoBehaviour
 
     public void FinalizeColours()
     {
+        if (tmp_Name.text.Length > 0)
+            PlayerPrefs.SetString("PlayerName", tmp_Name.text);
+
         PlayerPrefs.SetInt("Skin", i_Skin);
         PlayerPrefs.SetInt("BlueColour", i_Colour);
         PlayerPrefs.SetInt("RedColour", i_Colour);
@@ -179,6 +172,34 @@ public class ManageColour : MonoBehaviour
         ApplyColour();
     }
 
+    public void ColourButtons()
+    {
+        for (int b = 0; b < displayImages.Length; b++)
+        {
+            switch (s_TeamColour)
+            {
+                case "Red":
+                    displayImages[b].color = Resources.Load<Material>("UI/UIMats/RedMat").color;
+                    break;
+                case "Orange":
+                    displayImages[b].color = Resources.Load<Material>("UI/UIMats/OrangeMat").color;
+                    break;
+                case "Yellow":
+                    displayImages[b].color = Resources.Load<Material>("UI/UIMats/YellowMat").color;
+                    break;
+                case "Blue":
+                    displayImages[b].color = Resources.Load<Material>("UI/UIMats/BlueMat").color;
+                    break;
+                case "Green":
+                    displayImages[b].color = Resources.Load<Material>("UI/UIMats/GreenMat").color;
+                    break;
+                case "Purple":
+                    displayImages[b].color = Resources.Load<Material>("UI/UIMats/PurpleMat").color;
+                    break;
+            }
+        }
+    }
+
     public void ApplyColour()
     {
         if (currentMaterial == 0)
@@ -212,6 +233,8 @@ public class ManageColour : MonoBehaviour
             }
         }
 
+        ColourButtons();
+
         //Backparts
         DragonWings.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Dragon_Wings/Dragon_Wings" + s_TeamColour);
         Cape.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Cape/Cape" + s_TeamColour);
@@ -221,5 +244,31 @@ public class ManageColour : MonoBehaviour
         //Hats
         ArcherHat.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/ArcherHat/ArcherHat" + s_TeamColour);
         TopHat.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Tophat/Tophat" + s_TeamColour);
+    }
+
+    public void InitCustom()
+    {
+        int temp = 0;
+
+        temp = PlayerPrefs.GetInt("Skin");
+        PlayerPrefs.SetInt("Skin", temp);
+        i_Skin = (temp - 1);
+        SwitchSkin();
+
+        temp = PlayerPrefs.GetInt("BlueColour");
+        PlayerPrefs.SetInt("BlueColour", temp);
+        i_Colour = temp;
+        ApplyColour();
+        SaveColour();
+
+        currentMaterial = 0;
+        temp = PlayerPrefs.GetInt("RedColour");
+        PlayerPrefs.SetInt("RedColour", temp);
+        i_Colour = temp;
+        ApplyColour();
+        SaveColour();
+
+        tmp_Name.text = PlayerPrefs.GetString("PlayerName");
+        b_init = true;
     }
 }
