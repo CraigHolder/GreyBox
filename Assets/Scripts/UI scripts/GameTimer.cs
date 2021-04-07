@@ -45,7 +45,7 @@ public class GameTimer : MonoBehaviour
 
         if (f_timeremaining <= 0f)
         {
-            t_timetext.text = "Time: 0";
+            t_timetext.text = "Time: 0:00";
             t_scoretext.gameObject.SetActive(true);
             t_Winner.gameObject.SetActive(true);
             t_mainmenubutton.gameObject.SetActive(true);
@@ -70,6 +70,7 @@ public class GameTimer : MonoBehaviour
             s_player.PLAYER_JUMP = 0;
 
             Cursor.lockState = CursorLockMode.Confined;
+            GotoLobby();
         }
         else
         {
@@ -88,9 +89,9 @@ public class GameTimer : MonoBehaviour
         }
     }
 
-    public void GotoMainMenu()
+    public void GotoLobby()
     {
-        c_command = new GotoMainMenuCommand();
+        c_command = new GotoLobbySceneCommand();
         c_command.Execute(c_command, s_player.gameObject);
     }
 }
