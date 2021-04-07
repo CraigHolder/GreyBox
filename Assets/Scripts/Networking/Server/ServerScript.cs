@@ -7,7 +7,7 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 
-/*public class ServerScript : MonoBehaviour
+public class ServerScript : MonoBehaviour
 {
 	public enum SceneStates
 	{
@@ -632,6 +632,20 @@ using System.Net.Sockets;
 
 	}
 
+	public void ServerShutdown()
+    {
+		string msg = "[forcedshutdown];Server forcibly shut down by host.";
+
+		outBuffer = Encoding.ASCII.GetBytes(msg);
+		for (int c = 0; c < ClientList.childCount; c++)
+		{
+			string user = ClientList.GetChild(c).name;
+			EndPoint remote_client = (EndPoint)client_endpoints[user];
+
+			server.SendTo(outBuffer, remote_client);
+		}
+	}
+
 	public void InitFerretCosmetics()
 	{
 		string msg = "[updatecosmetic];" + s_hostName + ";";
@@ -673,4 +687,3 @@ using System.Net.Sockets;
 		server.Close();
 	}
 }
-*/

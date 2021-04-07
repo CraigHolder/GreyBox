@@ -361,6 +361,11 @@ public class ClientScript : MonoBehaviour
 
 								//CurNumPlayers.text = num_players.ToString();
 							}
+							else if (msg.Contains("[forcedshutdown]")) 
+							{
+								string[] data = msg.Split(';');
+								NoConnection(data[1]);
+							}
 
 						}
 						catch (Exception e)

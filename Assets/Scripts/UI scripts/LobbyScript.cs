@@ -85,7 +85,7 @@ public class LobbyScript : MonoBehaviour
         PlayerPlaces[2] = 2;
         PlayerPlaces[3] = 3;
 
-        Playername = PlayerPrefs.GetString("");
+        Playername = PlayerPrefs.GetString("PlayerName");
 
         //if (i_TotRed >= 2)
         //{
