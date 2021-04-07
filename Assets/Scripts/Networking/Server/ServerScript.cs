@@ -9,12 +9,13 @@ using System.Net.Sockets;
 
 public class ServerScript : MonoBehaviour
 {
-	enum SceneStates
+	public enum SceneStates
 	{
 		LobbyScene,
 		GameScene
     }
 
+	public LobbyScript lobbyscript;
 
 	[Header("Host Config")]
 	public player_controller_behavior host_player;
@@ -53,11 +54,17 @@ public class ServerScript : MonoBehaviour
 	private static Hashtable client_endpoints = new Hashtable();
 
 	bool initcos = false;
-	public int ID;
+	bool start = false;
+	bool lobbystart = false;
+	public int curr_ID = 2;
+	public int play_ID = 1;
+	public GameObject redNest;
+	public GameObject blueNest;
+	public int[] PlayerPlaces = new int[4];
 
 	//Dylan's Lobby Stuff
 	public bool b_FoundObjs = false;
-	SceneStates sceneStates = SceneStates.LobbyScene;
+	public SceneStates sceneStates = SceneStates.LobbyScene;
 
 	public void RunServer()
 	{
@@ -101,8 +108,6 @@ public class ServerScript : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
     {
-		OtherObjList = GameObject.FindGameObjectWithTag("ItemList").transform;
-		remote = GameObject.FindGameObjectWithTag("Remote");
 		s_hostName = "";	
 		for (int i = 0; i < IdLength; i++)
 		{
@@ -125,6 +130,30 @@ public class ServerScript : MonoBehaviour
 		switch (sceneStates)
 		{
 			case SceneStates.GameScene:
+                {
+					if(!start)
+                    {
+						OtherObjList = GameObject.FindGameObjectWithTag("ItemList").transform;
+						host_player = GameObject.FindGameObjectWithTag("PlayerController").GetComponent<player_controller_behavior>();
+						remote = GameObject.FindGameObjectWithTag("Remote");
+						redNest = GameObject.FindGameObjectWithTag("RedNest");
+						blueNest = GameObject.FindGameObjectWithTag("BlueNest");
+						start = true;
+						for (int x = 0; x < ClientList.childCount; x++)
+                        {
+							//if (ClientList.GetChild(x).GetComponentInChildren<PuppetScript>().PlayId == 1)
+								for (int c = 0; c < PlayerPlaces.Length; c++)
+								{
+									//tmp_Texts[PlayerPlaces[c]].text = PlayerNames[c];
+									//ClientList.GetChild([PlayerPlaces[c]).transform.position;
+								}
+							
+						}
+
+					}
+
+
+
 					updateTimer += Time.deltaTime;
 
 					if (updateTimer >= updateTime)
@@ -137,19 +166,7 @@ public class ServerScript : MonoBehaviour
 						{
 							//init msg with the player id
 							string msg = "[updatepos];" + s_hostName + ";";
-					msg += JsonUtility.ToJson(pos) + ";" + host_player.GetPlayerOrientation().ToString() + ";" + host_player.joystick_x.ToString() + ";" + host_player.joystick_y.ToString();
-
-					outBuffer = Encoding.ASCII.GetBytes(msg);
-				
-				//Debug.Log(msg);
-				for (int c = 0; c < ClientList.childCount; c++)
-				{
-					string user = ClientList.GetChild(c).name;
-					EndPoint remote_client = (EndPoint)client_endpoints[user];
-							for (int c = 0; c < host_player.trail.Length; c++)
-							{
-								msg += ";" + JsonUtility.ToJson(host_player.trail[c].position);
-							}
+							msg += JsonUtility.ToJson(pos) + ";" + host_player.GetPlayerOrientation().ToString() + ";" + host_player.joystick_x.ToString() + ";" + host_player.joystick_y.ToString();
 
 							outBuffer = Encoding.ASCII.GetBytes(msg);
 
@@ -158,255 +175,270 @@ public class ServerScript : MonoBehaviour
 							{
 								string user = ClientList.GetChild(c).name;
 								EndPoint remote_client = (EndPoint)client_endpoints[user];
+								for (int x = 0; x < host_player.trail.Length; x++)
+								{
+									msg += ";" + JsonUtility.ToJson(host_player.trail[x].position);
+								}
+
+								outBuffer = Encoding.ASCII.GetBytes(msg);
 
 								server.SendTo(outBuffer, remote_client);
+								//Debug.Log(msg);
 							}
 						}
-
 						Updateobjs();
-					}
 
-					try
-					{
-						int rec = server.ReceiveFrom(inBuffer, ref remoteClient);
-						string msg = Encoding.ASCII.GetString(inBuffer, 0, rec);
-
-						if (msg.ToLower().Contains("[connect]"))
+						try
 						{
-							if (ClientList.childCount >= MaxUsers)
-							{
-								outBuffer = Encoding.ASCII.GetBytes("[disconnect];Server Full!");
+							int rec = server.ReceiveFrom(inBuffer, ref remoteClient);
+							string msg = Encoding.ASCII.GetString(inBuffer, 0, rec);
 
-								server.SendTo(outBuffer, remoteClient);
-								return;
-							}
-
-							GameObject newClient = GameObject.Instantiate(ClientPrefab);
-							newClient.transform.parent = ClientList;
-
-							Transform exists = null;
-
-							string name;
-
-							do
-							{
-								name = "";
-
-								for (int i = 0; i < IdLength; i++)
-								{
-									name += glyphs[UnityEngine.Random.Range(0, glyphs.Length)];
-								}
-
-								exists = ClientList.Find(name);
-							} while (exists != null);
-
-							newClient.name = name;
-
-							Debug.Log("New Client: " + name + " connected!");
-
-							// Send the new User's server ID back to the User.
-							outBuffer = Encoding.ASCII.GetBytes("[setname];" + name);
-
-							client_endpoints[name] = remoteClient;
-
-							server.SendTo(outBuffer, remoteClient);
-
-							// Send Server Settings to the Client
-							outBuffer = Encoding.ASCII.GetBytes("[settings];" + MaxUsers.ToString());
-
-							server.SendTo(outBuffer, remoteClient);
-
-							// Send the new user the position of all currently connected users.
-							for (int c = 0; c < ClientList.childCount; c++)
-							{
-								string outmsg = "[updatepos];";
-
-								PuppetScript obj = ClientList.GetChild(c).gameObject.GetComponent<PuppetScript>();
-
-								if (obj.gameObject.name.CompareTo(name) == 0)
-									continue;
-
-								outmsg += obj.gameObject.name + ";" + JsonUtility.ToJson(obj.Root.position) + ";" + obj.orientation.ToString();
-
-								for (int d = 0; d < obj.trail.Length; d++)
-								{
-									outmsg += ";" + JsonUtility.ToJson(obj.trail[d].position);
-								}
-
-								outBuffer = Encoding.ASCII.GetBytes(outmsg);
-
-								server.SendTo(outBuffer, remoteClient);
-							}
-						}
-						else if (msg.ToLower().Contains("[setpos]"))
-						{
-							string[] data = msg.Split(';');
-
-							PuppetScript client = ClientList.Find(data[1]).GetComponent<PuppetScript>();
-							client.Root.position = JsonUtility.FromJson<Vector3>(data[2]);
-							client.orientation = float.Parse(data[3]);
-
-							for (int c = 0; c < data.Length - 4; c++)
-							{
-								client.trail[c].position = JsonUtility.FromJson<Vector3>(data[c + 4]);
-							}
-
-							client.UpdatePos();
-
-							if (ClientList.childCount > 1)
-							{
-								string outMsg = msg.Replace("[setpos]", "[updatepos]");
-
-								outBuffer = Encoding.ASCII.GetBytes(outMsg);
-
-								for (int c = 0; c < ClientList.childCount; c++)
-								{
-									Transform cur_client = ClientList.GetChild(c);
-									string n = cur_client.gameObject.name;
-
-									if (n.CompareTo(data[1]) == 0)
-										continue;
-
-									EndPoint out_client = (EndPoint)client_endpoints[n];
-
-									server.SendTo(outBuffer, out_client);
-								}
-							}
-						}
-						else if (msg.ToLower().Contains("[setobjpos]"))
-						{
-							string[] data = msg.Split(';');
-
-							Transform objparent = OtherObjList.Find(data[1]);
-							Transform obj = objparent.GetChild(0);
-
-							switch (obj.GetComponent<Score>().state)
-							{
-								case 0:
-									switch (int.Parse(data[5]))
-									{
-										case 1:
-											obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
-											obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
-											obj.GetComponent<Score>().networkedmoved = true;
-											break;
-										case 2:
-											obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
-											obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
-											obj.GetComponent<Score>().networkedmoved = true;
-											break;
-									}
-									break;
-								case 1:
-									switch (int.Parse(data[5]))
-									{
-										case 0:
-
-											break;
-										case 1:
-
-											break;
-										case 2:
-											obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
-											obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
-											obj.GetComponent<Score>().networkedmoved = true;
-											break;
-									}
-									break;
-								case 2:
-									switch (int.Parse(data[5]))
-									{
-										case 0:
-
-											break;
-										case 1:
-
-											break;
-										case 2:
-
-											break;
-									}
-									break;
-							}
-
-
-							//if(!obj.GetComponent<Score>().moved || JsonUtility.FromJson<int>(data[5]) == true)
+							//if (msg.ToLower().Contains("[connect]"))
 							//{
-							//	obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
-							//	obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
-							//	obj.GetComponent<Score>().networkedmoved = true;
+							//	if (ClientList.childCount >= MaxUsers)
+							//	{
+							//		outBuffer = Encoding.ASCII.GetBytes("[disconnect];Server Full!");
+							//
+							//		server.SendTo(outBuffer, remoteClient);
+							//		return;
+							//	}
+							//
+							//	GameObject newClient = GameObject.Instantiate(ClientPrefab);
+							//	newClient.transform.parent = ClientList;
+							//
+							//	Transform exists = null;
+							//
+							//	string name;
+							//
+							//	do
+							//	{
+							//		name = "";
+							//
+							//		for (int i = 0; i < IdLength; i++)
+							//		{
+							//			name += glyphs[UnityEngine.Random.Range(0, glyphs.Length)];
+							//		}
+							//
+							//		exists = ClientList.Find(name);
+							//	} while (exists != null);
+							//
+							//	newClient.name = name;
+							//
+							//	Debug.Log("New Client: " + name + " connected!");
+							//
+							//	// Send the new User's server ID back to the User.
+							//	outBuffer = Encoding.ASCII.GetBytes("[setname];" + name);
+							//
+							//	client_endpoints[name] = remoteClient;
+							//
+							//	server.SendTo(outBuffer, remoteClient);
+							//
+							//	// Send Server Settings to the Client
+							//	outBuffer = Encoding.ASCII.GetBytes("[settings];" + MaxUsers.ToString());
+							//
+							//	server.SendTo(outBuffer, remoteClient);
+							//
+							//	// Send the new user the position of all currently connected users.
+							//	for (int c = 0; c < ClientList.childCount; c++)
+							//	{
+							//		string outmsg = "[updatepos];";
+							//
+							//		PuppetScript obj = ClientList.GetChild(c).gameObject.GetComponent<PuppetScript>();
+							//
+							//		if (obj.gameObject.name.CompareTo(name) == 0)
+							//			continue;
+							//
+							//		outmsg += obj.gameObject.name + ";" + JsonUtility.ToJson(obj.Root.position) + ";" + obj.orientation.ToString();
+							//
+							//		for (int d = 0; d < obj.trail.Length; d++)
+							//		{
+							//			outmsg += ";" + JsonUtility.ToJson(obj.trail[d].position);
+							//		}
+							//
+							//		outBuffer = Encoding.ASCII.GetBytes(outmsg);
+							//
+							//		server.SendTo(outBuffer, remoteClient);
+							//	}
 							//}
-
-							if (ClientList.childCount > 0)
+							if (msg.ToLower().Contains("[setpos]"))
 							{
-								for (int c = 0; c < ClientList.childCount; c++)
+								string[] data = msg.Split(';');
+
+								PuppetScript client = ClientList.Find(data[1]).GetComponent<PuppetScript>();
+								client.Root.position = JsonUtility.FromJson<Vector3>(data[2]);
+								client.orientation = float.Parse(data[3]);
+
+								for (int c = 0; c < data.Length - 4; c++)
 								{
-									//for (int u = 0; u < OtherObjList.childCount; u ++)
-									//{
-									//	Transform cur_obj = OtherObjList.GetChild(u);
-									//
-									//}
-									Transform cur_client = ClientList.GetChild(c);
-									string n = cur_client.gameObject.name;
+									client.trail[c].position = JsonUtility.FromJson<Vector3>(data[c + 4]);
+								}
 
-									if (n.CompareTo(data[4]) == 0)
-										continue;
+								client.UpdatePos();
 
-									string outMsg = msg.Replace("[setobjpos]", "[updateobjpos]");
+								if (ClientList.childCount > 1)
+								{
+									string outMsg = msg.Replace("[setpos]", "[updatepos]");
+
 									outBuffer = Encoding.ASCII.GetBytes(outMsg);
-									EndPoint out_client = (EndPoint)client_endpoints[n];
 
-									server.SendTo(outBuffer, out_client);
+									for (int c = 0; c < ClientList.childCount; c++)
+									{
+										Transform cur_client = ClientList.GetChild(c);
+										string n = cur_client.gameObject.name;
+
+										if (n.CompareTo(data[1]) == 0)
+											continue;
+
+										EndPoint out_client = (EndPoint)client_endpoints[n];
+
+										server.SendTo(outBuffer, out_client);
+									}
 								}
 							}
-						}
-						else if (msg.ToLower().Contains("[disconnect]"))
-						{
-							string[] data = msg.Split(';');
-
-							Transform client = ClientList.Find(data[1]);
-
-							Debug.Log("Client: " + data[1] + " disconnected.");
-
-							GameObject.Destroy(client.gameObject);
-							client_endpoints.Remove(data[1]);
-
-							for (int c = 0; c < ClientList.childCount; c++)
+							else if (msg.ToLower().Contains("[setobjpos]"))
 							{
-								string user = ClientList.GetChild(c).name;
-								EndPoint remote_client = (EndPoint)client_endpoints[user];
+								string[] data = msg.Split(';');
+
+								Transform objparent = OtherObjList.Find(data[1]);
+								Transform obj = objparent.GetChild(0);
+
+								switch (obj.GetComponent<Score>().state)
+								{
+									case 0:
+										switch (int.Parse(data[5]))
+										{
+											case 1:
+												obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
+												obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
+												obj.GetComponent<Score>().networkedmoved = true;
+												break;
+											case 2:
+												obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
+												obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
+												obj.GetComponent<Score>().networkedmoved = true;
+												break;
+										}
+										break;
+									case 1:
+										switch (int.Parse(data[5]))
+										{
+											case 0:
+
+												break;
+											case 1:
+
+												break;
+											case 2:
+												obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
+												obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
+												obj.GetComponent<Score>().networkedmoved = true;
+												break;
+										}
+										break;
+									case 2:
+										switch (int.Parse(data[5]))
+										{
+											case 0:
+
+												break;
+											case 1:
+
+												break;
+											case 2:
+
+												break;
+										}
+										break;
+								}
 
 
-								outBuffer = Encoding.ASCII.GetBytes("[cull];" + data[1]);
+								//if(!obj.GetComponent<Score>().moved || JsonUtility.FromJson<int>(data[5]) == true)
+								//{
+								//	obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
+								//	obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
+								//	obj.GetComponent<Score>().networkedmoved = true;
+								//}
 
-								server.SendTo(outBuffer, remote_client);
+								if (ClientList.childCount > 0)
+								{
+									for (int c = 0; c < ClientList.childCount; c++)
+									{
+										//for (int u = 0; u < OtherObjList.childCount; u ++)
+										//{
+										//	Transform cur_obj = OtherObjList.GetChild(u);
+										//
+										//}
+										Transform cur_client = ClientList.GetChild(c);
+										string n = cur_client.gameObject.name;
+
+										if (n.CompareTo(data[4]) == 0)
+											continue;
+
+										string outMsg = msg.Replace("[setobjpos]", "[updateobjpos]");
+										outBuffer = Encoding.ASCII.GetBytes(outMsg);
+										EndPoint out_client = (EndPoint)client_endpoints[n];
+
+										server.SendTo(outBuffer, out_client);
+									}
+								}
 							}
+							else if (msg.ToLower().Contains("[disconnect]"))
+							{
+								string[] data = msg.Split(';');
+
+								Transform client = ClientList.Find(data[1]);
+
+								Debug.Log("Client: " + data[1] + " disconnected.");
+
+								GameObject.Destroy(client.gameObject);
+								client_endpoints.Remove(data[1]);
+
+								for (int c = 0; c < ClientList.childCount; c++)
+								{
+									string user = ClientList.GetChild(c).name;
+									EndPoint remote_client = (EndPoint)client_endpoints[user];
+
+
+									outBuffer = Encoding.ASCII.GetBytes("[cull];" + data[1]);
+
+									server.SendTo(outBuffer, remote_client);
+								}
+							}
+							Console.WriteLine("Received: {0}, From Client: {1}", msg, remoteClient);
 						}
-						Console.WriteLine("Received: {0}, From Client: {1}", msg, remoteClient);
-					}
-					catch (Exception e)
-					{
+						catch (Exception e)
+						{
 
-
-			UpdateFerretState();
-			Updateobjs();
-			if(!initcos)
-            {
-				InitFerretCosmetics();
-				initcos = true;
-			}
+						}
+						UpdateFerretState();
+						Updateobjs();
+						if (!initcos)
+						{
+							InitFerretCosmetics();
+							initcos = true;
+						}
 					}
 					break;
+				}
 			case SceneStates.LobbyScene:
-				UpdateLobby();
+                {
+					UpdateLobby();
+				}
 				break;
 		}
 	}
-
+	/// <summary>
+	// LOBBY SCRIPT
+	/// </summary>
 	public void UpdateLobby()
     {
-		//CONNECTING TO LOBBY
+		if(!lobbystart)
+        {
+			lobbyscript.PlayerNames[0] = lobbyscript.Playername;
+			lobbystart = true;
+		}
 
+		//CONNECTING TO LOBBY
 		try
 		{
 			int rec = server.ReceiveFrom(inBuffer, ref remoteClient);
@@ -414,6 +446,7 @@ public class ServerScript : MonoBehaviour
 
 			if (msg.ToLower().Contains("[connect]"))
 			{
+				string[] data = msg.Split(';');
 				if (ClientList.childCount >= MaxUsers)
 				{
 					outBuffer = Encoding.ASCII.GetBytes("[disconnect];Server Full!");
@@ -423,9 +456,8 @@ public class ServerScript : MonoBehaviour
 				}
 
 				GameObject newClient = GameObject.Instantiate(ClientPrefab);
-				InitFerretCosmetics();
 				newClient.transform.parent = ClientList;
-
+				newClient.GetComponent<PuppetScript>().PlayId = curr_ID;
 				Transform exists = null;
 
 				string name;
@@ -438,8 +470,11 @@ public class ServerScript : MonoBehaviour
 					{
 						name += glyphs[UnityEngine.Random.Range(0, glyphs.Length)];
 					}
-					
-				} while (name != null);
+
+					exists = ClientList.Find(name);
+				} while (exists != null);
+
+				newClient.name = name;
 
 				Debug.Log("New Client: " + name + " connected!");
 
@@ -449,198 +484,36 @@ public class ServerScript : MonoBehaviour
 				client_endpoints[name] = remoteClient;
 
 				server.SendTo(outBuffer, remoteClient);
+				lobbyscript.PlayerNames[curr_ID - 1] = data[1];
+
 
 				// Send Server Settings to the Client
-				outBuffer = Encoding.ASCII.GetBytes("[settings];" + MaxUsers.ToString());
+				outBuffer = Encoding.ASCII.GetBytes("[settings];" + curr_ID.ToString() + ";" + lobbyscript.PlayerNames[0] + ";" + lobbyscript.PlayerNames[1] + ";" + 
+					lobbyscript.PlayerNames[2] + ";" + lobbyscript.PlayerNames[3]);
 
+				curr_ID++;
 				server.SendTo(outBuffer, remoteClient);
-			}
-			if (msg.ToLower().Contains("[setid]"))
-			{
-				string[] data = msg.Split(';');
 
-				PuppetScript client = ClientList.Find(data[1]).GetComponent<PuppetScript>();
-				client.Root.position = JsonUtility.FromJson<Vector3>(data[2]);
-				client.orientation = float.Parse(data[3]);
-				client.DeadReckoning(float.Parse(data[4]), float.Parse(data[5]));
-
-				for (int c = 0; c < data.Length - 4; c++)
+				// Send the new user the position of all currently connected users.
+				for (int c = 0; c < ClientList.childCount; c++)
 				{
-					client.trail[c].position = JsonUtility.FromJson<Vector3>(data[c + 6]);
-				}
+					string outmsg = "[updatepos];";
 
-				client.UpdatePos();
+					PuppetScript obj = ClientList.GetChild(c).gameObject.GetComponent<PuppetScript>();
 
-				if (ClientList.childCount > 1)
-				{
-					string outMsg = msg.Replace("[setid]", "[updateid]");
+					if (obj.gameObject.name.CompareTo(name) == 0)
+						continue;
 
-					outBuffer = Encoding.ASCII.GetBytes(outMsg);
+					outmsg += obj.gameObject.name + ";" + JsonUtility.ToJson(obj.Root.position) + ";" + obj.orientation.ToString();
 
-					for (int c = 0; c < ClientList.childCount; c++)
+					for (int d = 0; d < obj.trail.Length; d++)
 					{
-						Transform cur_client = ClientList.GetChild(c);
-						string n = cur_client.gameObject.name;
-
-						if (n.CompareTo(data[1]) == 0)
-							continue;
-
-						EndPoint out_client = (EndPoint)client_endpoints[n];
-
-						server.SendTo(outBuffer, out_client);
+						outmsg += ";" + JsonUtility.ToJson(obj.trail[d].position);
 					}
-				}
-			}
-			else if (msg.ToLower().Contains("[setspeaker]"))
-			{
-				string[] data = msg.Split(';');
 
-				remote.GetComponent<Remote>().b_speakeron = bool.Parse(data[1]);
-				if(remote.GetComponent<Remote>().b_speakeron == true)
-                {
-					remote.GetComponent<Remote>().mr_light.material = remote.GetComponent<Remote>().M_on;
-					remote.GetComponent<Remote>().fly_shareddata.e_speakerstate = Speakers.SpeakerState.On;
-				}
-                else
-                {
-					remote.GetComponent<Remote>().mr_light.material = remote.GetComponent<Remote>().M_off;
-					remote.GetComponent<Remote>().fly_shareddata.e_speakerstate = Speakers.SpeakerState.Off;
-				}
+					outBuffer = Encoding.ASCII.GetBytes(outmsg);
 
-
-				if (ClientList.childCount > 1)
-				{
-					string outMsg = msg.Replace("[setspeaker]", "[updatespeaker]");
-
-					outBuffer = Encoding.ASCII.GetBytes(outMsg);
-
-					for (int c = 0; c < ClientList.childCount; c++)
-					{
-						Transform cur_client = ClientList.GetChild(c);
-						string n = cur_client.gameObject.name;
-
-						if (n.CompareTo(data[2]) == 0)
-							continue;
-
-						EndPoint out_client = (EndPoint)client_endpoints[n];
-
-						server.SendTo(outBuffer, out_client);
-					}
-				}
-			}
-			else if (msg.ToLower().Contains("[setcosmetic]"))
-			{
-				string[] data = msg.Split(';');
-				PuppetScript client = ClientList.Find(data[1]).GetComponent<PuppetScript>();
-				client.SetCosmetics(int.Parse(data[2]), int.Parse(data[3]), int.Parse(data[4]), int.Parse(data[5]) , 
-					int.Parse(data[6]), int.Parse(data[7]), int.Parse(data[8]));
-
-				
-				if (ClientList.childCount > 1)
-				{
-					string outMsg = msg.Replace("[setcosmetic]", "[updatecosmetic]");
-
-					outBuffer = Encoding.ASCII.GetBytes(outMsg);
-
-					for (int c = 0; c < ClientList.childCount; c++)
-					{
-						Transform cur_client = ClientList.GetChild(c);
-						string n = cur_client.gameObject.name;
-
-						if (n.CompareTo(data[2]) == 0)
-							continue;
-
-						EndPoint out_client = (EndPoint)client_endpoints[n];
-
-						server.SendTo(outBuffer, out_client);
-					}
-				}
-			}
-			else if (msg.ToLower().Contains("[setobjpos]"))
-			{
-				string[] data = msg.Split(';');
-
-				Transform objparent = OtherObjList.Find(data[1]);
-				Transform obj = objparent.GetChild(0);
-
-				switch (obj.GetComponent<Score>().state)
-                {
-					case 0:
-						switch(int.Parse(data[5]))
-                        {
-							case 1:
-								obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
-								obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
-								obj.GetComponent<Score>().networkedmoved = true;
-								break;
-							case 2:
-								obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
-								obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
-								obj.GetComponent<Score>().networkedmoved = true;
-								break;
-						}
-						break;
-					case 1:
-						switch (int.Parse(data[5]))
-						{
-							case 0:
-
-								break;
-							case 1:
-
-								break;
-							case 2:
-								obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
-								obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
-								obj.GetComponent<Score>().networkedmoved = true;
-								break;
-						}
-						break;
-					case 2:
-						switch (int.Parse(data[5]))
-						{
-							case 0:
-
-								break;
-							case 1:
-
-								break;
-							case 2:
-
-								break;
-						}
-						break;
-				}
-
-
-				//if(!obj.GetComponent<Score>().moved || JsonUtility.FromJson<int>(data[5]) == true)
-                //{
-				//	obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
-				//	obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
-				//	obj.GetComponent<Score>().networkedmoved = true;
-				//}
-
-				if (ClientList.childCount > 0)
-				{
-					for (int c = 0; c < ClientList.childCount; c++)
-					{
-						//for (int u = 0; u < OtherObjList.childCount; u ++)
-						//{
-						//	Transform cur_obj = OtherObjList.GetChild(u);
-						//
-						//}
-						Transform cur_client = ClientList.GetChild(c);
-						string n = cur_client.gameObject.name;
-
-						if (n.CompareTo(data[4]) == 0)
-							continue;
-
-						string outMsg = msg.Replace("[setobjpos]", "[updateobjpos]");
-						outBuffer = Encoding.ASCII.GetBytes(outMsg);
-						EndPoint out_client = (EndPoint)client_endpoints[n];
-
-						server.SendTo(outBuffer, out_client);
-					}
+					server.SendTo(outBuffer, remoteClient);
 				}
 			}
 			else if (msg.ToLower().Contains("[disconnect]"))
@@ -665,45 +538,12 @@ public class ServerScript : MonoBehaviour
 					server.SendTo(outBuffer, remote_client);
 				}
 			}
-			else if (msg.ToLower().Contains("[setstate]")) //FOR ANIMATIONS
-			{
-				string[] data = msg.Split(';');
-				PuppetScript client = ClientList.Find(data[1]).GetComponent<PuppetScript>();
-
-				int c_state = int.Parse(data[2]); //Should be state int
-
-				client.setState(c_state);
-				client.AnimateFerret();
-
-				if (ClientList.childCount > 1)
-				{
-					string outMsg = msg.Replace("[setstate]", "[updatestate]");
-
-					outBuffer = Encoding.ASCII.GetBytes(outMsg);
-
-					for (int c = 0; c < ClientList.childCount; c++)
-					{
-						Transform cur_client = ClientList.GetChild(c);
-						string n = cur_client.gameObject.name;
-
-						if (n.CompareTo(data[1]) == 0)
-							continue;
-
-						EndPoint out_client = (EndPoint)client_endpoints[n];
-
-						server.SendTo(outBuffer, out_client);
-					}
-				}
-			}
-			//Console.WriteLine("Received: {0}, From Client: {1}", msg, remoteClient);
-			Debug.Log("Received: " + msg + " From Client: " + remoteClient);
-		} catch (Exception e) {
-
+		}
+		catch (Exception e)
+		{
 
 		}
-		//
-		//ATTEMPT 1
-		
+
 	}
 
 	public void Updateobjs()

@@ -8,6 +8,8 @@ public class PuppetScript : MonoBehaviour
 	public Transform head = null;
 	private Quaternion head_rot;
 
+	public int playerId;
+
 	[Header("Trail Settings")]
 	public Transform[] trail;
 	private Quaternion[] start_rots;
@@ -44,6 +46,8 @@ public class PuppetScript : MonoBehaviour
 	private int i_Skin;
 
 	bool b_Accessoriezed = false;
+
+	public int PlayId;
 
 	//TEMP VARIABLES:
 	public int i_PlayerTeam = 0;
