@@ -7,7 +7,7 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 
-/*public class ServerScript : MonoBehaviour
+public class ServerScript : MonoBehaviour
 {
 	public enum SceneStates
 	{
@@ -102,6 +102,8 @@ using System.Net.Sockets;
 		server.Bind(localEP);
 
 		Debug.Log("Waiting for Data.");
+
+		lobbystart = false;
 	}
 
 
@@ -435,7 +437,14 @@ using System.Net.Sockets;
     {
 		if(!lobbystart)
         {
+			lobbyscript.ID = s_hostName;
 			lobbyscript.PlayerNames[0] = lobbyscript.Playername;
+
+			LobbyScript.LobbyClient nC = new LobbyScript.LobbyClient();
+			nC.name = lobbyscript.Playername;
+			nC.position = 0;
+
+			lobbyscript.LobbyPlayers[s_hostName] = nC;
 			lobbystart = true;
 		}
 
@@ -479,21 +488,33 @@ using System.Net.Sockets;
 
 				Debug.Log("New Client: " + name + " connected!");
 
+				int clientPos = 0;
+
+				for (int c = 0; c < lobbyscript.PlayerNames.Length; c++)
+				{
+					if (lobbyscript.PlayerNames[c] == "")
+					{
+						lobbyscript.PlayerNames[c] = data[1];
+						clientPos = c;
+					}
+				}
+
 				// Send the new User's server ID back to the User.
-				outBuffer = Encoding.ASCII.GetBytes("[setname];" + name);
+				outBuffer = Encoding.ASCII.GetBytes("[setname];" + name + ";" + clientPos.ToString());
 
 				client_endpoints[name] = remoteClient;
 
 				server.SendTo(outBuffer, remoteClient);
-				lobbyscript.PlayerNames[curr_ID - 1] = data[1];
+
+				//lobbyscript.PlayerNames[curr_ID - 1] = data[1];
 
 
 				// Send Server Settings to the Client
-				outBuffer = Encoding.ASCII.GetBytes("[settings];" + curr_ID.ToString() + ";" + lobbyscript.PlayerNames[0] + ";" + lobbyscript.PlayerNames[1] + ";" + 
-					lobbyscript.PlayerNames[2] + ";" + lobbyscript.PlayerNames[3]);
+				//outBuffer = Encoding.ASCII.GetBytes("[settings];" + curr_ID.ToString() + ";" + lobbyscript.PlayerNames[0] + ";" + lobbyscript.PlayerNames[1] + ";" + 
+				//	lobbyscript.PlayerNames[2] + ";" + lobbyscript.PlayerNames[3]);
 
-				curr_ID++;
-				server.SendTo(outBuffer, remoteClient);
+				//curr_ID++;
+				//server.SendTo(outBuffer, remoteClient);
 
 				// Send the new user the position of all currently connected users.
 				for (int c = 0; c < ClientList.childCount; c++)
@@ -505,16 +526,41 @@ using System.Net.Sockets;
 					if (obj.gameObject.name.CompareTo(name) == 0)
 						continue;
 
-					outmsg += obj.gameObject.name + ";" + JsonUtility.ToJson(obj.Root.position) + ";" + obj.orientation.ToString();
-
-					for (int d = 0; d < obj.trail.Length; d++)
-					{
-						outmsg += ";" + JsonUtility.ToJson(obj.trail[d].position);
-					}
+					outmsg += obj.gameObject.name + ";" + ((LobbyScript.LobbyClient)lobbyscript.LobbyPlayers[obj.gameObject.name]).name + ";" + ((LobbyScript.LobbyClient)lobbyscript.LobbyPlayers[obj.gameObject.name]).position.ToString();
 
 					outBuffer = Encoding.ASCII.GetBytes(outmsg);
 
 					server.SendTo(outBuffer, remoteClient);
+				}
+			} else if(msg.ToLower().Contains("[updatepos]"))
+			{
+				string[] data = msg.Split(';');
+
+				Transform client_trans = ClientList.Find(data[1]);
+				GameObject client_obj;
+
+				client_obj = client_trans.gameObject;
+				LobbyScript.LobbyClient nC = new LobbyScript.LobbyClient();
+				nC.name = data[2];
+				nC.position = int.Parse(data[3]);
+
+				lobbyscript.LobbyPlayers[data[1]] = nC;
+
+				foreach (Transform child in ClientList)
+				{
+					string cid = child.gameObject.name;
+					if (string.Compare(cid, data[1]) != 0)
+					{
+						string outmsg = "[updatepos];";
+
+						//PuppetScript obj = ClientList.GetChild(c).gameObject.GetComponent<PuppetScript>();
+
+						outmsg += cid + ";" + ((LobbyScript.LobbyClient)lobbyscript.LobbyPlayers[cid]).name + ";" + ((LobbyScript.LobbyClient)lobbyscript.LobbyPlayers[cid]).position.ToString();
+
+						outBuffer = Encoding.ASCII.GetBytes(outmsg);
+
+						server.SendTo(outBuffer, remoteClient);
+					}
 				}
 			}
 			else if (msg.ToLower().Contains("[disconnect]"))
@@ -672,5 +718,22 @@ using System.Net.Sockets;
 		server.Shutdown(SocketShutdown.Both);
 		server.Close();
 	}
+
+	public void LobbyMoved()
+	{
+		string msg = "[updatepos];";
+		LobbyScript.LobbyClient pC = (LobbyScript.LobbyClient)lobbyscript.LobbyPlayers[lobbyscript.ID];
+
+		msg += lobbyscript.ID + ";" + pC.name + ";" + pC.position.ToString();
+
+		outBuffer = Encoding.ASCII.GetBytes(msg);
+
+		for (int c = 0; c < ClientList.childCount; c++)
+		{
+			string user = ClientList.GetChild(c).name;
+			EndPoint remote_client = (EndPoint)client_endpoints[user];
+
+			server.SendTo(outBuffer, remote_client);
+		}
+	}
 }
-*/
