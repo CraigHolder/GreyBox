@@ -141,7 +141,7 @@ public class ClientScript : MonoBehaviour
 		ErrorPrompt.SetActive(false);
 		//PlayerCount.SetActive(false);
 
-		RunClient();
+		//RunClient();
 
 		updateTime = 1.0f / (float)UpdateFramesPerSec;
     }

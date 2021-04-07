@@ -296,7 +296,7 @@ public class GotoLobbySceneCommand : Command
 
     void ToGameScene()
     {
-        SceneManager.LoadScene("LobbyMenu");
+        SceneManager.LoadScene(9);
     }
 }
 

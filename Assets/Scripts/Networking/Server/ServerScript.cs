@@ -144,6 +144,7 @@ public class ServerScript : MonoBehaviour
 							//if (ClientList.GetChild(x).GetComponentInChildren<PuppetScript>().PlayId == 1)
 								for (int c = 0; c < PlayerPlaces.Length; c++)
 								{
+								
 									//tmp_Texts[PlayerPlaces[c]].text = PlayerNames[c];
 									//ClientList.GetChild([PlayerPlaces[c]).transform.position;
 								}

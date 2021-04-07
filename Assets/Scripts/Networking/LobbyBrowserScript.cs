@@ -15,6 +15,7 @@ public class LobbyBrowserScript : MonoBehaviour
 	private static byte[] inBuffer = new byte[512];
 	private static byte[] outBuffer;
 	private Socket server;
+	public ClientScript clientmanager;
 
 	[Header("UI Elements")]
 	public GameObject BrowserWindow;
@@ -145,7 +146,8 @@ public class LobbyBrowserScript : MonoBehaviour
 						hosting = true;
 					} else if (code.Contains("[connect]")) {
 						string hostip = data[1];
-
+						PlayerPrefs.SetString("IPConnect", hostip);
+						clientmanager.RunClient();
 						ConnectedToLobby();
 
 						ConnectingPrompt.SetActive(false);
