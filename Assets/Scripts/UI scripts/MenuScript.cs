@@ -100,6 +100,12 @@ public class MenuScript : MonoBehaviour
         c_command.Execute(c_command, obj_placeholder);
     }
 
+    public void GotoSettings()
+    {
+        c_command = new GotoSettingsCommand();
+        c_command.Execute(c_command, obj_placeholder);
+    }
+
     public void GotoAchievements()
     {
         c_command = new GotoAchievementCommand();
