@@ -148,9 +148,11 @@ public class LobbyBrowserScript : MonoBehaviour
 						string hostip = data[1];
 						PlayerPrefs.SetString("IPConnect", hostip);
 						clientmanager.RunClient();
+						clientmanager.gameObject.SetActive(true);
 						ConnectedToLobby();
 
 						ConnectingPrompt.SetActive(false);
+						BrowserWindow.SetActive(false);
 						LobbyMenu.SetActive(true);
 					} else if (code.Contains("[err]")) {
 						string errMsg = data[1];
@@ -268,7 +270,7 @@ public class LobbyBrowserScript : MonoBehaviour
 	{
 		if (SelectedLobby != null)
 		{
-			string msg = "[connected];" + SelectedLobby;
+			string msg = "[connected];" + SelectedLobby.name;
 
 			outBuffer = Encoding.ASCII.GetBytes(msg);
 

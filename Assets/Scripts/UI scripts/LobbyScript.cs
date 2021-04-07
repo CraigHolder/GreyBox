@@ -28,7 +28,7 @@ public class LobbyScript : MonoBehaviour
     //Hosting
     public Toggle t_IsPriv;
     public TMP_InputField IF_LobbyName;
-    public TMP_InputField IF_PlayerName;
+    //public TMP_InputField IF_PlayerName;
     public TMP_InputField IF_LobbyPass;
 
     public TMP_Text t_LobbyN;
@@ -84,6 +84,8 @@ public class LobbyScript : MonoBehaviour
         PlayerPlaces[1] = 1;
         PlayerPlaces[2] = 2;
         PlayerPlaces[3] = 3;
+
+        Playername = PlayerPrefs.GetString("");
 
         //if (i_TotRed >= 2)
         //{
@@ -159,7 +161,7 @@ public class LobbyScript : MonoBehaviour
 
             b_Change = false;
         }
-        Playername = IF_PlayerName.text;
+        //Playername = IF_PlayerName.text;
         LobName = IF_LobbyName.text;
         t_LobbyN.text = LobName;
         pass = IF_LobbyPass.text;
