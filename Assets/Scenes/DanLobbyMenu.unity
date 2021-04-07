@@ -493,7 +493,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -4968,7 +4968,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -6524,7 +6524,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -6651,11 +6651,12 @@ MonoBehaviour:
   - 
   - 
   - 
-  PlayerPlaces: 00000000000000000000000000000000
+  RedPlaces: 0000000000000000
+  BluePlaces: 0000000000000000
   tmp_Texts:
   - {fileID: 1246742657}
-  - {fileID: 85332509}
   - {fileID: 1883582485}
+  - {fileID: 85332509}
   - {fileID: 975724786}
   tog_R1: {fileID: 130318319}
   tog_R2: {fileID: 934188157}
@@ -10671,7 +10672,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0

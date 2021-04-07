@@ -440,6 +440,8 @@ public class ClientScript : MonoBehaviour
 		{
 			int rec = client.ReceiveFrom(inBuffer, ref serverEP);
 			string msg = Encoding.ASCII.GetString(inBuffer, 0, rec);
+
+			Debug.Log(msg);
 			if (msg.Contains("[setname]"))
 			{
 				ConnectingMsg.SetActive(false);
@@ -448,10 +450,49 @@ public class ClientScript : MonoBehaviour
 
 				myId = data[1];
 
+				LobbyScript.LobbyClient nC = new LobbyScript.LobbyClient();
+				nC.name = lobbyscript.Playername;
+				nC.position = int.Parse(data[2]);
+				if (nC.position % 2 > 0)
+					lobbyscript.i_CurrTeam = LobbyScript.Team.Blu;
+				else
+					lobbyscript.i_CurrTeam = LobbyScript.Team.Red;
+				lobbyscript.LobbyPlayers.Add(myId, nC);
+				lobbyscript.ID = myId;
 				//CurNumPlayers.text = "1";
 				//PlayerCount.SetActive(true);
 
 				connected = true;
+			} else if (msg.Contains("[updatepos]")) {
+				string[] data = msg.Split(';');
+
+				Transform client_trans = OtherList.Find(data[1]);
+				GameObject client_obj;
+
+				if (client_trans == null)
+				{
+					client_obj = GameObject.Instantiate(OtherTemplate);
+					client_obj.name = data[1];
+					client_obj.transform.parent = OtherList;
+					num_players++;
+
+					LobbyScript.LobbyClient nC = new LobbyScript.LobbyClient();
+					nC.name = data[2];
+					nC.position = int.Parse(data[3]);
+					nC.b_ready = bool.Parse(data[4]);
+					lobbyscript.LobbyPlayers.Add(data[1], nC);
+				}
+				else
+				{
+					client_obj = client_trans.gameObject;
+					LobbyScript.LobbyClient nC = new LobbyScript.LobbyClient();
+					nC.name = data[2];
+					nC.position = int.Parse(data[3]);
+					nC.b_ready = bool.Parse(data[4]);
+
+					lobbyscript.LobbyPlayers[data[1]] = nC;
+				}
+
 			}
 			else if (msg.Contains("[settings]"))
 			{
@@ -463,27 +504,15 @@ public class ClientScript : MonoBehaviour
 				lobbyscript.PlayerNames[3] = data[5];
 				//MaxNumPlayers.text = data[1];
 			}
-			else if (msg.Contains("[updatelobby]"))
+			else if (msg.Contains("[cull]"))
 			{
 				string[] data = msg.Split(';');
-				PlayID = int.Parse(data[1]);
-				lobbyscript.PlayerNames[0] = data[2];
-				lobbyscript.PlayerNames[1] = data[3];
-				lobbyscript.PlayerNames[2] = data[4];
-				lobbyscript.PlayerNames[3] = data[5];
+				string id = data[1];
 
-				lobbyscript.PlayerPlaces[0] = int.Parse(data[6]);
-				lobbyscript.PlayerPlaces[1] = int.Parse(data[7]);
-				lobbyscript.PlayerPlaces[2] = int.Parse(data[8]);
-				lobbyscript.PlayerPlaces[3] = int.Parse(data[9]);
-				//MaxNumPlayers.text = data[1];
-			}
-			else if (msg.Contains("[updateready]"))
-			{
-				string[] data = msg.Split(';');
-				//numReady = int.Parse(data[1]);
-				
-				//MaxNumPlayers.text = data[1];
+				Transform poorSoul = OtherList.Find(data[1]);
+				GameObject.Destroy(poorSoul.gameObject);
+
+				lobbyscript.RemovePlayer(id);
 			}
 		}
 		catch (Exception e)
@@ -534,10 +563,19 @@ public class ClientScript : MonoBehaviour
 
 	private void OnApplicationQuit()
 	{
+		CloseConnection();
+	}
+
+	private void CloseConnection()
+	{
 		if (!disconnected)
 		{
-			outBuffer = Encoding.ASCII.GetBytes("[disconnect];" + myId);
+			string msg = "[disconnect];" + myId;
 
+			if (sceneStates == SceneStates.LobbyScene)
+				msg += ";" + lobbyscript.i_CurrPlacement.ToString();
+
+			outBuffer = Encoding.ASCII.GetBytes(msg);
 			client.SendTo(outBuffer, remoteEP);
 
 			client.Shutdown(SocketShutdown.Both);
@@ -556,5 +594,17 @@ public class ClientScript : MonoBehaviour
 
 		client.Shutdown(SocketShutdown.Both);
 		client.Close();
+	}
+
+	public void LobbyMoved()
+	{
+		string msg = "[updatepos];";
+		LobbyScript.LobbyClient pC = (LobbyScript.LobbyClient)lobbyscript.LobbyPlayers[lobbyscript.ID];
+
+		msg += lobbyscript.ID + ";" + pC.name + ";" + pC.position.ToString() + ";" + pC.b_ready.ToString();
+
+		outBuffer = Encoding.ASCII.GetBytes(msg);
+
+		client.SendTo(outBuffer, remoteEP);
 	}
 }
