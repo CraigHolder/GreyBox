@@ -14,17 +14,17 @@ public class DeathPlane : MonoBehaviour
 
     void Start()
     {
-        obj_player = GameObject.FindGameObjectWithTag("Player");
-        c_controller = obj_player.GetComponent<CharacterController>();
-        s_playerscript = obj_player.GetComponent<PlayerMovement>();
+        //obj_player = GameObject.FindGameObjectWithTag("Player");
+        //c_controller = obj_player.GetComponent<CharacterController>();
+        //s_playerscript = obj_player.GetComponent<PlayerMovement>();
 
     }
 
     void OnTriggerEnter(Collider collision)
     {
-        if(collision.gameObject.tag == "Player")
+        if(collision.gameObject.tag == "Player" || collision.gameObject.tag == "PlayerController")
         {
-            b_active = true;
+            //b_active = true;
             if (b_returnmenu == true)
             {
                 c_command = new GotoMainMenuCommand();
@@ -32,9 +32,9 @@ public class DeathPlane : MonoBehaviour
             }
             else
             {
-                c_controller.enabled = false;
-                obj_player.transform.position = s_playerscript.vec3_checkpoint;
-                c_controller.enabled = true;
+               // c_controller.enabled = false;
+                //obj_player.transform.position = s_playerscript.vec3_checkpoint;
+               // c_controller.enabled = true;
             }
         }
         

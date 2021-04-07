@@ -7888,6 +7888,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Root: {fileID: 8815579468406241803}
   head: {fileID: 2586720906310171631}
+  playerId: 0
   trail:
   - {fileID: 2689947113805509686}
   - {fileID: 3291377486988807688}
@@ -7897,7 +7898,24 @@ MonoBehaviour:
   - {fileID: 2461830628770329718}
   - {fileID: 505891450279053793}
   max_distance: 1
+  anims: {fileID: 0}
   orientation: 0
+  GravityModifier: 3
+  ROT_SPEED: 45
+  PLAYER_SPEED: 10
+  player: {fileID: 1101669504490688097}
+  bodyItems:
+  - {fileID: 4218581434382791197}
+  - {fileID: 4218581433940548710}
+  hatItems:
+  - {fileID: 4218581435092659523}
+  - {fileID: 4218581435699243510}
+  maskItems:
+  - {fileID: 4218581434042223798}
+  - {fileID: 4218581433881741506}
+  orb: {fileID: 739139519}
+  PlayId: 0
+  i_PlayerTeam: 0
 --- !u!1 &6881431570777647446
 GameObject:
   m_ObjectHideFlags: 0

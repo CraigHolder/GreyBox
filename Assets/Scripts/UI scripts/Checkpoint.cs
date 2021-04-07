@@ -23,7 +23,7 @@ public class Checkpoint : MonoBehaviour
     {
         if(b_activated == false)
         {
-            s_playerscript.vec3_checkpoint = vec3_checkpoint;
+            //s_playerscript.vec3_checkpoint = vec3_checkpoint;
             float currentTime = Time.time;
             //float checkpointTime = currentTime - s_plugin.lastTime;
             //s_plugin.lastTime = currentTime;

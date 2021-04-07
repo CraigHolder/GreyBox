@@ -141,17 +141,19 @@ public class ServerScript : MonoBehaviour
 						redNest = GameObject.FindGameObjectWithTag("RedNest");
 						blueNest = GameObject.FindGameObjectWithTag("BlueNest");
 						start = true;
-						for (int x = 0; x < ClientList.childCount; x++)
-                        {
-							//if (ClientList.GetChild(x).GetComponentInChildren<PuppetScript>().PlayId == 1)
-								for (int c = 0; c < PlayerPlaces.Length; c++)
-								{
-								
-									//tmp_Texts[PlayerPlaces[c]].text = PlayerNames[c];
-									//ClientList.GetChild([PlayerPlaces[c]).transform.position;
-								}
-							
-						}
+						InitFerretCosmetics();
+						initcos = true;
+						//for (int x = 0; x < ClientList.childCount; x++)
+						//{
+						//	//if (ClientList.GetChild(x).GetComponentInChildren<PuppetScript>().PlayId == 1)
+						//		for (int c = 0; c < PlayerPlaces.Length; c++)
+						//		{
+						//		
+						//			//tmp_Texts[PlayerPlaces[c]].text = PlayerNames[c];
+						//			//ClientList.GetChild([PlayerPlaces[c]).transform.position;
+						//		}
+						//	
+						//}
 
 					}
 
@@ -298,6 +300,36 @@ public class ServerScript : MonoBehaviour
 									}
 								}
 							}
+							if (msg.ToLower().Contains("[setcosmetics]"))
+							{
+								string[] data = msg.Split(';');
+								PuppetScript client = ClientList.Find(data[1]).GetComponent<PuppetScript>();
+
+								client.SetCosmetics(int.Parse(data[2]), int.Parse(data[3]), int.Parse(data[4]), int.Parse(data[5]),
+									int.Parse(data[6]), int.Parse(data[7]), int.Parse(data[8]));
+
+								client.UpdatePos();
+
+								if (ClientList.childCount > 1)
+								{
+									string outMsg = msg.Replace("[setcosmetics]", "[updatecosmetic]");
+
+									outBuffer = Encoding.ASCII.GetBytes(outMsg);
+
+									for (int c = 0; c < ClientList.childCount; c++)
+									{
+										Transform cur_client = ClientList.GetChild(c);
+										string n = cur_client.gameObject.name;
+
+										if (n.CompareTo(data[1]) == 0)
+											continue;
+
+										EndPoint out_client = (EndPoint)client_endpoints[n];
+
+										server.SendTo(outBuffer, out_client);
+									}
+								}
+							}
 							else if (msg.ToLower().Contains("[setobjpos]"))
 							{
 								string[] data = msg.Split(';');
@@ -415,11 +447,7 @@ public class ServerScript : MonoBehaviour
 						}
 						UpdateFerretState();
 						Updateobjs();
-						if (!initcos)
-						{
-							InitFerretCosmetics();
-							initcos = true;
-						}
+						
 					}
 					break;
 				}

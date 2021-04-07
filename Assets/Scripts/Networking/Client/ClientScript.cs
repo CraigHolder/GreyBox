@@ -167,6 +167,7 @@ public class ClientScript : MonoBehaviour
 							Player = GameObject.FindGameObjectWithTag("PlayerController").GetComponent<player_controller_behavior>();
 							remote = GameObject.FindGameObjectWithTag("Remote");
 							start = true;
+							CosmeticsInit();
 						}
 						updateTimer += Time.deltaTime;
 
@@ -198,11 +199,7 @@ public class ClientScript : MonoBehaviour
 
 							Updateobjs();
 							UpdateFerretState();
-							if (!initcos)
-							{
-								CosmeticsInit();
-								initcos = true;
-							}
+							
 						}
 
 						try
@@ -484,7 +481,7 @@ public class ClientScript : MonoBehaviour
 			else if (msg.Contains("[updateready]"))
 			{
 				string[] data = msg.Split(';');
-				numReady = int.Parse(data[1]);
+				//numReady = int.Parse(data[1]);
 				
 				//MaxNumPlayers.text = data[1];
 			}
@@ -524,10 +521,10 @@ public class ClientScript : MonoBehaviour
 	public void CosmeticsInit()
     {
 		string msg = "[setcosmetic];" + myId + ";";
+		SettingAccessories acc = GameObject.FindGameObjectWithTag("PlayerController").GetComponent<SettingAccessories>();
+		msg += acc.bCurrentItem.ToString() + ";" + acc.hCurrentItem.ToString() + ";" + acc.mCurrentItem.ToString() + ";" +
+		acc.i_BlueColour.ToString() + ";" + acc.i_RedColour.ToString() + ";" + acc.i_Skin.ToString() + ";" + acc.i_PlayerTeam.ToString();
 
-		msg += PlayerPrefs.GetInt("Body").ToString() + ";" + PlayerPrefs.GetInt("Hat").ToString() + ";" + PlayerPrefs.GetInt("Mask").ToString() + ";" +
-			PlayerPrefs.GetInt("BlueColour").ToString() + ";" + PlayerPrefs.GetInt("RedColour").ToString() + ";" + PlayerPrefs.GetInt("Skin").ToString() + ";" + PlayerPrefs.GetInt("PlayerTeam");
-		
 		outBuffer = Encoding.ASCII.GetBytes(msg);
 
 		//Debug.Log(msg);

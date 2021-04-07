@@ -25,7 +25,7 @@ public class TutorialScript : MonoBehaviour
     public Transform T_particlespawnpoint;
     ParticlePoolManager particlepoolmanager;
 
-    public ThePluginManager s_plugin;
+    //public ThePluginManager s_plugin;
 
     float f_lasttime;
     
@@ -46,7 +46,7 @@ public class TutorialScript : MonoBehaviour
         f_lasttime = Time.time;
 
         particlepoolmanager = this.GetComponent<ParticlePoolManager>();
-        s_plugin = this.GetComponent<ThePluginManager>();
+        //s_plugin = this.GetComponent<ThePluginManager>();
     }
 
     // Update is called once per frame
@@ -95,7 +95,7 @@ public class TutorialScript : MonoBehaviour
                 }
                 break;
             case 3:
-                if (obj_grab.GetComponent<Rigidbody>().isKinematic == true)
+                if (obj_grab.GetComponent<Score>().moved == true)
                 {
                     //t_objecttext.gameObject.SetActive(false);
                     Destroy(t_objecttext);
@@ -165,7 +165,7 @@ public class TutorialScript : MonoBehaviour
         float f_currtime = Time.time;
         float f_checkpointtime = f_currtime - f_lasttime;
         f_lasttime = f_currtime;
-        s_plugin.SaveTimer(f_checkpointtime);
+        //s_plugin.SaveTimer(f_checkpointtime);
         i_step++;
     }
 

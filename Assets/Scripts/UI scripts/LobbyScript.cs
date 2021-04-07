@@ -144,7 +144,7 @@ public class LobbyScript : MonoBehaviour
 
         if(b_Ready)
         {
-            servermanager.GetComponent<ServerScript>().ReadyUpdate();
+            //servermanager.GetComponent<ServerScript>().ReadyUpdate();
         }
 
 

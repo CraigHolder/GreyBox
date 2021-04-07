@@ -126,8 +126,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b0dd3036d656d54c92281a6f6dbcaf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  i_score: 3
+  i_score: 5
   connectedplayers: []
+  moved: 0
+  networkedmoved: 0
+  grabbed: 0
+  state: 0
 --- !u!1 &5434710160597610929
 GameObject:
   m_ObjectHideFlags: 0
