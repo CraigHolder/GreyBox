@@ -453,6 +453,7 @@ public class ServerScript : MonoBehaviour
 		{
 			int rec = server.ReceiveFrom(inBuffer, ref remoteClient);
 			string msg = Encoding.ASCII.GetString(inBuffer, 0, rec);
+			Debug.Log(msg);
 
 			if (msg.ToLower().Contains("[connect]"))
 			{
@@ -494,8 +495,9 @@ public class ServerScript : MonoBehaviour
 				{
 					if (lobbyscript.PlayerNames[c] == "")
 					{
-						lobbyscript.PlayerNames[c] = data[1];
+						//lobbyscript.PlayerNames[c] = data[1];
 						clientPos = c;
+						break;
 					}
 				}
 
@@ -505,6 +507,12 @@ public class ServerScript : MonoBehaviour
 				client_endpoints[name] = remoteClient;
 
 				server.SendTo(outBuffer, remoteClient);
+
+				LobbyScript.LobbyClient nC = new LobbyScript.LobbyClient();
+				nC.name = data[1];
+				nC.position = clientPos;
+
+				lobbyscript.LobbyPlayers.Add(name, nC);
 
 				//lobbyscript.PlayerNames[curr_ID - 1] = data[1];
 
@@ -517,9 +525,16 @@ public class ServerScript : MonoBehaviour
 				//server.SendTo(outBuffer, remoteClient);
 
 				// Send the new user the position of all currently connected users.
+
+				string outmsg = "[updatepos];";
+				outmsg += s_hostName + ";" + lobbyscript.name + ";" + lobbyscript.i_CurrPlacement.ToString();
+				outBuffer = Encoding.ASCII.GetBytes(outmsg);
+
+				server.SendTo(outBuffer, remoteClient);
+
 				for (int c = 0; c < ClientList.childCount; c++)
 				{
-					string outmsg = "[updatepos];";
+					outmsg = "[updatepos];";
 
 					PuppetScript obj = ClientList.GetChild(c).gameObject.GetComponent<PuppetScript>();
 
@@ -531,6 +546,11 @@ public class ServerScript : MonoBehaviour
 					outBuffer = Encoding.ASCII.GetBytes(outmsg);
 
 					server.SendTo(outBuffer, remoteClient);
+
+					outmsg = "[updatepos];" + name + ";" + data[1] + ";" + clientPos;
+					outBuffer = Encoding.ASCII.GetBytes(outmsg);
+
+					server.SendTo(outBuffer, (EndPoint)client_endpoints[obj.gameObject.name]);
 				}
 			} else if(msg.ToLower().Contains("[updatepos]"))
 			{
@@ -553,13 +573,13 @@ public class ServerScript : MonoBehaviour
 					{
 						string outmsg = "[updatepos];";
 
-						//PuppetScript obj = ClientList.GetChild(c).gameObject.GetComponent<PuppetScript>();
+						// obj = ClientList.GetChild(c).gameObject.GetComponent<PuppetScript>();
 
 						outmsg += cid + ";" + ((LobbyScript.LobbyClient)lobbyscript.LobbyPlayers[cid]).name + ";" + ((LobbyScript.LobbyClient)lobbyscript.LobbyPlayers[cid]).position.ToString();
 
 						outBuffer = Encoding.ASCII.GetBytes(outmsg);
 
-						server.SendTo(outBuffer, remoteClient);
+						server.SendTo(outBuffer, (EndPoint)client_endpoints[child.gameObject.name]);
 					}
 				}
 			}
@@ -733,7 +753,7 @@ public class ServerScript : MonoBehaviour
 			string user = ClientList.GetChild(c).name;
 			EndPoint remote_client = (EndPoint)client_endpoints[user];
 
-			server.SendTo(outBuffer, remote_client);
+			server.SendTo(outBuffer, remoteClient);
 		}
 	}
 }

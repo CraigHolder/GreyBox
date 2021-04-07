@@ -441,6 +441,8 @@ public class ClientScript : MonoBehaviour
 		{
 			int rec = client.ReceiveFrom(inBuffer, ref serverEP);
 			string msg = Encoding.ASCII.GetString(inBuffer, 0, rec);
+
+			Debug.Log(msg);
 			if (msg.Contains("[setname]"))
 			{
 				ConnectingMsg.SetActive(false);
@@ -453,6 +455,7 @@ public class ClientScript : MonoBehaviour
 				nC.name = lobbyscript.Playername;
 				nC.position = int.Parse(data[2]);
 				lobbyscript.LobbyPlayers.Add(myId, nC);
+				lobbyscript.ID = myId;
 				//CurNumPlayers.text = "1";
 				//PlayerCount.SetActive(true);
 
