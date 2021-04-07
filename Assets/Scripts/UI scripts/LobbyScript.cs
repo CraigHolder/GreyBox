@@ -22,6 +22,7 @@ public class LobbyScript : MonoBehaviour
     public string ID;
     public bool isPrivate;
     public bool isJoining;
+
     //public Server toJoin;
     //public Server toHost;
 
@@ -85,7 +86,7 @@ public class LobbyScript : MonoBehaviour
         PlayerPlaces[2] = 2;
         PlayerPlaces[3] = 3;
 
-        Playername = PlayerPrefs.GetString("");
+        Playername = PlayerPrefs.GetString("PlayerName");
 
         //if (i_TotRed >= 2)
         //{
@@ -135,6 +136,16 @@ public class LobbyScript : MonoBehaviour
         }
 
 
+
+
+
+
+
+
+        if(b_Ready)
+        {
+            servermanager.GetComponent<ServerScript>().ReadyUpdate();
+        }
 
 
         if (b_Change)

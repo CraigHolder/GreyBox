@@ -67,6 +67,7 @@ public class ClientScript : MonoBehaviour
 	bool initcos = false;
 	bool start = false;
 	public int PlayID = 0;
+	bool ready = false;
 	public int[] PlayerPlaces = new int[4];
 
 
@@ -261,6 +262,7 @@ public class ClientScript : MonoBehaviour
 							{
 								string[] data = msg.Split(';');
 								PuppetScript client = OtherList.Find(data[1]).GetComponent<PuppetScript>();
+								
 								client.SetCosmetics(int.Parse(data[2]), int.Parse(data[3]), int.Parse(data[4]), int.Parse(data[5]),
 									int.Parse(data[6]), int.Parse(data[7]), int.Parse(data[8]));
 							}
@@ -464,11 +466,60 @@ public class ClientScript : MonoBehaviour
 				lobbyscript.PlayerNames[3] = data[5];
 				//MaxNumPlayers.text = data[1];
 			}
+			else if (msg.Contains("[updatelobby]"))
+			{
+				string[] data = msg.Split(';');
+				PlayID = int.Parse(data[1]);
+				lobbyscript.PlayerNames[0] = data[2];
+				lobbyscript.PlayerNames[1] = data[3];
+				lobbyscript.PlayerNames[2] = data[4];
+				lobbyscript.PlayerNames[3] = data[5];
+
+				lobbyscript.PlayerPlaces[0] = int.Parse(data[6]);
+				lobbyscript.PlayerPlaces[1] = int.Parse(data[7]);
+				lobbyscript.PlayerPlaces[2] = int.Parse(data[8]);
+				lobbyscript.PlayerPlaces[3] = int.Parse(data[9]);
+				//MaxNumPlayers.text = data[1];
+			}
+			else if (msg.Contains("[updateready]"))
+			{
+				string[] data = msg.Split(';');
+				numReady = int.Parse(data[1]);
+				
+				//MaxNumPlayers.text = data[1];
+			}
 		}
 		catch (Exception e)
 		{
 
 		}
+	}
+
+	public void ReadyUpdate(int i)
+	{
+		if (ready == false && lobbyscript.b_Ready != false)
+		{
+			ready = true;
+			string outmsg = "[updateready];" + myId + "1";
+
+			outBuffer = Encoding.ASCII.GetBytes(outmsg);
+
+			//Debug.Log(msg);
+			client.SendTo(outBuffer, remoteEP);
+		}
+		else if (ready == true && lobbyscript.b_Ready != true)
+		{
+			ready = false;
+			string outmsg = "[updateready];" + myId + "0";
+			//outmsg += i.ToString();
+
+				outBuffer = Encoding.ASCII.GetBytes(outmsg);
+
+				//Debug.Log(msg);
+				client.SendTo(outBuffer, remoteEP);
+		}
+
+
 	}
 	public void CosmeticsInit()
     {

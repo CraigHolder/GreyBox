@@ -7,7 +7,7 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 
-/*public class ServerScript : MonoBehaviour
+public class ServerScript : MonoBehaviour
 {
 	public enum SceneStates
 	{
@@ -58,6 +58,8 @@ using System.Net.Sockets;
 	bool lobbystart = false;
 	public int curr_ID = 2;
 	public int play_ID = 1;
+	public int numReady = 0;
+	bool ready = false;
 	public GameObject redNest;
 	public GameObject blueNest;
 	public int[] PlayerPlaces = new int[4];
@@ -442,6 +444,10 @@ using System.Net.Sockets;
 		//CONNECTING TO LOBBY
 		try
 		{
+
+
+
+
 			int rec = server.ReceiveFrom(inBuffer, ref remoteClient);
 			string msg = Encoding.ASCII.GetString(inBuffer, 0, rec);
 
@@ -539,12 +545,60 @@ using System.Net.Sockets;
 					server.SendTo(outBuffer, remote_client);
 				}
 			}
+			else if (msg.Contains("[setready]"))
+			{
+				string[] data = msg.Split(';');
+				numReady = int.Parse(data[1]);
+
+				//MaxNumPlayers.text = data[1];
+			}
 		}
 		catch (Exception e)
 		{
 
 		}
 
+	}
+
+	public void ReadyUpdate(int i)
+    {
+		if(ready == false && lobbyscript.b_Ready != false)
+        {
+			ready = true;
+			string outmsg = "[updateready];";
+			//outmsg += ;
+
+			for (int c = 0; c < ClientList.childCount; c++)
+			{
+				string user = ClientList.GetChild(c).name;
+				EndPoint remote_client = (EndPoint)client_endpoints[user];
+
+
+				outBuffer = Encoding.ASCII.GetBytes(outmsg);
+
+				server.SendTo(outBuffer, remote_client);
+			}
+		}
+		else if(ready == true && lobbyscript.b_Ready != true)
+        {
+			ready = false;
+			string outmsg = "[updateready];";
+			outmsg += i.ToString();
+
+
+			for (int c = 0; c < ClientList.childCount; c++)
+			{
+				string user = ClientList.GetChild(c).name;
+				EndPoint remote_client = (EndPoint)client_endpoints[user];
+
+
+				outBuffer = Encoding.ASCII.GetBytes(outmsg);
+
+				server.SendTo(outBuffer, remote_client);
+			}
+		}
+
+		
 	}
 
 	public void Updateobjs()
@@ -636,9 +690,17 @@ using System.Net.Sockets;
 	{
 		string msg = "[updatecosmetic];" + s_hostName + ";";
 
-		msg += PlayerPrefs.GetInt("Body").ToString() + ";" + PlayerPrefs.GetInt("Hat").ToString() + ";" + PlayerPrefs.GetInt("Mask").ToString() + ";" + 
-			PlayerPrefs.GetInt("BlueColour").ToString() +";" + PlayerPrefs.GetInt("RedColour").ToString() +";" + PlayerPrefs.GetInt("Skin").ToString() + ";" + PlayerPrefs.GetInt("PlayerTeam");
-
+		//msg += PlayerPrefs.GetInt("Body").ToString() + ";" + PlayerPrefs.GetInt("Hat").ToString() + ";" + PlayerPrefs.GetInt("Mask").ToString() + ";" + 
+		//	PlayerPrefs.GetInt("BlueColour").ToString() +";" + PlayerPrefs.GetInt("RedColour").ToString() +";" + PlayerPrefs.GetInt("Skin").ToString() + ";" + PlayerPrefs.GetInt("PlayerTeam");
+		SettingAccessories acc = GameObject.FindGameObjectWithTag("PlayerController").GetComponent<SettingAccessories>();
+		//bCurrentItem
+		//hCurrentItem
+		//	mCurrentItem
+		//i_Skini_PlayerTeam
+		//	i_BlueColour
+		//	i_RedColour
+		msg += acc.bCurrentItem.ToString() + ";" + acc.hCurrentItem.ToString() + ";" + acc.mCurrentItem.ToString() + ";" +
+		acc.i_BlueColour.ToString() +";" + acc.i_RedColour.ToString() +";" + acc.i_Skin.ToString() + ";" + acc.i_PlayerTeam.ToString();
 
 		for (int c = 0; c < ClientList.childCount; c++)
 		{
@@ -673,4 +735,3 @@ using System.Net.Sockets;
 		server.Close();
 	}
 }
-*/

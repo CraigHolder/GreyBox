@@ -9,17 +9,17 @@ public class SettingAccessories : MonoBehaviour
     public GameObject player;
 
     public GameObject[] bodyItems;
-    private int bCurrentItem;
+    public int bCurrentItem;
     public GameObject[] hatItems;
-    private int hCurrentItem;
+    public int hCurrentItem;
     public GameObject[] maskItems;
-    private int mCurrentItem;
+    public int mCurrentItem;
 
     public GameObject orb;
 
-    private int i_BlueColour;
-    private int i_RedColour;
-    private int i_Skin;
+    public int i_BlueColour;
+    public int i_RedColour;
+    public int i_Skin;
 
     bool b_Accessoriezed = false;
 
