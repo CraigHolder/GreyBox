@@ -445,6 +445,8 @@ public class ServerScript : MonoBehaviour
 			int rec = server.ReceiveFrom(inBuffer, ref remoteClient);
 			string msg = Encoding.ASCII.GetString(inBuffer, 0, rec);
 
+			Debug.Log(msg);
+
 			if (msg.ToLower().Contains("[connect]"))
 			{
 				string[] data = msg.Split(';');
