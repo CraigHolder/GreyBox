@@ -575,7 +575,7 @@ public class ClientScript : MonoBehaviour
 		string msg = "[updatepos];";
 		LobbyScript.LobbyClient pC = (LobbyScript.LobbyClient)lobbyscript.LobbyPlayers[lobbyscript.ID];
 
-		msg += lobbyscript.ID + ";" + pC.name + ";" + pC.position.ToString();
+		msg += lobbyscript.ID + ";" + pC.name + ";" + pC.position.ToString() + ";" + pC.b_ready.ToString();
 
 		outBuffer = Encoding.ASCII.GetBytes(msg);
 
