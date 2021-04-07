@@ -527,7 +527,7 @@ public class ServerScript : MonoBehaviour
 				// Send the new user the position of all currently connected users.
 
 				string outmsg = "[updatepos];";
-				outmsg += s_hostName + ";" + lobbyscript.name + ";" + lobbyscript.i_CurrPlacement.ToString();
+				outmsg += s_hostName + ";" + lobbyscript.Playername + ";" + lobbyscript.i_CurrPlacement.ToString();
 				outBuffer = Encoding.ASCII.GetBytes(outmsg);
 
 				server.SendTo(outBuffer, remoteClient);

@@ -10,6 +10,7 @@ public class LobbyScript : MonoBehaviour
 	{
 		Red, Blu
 	}
+	
 	public struct LobbyClient
 	{
 		public int position;
@@ -327,7 +328,7 @@ public class LobbyScript : MonoBehaviour
 		if (clientmanager.activeSelf)
 			clientmanager.GetComponent<ClientScript>().LobbyMoved();
 		else if(servermanager.activeSelf)
-			servermanager.GetComponent<ClientScript>().LobbyMoved();
+			servermanager.GetComponent<ServerScript>().LobbyMoved();
 
 		//if (b_Ready)
 		//    Ready();
