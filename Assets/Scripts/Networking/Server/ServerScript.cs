@@ -16,10 +16,12 @@ public class ServerScript : MonoBehaviour
     }
 
 	public LobbyScript lobbyscript;
+	public LobbyBrowserScript lobbyBrowserManager;
 
 	[Header("Host Config")]
 	public player_controller_behavior host_player;
 	private string s_hostName;
+	private int spawn_pos = -1;
 
 	private Vector3 prev_position;
 
@@ -142,6 +144,31 @@ public class ServerScript : MonoBehaviour
 						remote = GameObject.FindGameObjectWithTag("Remote");
 						redNest = GameObject.FindGameObjectWithTag("RedNest");
 						blueNest = GameObject.FindGameObjectWithTag("BlueNest");
+
+						GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+
+						switch (spawn_pos)
+						{
+							case 0:// Red 1
+								playerObj.transform.position = GameObject.FindGameObjectWithTag("RedNest").transform.Find("SpawnR1").position;
+								playerObj.transform.rotation = GameObject.FindGameObjectWithTag("RedNest").transform.Find("SpawnR1").rotation;
+								break;
+							case 1: // Blue 1
+								playerObj.transform.position = GameObject.FindGameObjectWithTag("BlueNest").transform.Find("SpawnB1").position;
+								playerObj.transform.rotation = GameObject.FindGameObjectWithTag("BlueNest").transform.Find("SpawnB1").rotation;
+								break;
+							case 2: // Red 2
+								playerObj.transform.position = GameObject.FindGameObjectWithTag("RedNest").transform.Find("SpawnR2").position;
+								playerObj.transform.rotation = GameObject.FindGameObjectWithTag("RedNest").transform.Find("SpawnR2").rotation;
+								break;
+							case 3: // Blue 2
+								playerObj.transform.position = GameObject.FindGameObjectWithTag("BlueNest").transform.Find("SpawnB2").position;
+								playerObj.transform.rotation = GameObject.FindGameObjectWithTag("BlueNest").transform.Find("SpawnB2").rotation;
+								break;
+							default:
+								break;
+						}
+
 						start = true;
 						InitFerretCosmetics();
 						initcos = true;
@@ -272,12 +299,13 @@ public class ServerScript : MonoBehaviour
 								string[] data = msg.Split(';');
 
 								PuppetScript client = ClientList.Find(data[1]).GetComponent<PuppetScript>();
+								client.DeadReckoning(float.Parse(data[4]), float.Parse(data[4]));
 								client.Root.position = JsonUtility.FromJson<Vector3>(data[2]);
 								client.orientation = float.Parse(data[3]);
 
-								for (int c = 0; c < data.Length - 4; c++)
+								for (int c = 0; c < data.Length - 6; c++)
 								{
-									client.trail[c].position = JsonUtility.FromJson<Vector3>(data[c + 4]);
+									client.trail[c].position = JsonUtility.FromJson<Vector3>(data[c + 6]);
 								}
 
 								client.UpdatePos();
@@ -867,6 +895,25 @@ public class ServerScript : MonoBehaviour
 		server.Close();
 	}
 
+	private void OnDestroy()
+	{
+		Console.WriteLine("Server Shutting down...");
+
+		for (int c = 0; c < ClientList.childCount; c++)
+		{
+			string user = ClientList.GetChild(c).name;
+			EndPoint remote_client = (EndPoint)client_endpoints[user];
+
+
+			outBuffer = Encoding.ASCII.GetBytes("[disconnect];Server Shutdown.");
+
+			server.SendTo(outBuffer, remote_client);
+		}
+
+		server.Shutdown(SocketShutdown.Both);
+		server.Close();
+	}
+
 	public void LobbyMoved()
 	{
 		string msg = "[updatepos];";
@@ -887,6 +934,9 @@ public class ServerScript : MonoBehaviour
 
 	public void StartGame()
 	{
+		lobbyBrowserManager.CloseLobby();
+
+		DontDestroyOnLoad(this.gameObject);
 		Command c_command = new GotoClientSceneCommand();
 		c_command.Execute(c_command, null);
 	}

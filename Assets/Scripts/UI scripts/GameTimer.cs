@@ -91,7 +91,15 @@ public class GameTimer : MonoBehaviour
 
     public void GotoLobby()
     {
-        c_command = new GotoLobbySceneCommand();
+		GameObject sm = GameObject.Find("Server Manager");
+		GameObject cm = GameObject.Find("Client Manager");
+
+		if (sm != null)
+			Destroy(sm);
+		if (cm != null)
+			Destroy(cm);
+
+		c_command = new GotoLobbySceneCommand();
         c_command.Execute(c_command, s_player.gameObject);
     }
 }

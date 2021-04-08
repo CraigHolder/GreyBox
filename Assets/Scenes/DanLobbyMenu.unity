@@ -984,6 +984,10 @@ PrefabInstance:
       propertyPath: lobbyscript
       value: 
       objectReference: {fileID: 1269689964}
+    - target: {fileID: 7791281568213069777, guid: fe9abaf29e584e947b8b9628853129b7, type: 3}
+      propertyPath: LobbyBrowserManager
+      value: 
+      objectReference: {fileID: 1912887645}
     - target: {fileID: 7791281568213069778, guid: fe9abaf29e584e947b8b9628853129b7, type: 3}
       propertyPath: m_Name
       value: Client Manager
@@ -2699,6 +2703,10 @@ PrefabInstance:
       propertyPath: lobbyscript
       value: 
       objectReference: {fileID: 1269689964}
+    - target: {fileID: 6606682826263660322, guid: 9f19777c217e6454ab8c531913653c74, type: 3}
+      propertyPath: lobbyBrowserManager
+      value: 
+      objectReference: {fileID: 1912887645}
     - target: {fileID: 6606682826263660323, guid: 9f19777c217e6454ab8c531913653c74, type: 3}
       propertyPath: m_LocalPosition.x
       value: 857.5779

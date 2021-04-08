@@ -48,6 +48,20 @@ public class LobbyBrowserScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+		Connect();
+
+		if (connected)
+		{
+			RefreshBrowser();
+		}
+		else
+		{
+			ErrorPrompt("ERR: Error Connecting to the server.");
+		}
+	}
+
+	private void Connect()
+	{
 		server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 		if (!localServer)
 		{
@@ -60,7 +74,7 @@ public class LobbyBrowserScript : MonoBehaviour
 					ip = i;
 			}
 
-			if(ip != null)
+			if (ip != null)
 				server.Connect(ip, 11110);
 		}
 		else
@@ -71,19 +85,10 @@ public class LobbyBrowserScript : MonoBehaviour
 		server.Blocking = false;
 
 		connected = server.Connected;
-
-		if (connected)
-		{
-			RefreshBrowser();
-		}
-		else
-		{
-			ErrorPrompt("ERR: Error Connecting to the server.");
-		}
 	}
 
-    // Update is called once per frame
-    void Update()
+	// Update is called once per frame
+	void Update()
     {
 		if (connected)
 		{
@@ -152,7 +157,7 @@ public class LobbyBrowserScript : MonoBehaviour
 						PlayerPrefs.SetString("IPConnect", hostip);
 						clientmanager.RunClient();
 						clientmanager.gameObject.SetActive(true);
-						ConnectedToLobby();
+						//ConnectedToLobby();
 
 						ConnectingPrompt.SetActive(false);
 						BrowserWindow.SetActive(false);
@@ -166,6 +171,9 @@ public class LobbyBrowserScript : MonoBehaviour
 
 			}
 		}
+
+		if (server == null)
+			Connect();
     }
 
 	public void ErrorPrompt(string err)
