@@ -30,7 +30,7 @@ public class Score : MonoBehaviour
         {
             moved = true;
             state = 1;
-            Debug.Log(this.name + " Moved");
+            //Debug.Log(this.name + " Moved");
             lastpos = transform.position;
             lastrot = transform.rotation.eulerAngles;
             //timer = 0.25f;

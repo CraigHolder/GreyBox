@@ -114,7 +114,15 @@ public class MenuScript : MonoBehaviour
 
     public void GotoMainMenu()
     {
-        c_command = new GotoMainMenuCommand();
+		GameObject sm = GameObject.Find("Server Manager");
+		GameObject cm = GameObject.Find("Client Manager");
+
+		if (sm != null)
+			Destroy(sm);
+		if (cm != null)
+			Destroy(cm);
+
+		c_command = new GotoMainMenuCommand();
         c_command.Execute(c_command, obj_placeholder);
     }
 
