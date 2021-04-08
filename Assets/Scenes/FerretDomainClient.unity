@@ -994,6 +994,8 @@ MonoBehaviour:
   f_Music: 0.5
   f_Effects: 0.5
   s_Master: {fileID: 1765985745}
+  s_Music: {fileID: 0}
+  s_Effects: {fileID: 0}
   b_AudioUpdate: 1
 --- !u!1 &62978580 stripped
 GameObject:
