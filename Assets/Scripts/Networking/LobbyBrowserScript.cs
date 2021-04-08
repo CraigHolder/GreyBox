@@ -329,7 +329,7 @@ public class LobbyBrowserScript : MonoBehaviour
 		}
 	}
 
-    public void OnDestroy()
+    public void OnApplicationQuit()
     {
 		b_Destroyed = true;
 		ExitLobby();
