@@ -7271,6 +7271,7 @@ GameObject:
   - component: {fileID: 1370303002}
   - component: {fileID: 1370303001}
   - component: {fileID: 1370303005}
+  - component: {fileID: 1370303006}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -7377,6 +7378,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   L_AchievmentText: []
+--- !u!114 &1370303006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1370303000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c37b6cb5273836468596b36c81df0c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  f_Master: 0.5
+  f_Music: 0.5
+  f_Effects: 0.5
+  s_Master: {fileID: 0}
+  s_Music: {fileID: 0}
+  s_Effects: {fileID: 0}
+  b_AudioUpdate: 1
 --- !u!1 &1397159756
 GameObject:
   m_ObjectHideFlags: 0
@@ -10919,7 +10939,7 @@ GameObject:
   - component: {fileID: 1882674392}
   m_Layer: 0
   m_Name: MenuMusic
-  m_TagString: Untagged
+  m_TagString: Music
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
