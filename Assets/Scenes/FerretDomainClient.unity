@@ -891,7 +891,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &54443936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1019,6 +1019,7 @@ MonoBehaviour:
   moved: 0
   networkedmoved: 0
   grabbed: 0
+  grabbable: 1
   state: 0
 --- !u!1 &67043228
 GameObject:
@@ -27259,6 +27260,7 @@ MonoBehaviour:
   moved: 0
   networkedmoved: 0
   grabbed: 0
+  grabbable: 1
   state: 0
 --- !u!4 &1595881689 stripped
 Transform:

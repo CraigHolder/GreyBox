@@ -71,6 +71,7 @@ public class ClientScript : MonoBehaviour
 	public int PlayID = 0;
 	bool ready = false;
 	public int[] PlayerPlaces = new int[4];
+	bool sendobjupdate = false;
 
 
 	public void RunClient()
@@ -224,8 +225,15 @@ public class ClientScript : MonoBehaviour
 
 								prev_position = pos;
 							}
-
-							Updateobjs();
+							if (sendobjupdate)
+							{
+								Updateobjs();
+								sendobjupdate = false;
+							}
+							else
+							{
+								sendobjupdate = true;
+							}
 							UpdateFerretState();
 							
 						}
@@ -323,6 +331,7 @@ public class ClientScript : MonoBehaviour
 												obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
 												obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
 												obj.GetComponent<Score>().networkedmoved = true;
+												obj.GetComponent<Score>().grabbable = false;
 												break;
 										}
 										break;
@@ -339,6 +348,7 @@ public class ClientScript : MonoBehaviour
 												obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
 												obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
 												obj.GetComponent<Score>().networkedmoved = true;
+												obj.GetComponent<Score>().grabbable = false;
 												break;
 										}
 										break;
@@ -431,12 +441,12 @@ public class ClientScript : MonoBehaviour
 			}
 			if (cur_obj != null)
             {
-				if (cur_obj.state != 0)
+				if (cur_obj.state == 2)
 				{
 
 					string msg = "[setobjpos];" + cur_objparent.name + ";";
 
-					msg += JsonUtility.ToJson(cur_obj.transform.position) + ";" + JsonUtility.ToJson(cur_obj.transform.eulerAngles) + ";" + myId + ";" +  cur_obj.state.ToString();
+					msg += JsonUtility.ToJson(cur_obj.transform.position) + ";" + JsonUtility.ToJson(cur_obj.transform.eulerAngles) + ";" + myId + ";" +  cur_obj.state.ToString() + ";" + JsonUtility.ToJson(cur_obj.GetComponent<Rigidbody>().velocity);
 
 					outBuffer = Encoding.ASCII.GetBytes(msg);
 					client.SendTo(outBuffer, remoteEP);
