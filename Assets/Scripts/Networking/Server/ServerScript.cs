@@ -146,6 +146,7 @@ public class ServerScript : MonoBehaviour
 						blueNest = GameObject.FindGameObjectWithTag("BlueNest");
 
 						GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+						playerObj.SetActive(false);
 
 						switch (spawn_pos)
 						{
@@ -168,6 +169,7 @@ public class ServerScript : MonoBehaviour
 							default:
 								break;
 						}
+						playerObj.SetActive(true);
 
 						start = true;
 						InitFerretCosmetics();
@@ -935,6 +937,7 @@ public class ServerScript : MonoBehaviour
 	public void StartGame()
 	{
 		lobbyBrowserManager.CloseLobby();
+		spawn_pos = lobbyscript.i_CurrPlacement;
 
 		DontDestroyOnLoad(this.gameObject);
 		Command c_command = new GotoClientSceneCommand();
