@@ -310,7 +310,7 @@ public class ServerScript : MonoBehaviour
 								client.SetCosmetics(int.Parse(data[2]), int.Parse(data[3]), int.Parse(data[4]), int.Parse(data[5]),
 									int.Parse(data[6]), int.Parse(data[7]), int.Parse(data[8]));
 
-								client.UpdatePos();
+								//client.UpdatePos();
 
 								if (ClientList.childCount > 1)
 								{
