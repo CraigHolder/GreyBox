@@ -69,6 +69,8 @@ public class ServerScript : MonoBehaviour
 	//Dylan's Lobby Stuff
 	public bool b_FoundObjs = false;
 	public SceneStates sceneStates = SceneStates.LobbyScene;
+	public float f_lobbyStartDelay = 0.05f;
+	private float f_lobbyStartTimer = 0.0f;
 
 	public void RunServer()
 	{
@@ -723,18 +725,30 @@ public class ServerScript : MonoBehaviour
 
 		if (b_everyoneReady)
 		{
-			string outmsg = "[startgame];";
-
-			outBuffer = Encoding.ASCII.GetBytes(outmsg);
-
-			foreach (Transform child in ClientList)
+			if (f_lobbyStartTimer < f_lobbyStartDelay)
 			{
-				string id = child.gameObject.name;
-
-				server.SendTo(outBuffer, (EndPoint)client_endpoints[id]);
+				f_lobbyStartTimer += Time.deltaTime;
 			}
+			else
+			{
 
-			StartGame();
+				string outmsg = "[startgame];";
+
+				outBuffer = Encoding.ASCII.GetBytes(outmsg);
+
+				foreach (Transform child in ClientList)
+				{
+					string id = child.gameObject.name;
+
+					server.SendTo(outBuffer, (EndPoint)client_endpoints[id]);
+				}
+
+				StartGame();
+			}
+		}
+		else
+		{
+			f_lobbyStartTimer = 0.0f;
 		}
 	}
 
@@ -910,40 +924,34 @@ public class ServerScript : MonoBehaviour
 
 	private void OnApplicationQuit()
 	{
-		Console.WriteLine("Server Shutting down...");
-
-		for (int c = 0; c < ClientList.childCount; c++)
-		{
-			string user = ClientList.GetChild(c).name;
-			EndPoint remote_client = (EndPoint)client_endpoints[user];
-
-
-			outBuffer = Encoding.ASCII.GetBytes("[disconnect];Server Shutdown.");
-
-			server.SendTo(outBuffer, remote_client);
-		}
-
-		server.Shutdown(SocketShutdown.Both);
-		server.Close();
+		ShutDownServer();
 	}
 
 	private void OnDestroy()
 	{
-		Console.WriteLine("Server Shutting down...");
+		ShutDownServer();
+	}
 
-		for (int c = 0; c < ClientList.childCount; c++)
+	public void ShutDownServer()
+	{
+		if (server != null)
 		{
-			string user = ClientList.GetChild(c).name;
-			EndPoint remote_client = (EndPoint)client_endpoints[user];
+			Console.WriteLine("Server Shutting down...");
+
+			for (int c = 0; c < ClientList.childCount; c++)
+			{
+				string user = ClientList.GetChild(c).name;
+				EndPoint remote_client = (EndPoint)client_endpoints[user];
 
 
-			outBuffer = Encoding.ASCII.GetBytes("[disconnect];Server Shutdown.");
+				outBuffer = Encoding.ASCII.GetBytes("[disconnect];Server Shutdown.");
 
-			server.SendTo(outBuffer, remote_client);
+				server.SendTo(outBuffer, remote_client);
+			}
+
+			server.Shutdown(SocketShutdown.Both);
+			server.Close();
 		}
-
-		server.Shutdown(SocketShutdown.Both);
-		server.Close();
 	}
 
 	public void LobbyMoved()
@@ -968,6 +976,7 @@ public class ServerScript : MonoBehaviour
 	{
 		lobbyBrowserManager.CloseLobby();
 		spawn_pos = lobbyscript.i_CurrPlacement;
+		PlayerPrefs.SetInt("PlayerTeam", (int)lobbyscript.i_CurrTeam);
 		sceneStates = SceneStates.GameScene;
 
 		DontDestroyOnLoad(this.gameObject);
