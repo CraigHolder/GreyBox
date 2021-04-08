@@ -587,7 +587,7 @@ public class ClientScript : MonoBehaviour
 	}
 	public void CosmeticsInit()
     {
-		string msg = "[setcosmetic];" + myId + ";";
+		string msg = "[setcosmetics];" + myId + ";";
 		SettingAccessories acc = GameObject.FindGameObjectWithTag("PlayerController").GetComponent<SettingAccessories>();
 		msg += acc.bCurrentItem.ToString() + ";" + acc.hCurrentItem.ToString() + ";" + acc.mCurrentItem.ToString() + ";" +
 		acc.i_BlueColour.ToString() + ";" + acc.i_RedColour.ToString() + ";" + acc.i_Skin.ToString() + ";" + acc.i_PlayerTeam.ToString();
