@@ -22,8 +22,6 @@ public class ManageColour : MonoBehaviour
     public RawImage ri_Skin;
     public TMP_InputField tmp_Name;
 
-
-
     private int currentMaterial = 1;
     private int i_Skin = 0;
     private int i_Colour = 0;
