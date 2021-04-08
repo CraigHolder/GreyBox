@@ -192,6 +192,7 @@ public class ClientScript : MonoBehaviour
 									break;
 							}
 							playerObj.SetActive(true);
+
 							remote = GameObject.FindGameObjectWithTag("Remote");
 							start = true;
 							CosmeticsInit();
@@ -647,6 +648,7 @@ public class ClientScript : MonoBehaviour
 	public void StartGame()
 	{
 		DontDestroyOnLoad(this.gameObject);
+		spawn_pos = lobbyscript.i_CurrPlacement;
 		Command c_command = new GotoClientSceneCommand();
 		c_command.Execute(c_command, null);
 	}
