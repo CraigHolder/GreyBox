@@ -34,11 +34,12 @@ public class SettingAccessories : MonoBehaviour
         hCurrentItem = PlayerPrefs.GetInt("Hat");
         mCurrentItem = PlayerPrefs.GetInt("Mask");
 
+        i_PlayerTeam = PlayerPrefs.GetInt("PlayerTeam");
+
         i_BlueColour = PlayerPrefs.GetInt("BlueColour");
         i_RedColour = PlayerPrefs.GetInt("RedColour");
         i_Skin = PlayerPrefs.GetInt("Skin");
 
-        i_PlayerTeam = PlayerPrefs.GetInt("PlayerTeam");
     }
 
     // Update is called once per frame
