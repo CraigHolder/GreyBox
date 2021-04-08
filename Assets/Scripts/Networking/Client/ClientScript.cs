@@ -518,6 +518,8 @@ public class ClientScript : MonoBehaviour
 				GameObject.Destroy(poorSoul.gameObject);
 
 				lobbyscript.RemovePlayer(id);
+			} else if (msg.Contains("[startgame]")) {
+				StartGame();
 			}
 		}
 		catch (Exception e)
@@ -611,5 +613,11 @@ public class ClientScript : MonoBehaviour
 		outBuffer = Encoding.ASCII.GetBytes(msg);
 
 		client.SendTo(outBuffer, remoteEP);
+	}
+
+	public void StartGame()
+	{
+		Command c_command = new GotoClientSceneCommand();
+		c_command.Execute(c_command, null);
 	}
 }
