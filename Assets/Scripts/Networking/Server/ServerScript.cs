@@ -968,6 +968,7 @@ public class ServerScript : MonoBehaviour
 	{
 		lobbyBrowserManager.CloseLobby();
 		spawn_pos = lobbyscript.i_CurrPlacement;
+		PlayerPrefs.SetInt("PlayerTeam", (int)lobbyscript.i_CurrTeam);
 		sceneStates = SceneStates.GameScene;
 
 		DontDestroyOnLoad(this.gameObject);
