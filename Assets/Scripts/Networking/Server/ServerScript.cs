@@ -781,6 +781,20 @@ public class ServerScript : MonoBehaviour
 
 	}
 
+	public void ServerShutdown()
+    {
+		string msg = "[forcedshutdown];Server forcibly shut down by host.";
+
+		outBuffer = Encoding.ASCII.GetBytes(msg);
+		for (int c = 0; c < ClientList.childCount; c++)
+		{
+			string user = ClientList.GetChild(c).name;
+			EndPoint remote_client = (EndPoint)client_endpoints[user];
+
+			server.SendTo(outBuffer, remote_client);
+		}
+	}
+
 	public void InitFerretCosmetics()
 	{
 		string msg = "[updatecosmetic];" + s_hostName + ";";

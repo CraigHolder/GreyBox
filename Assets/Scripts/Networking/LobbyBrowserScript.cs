@@ -42,6 +42,9 @@ public class LobbyBrowserScript : MonoBehaviour
 	bool connected = false;
 	bool hosting = false;
 
+	//Dylan additions
+	bool b_Destroyed = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -272,6 +275,8 @@ public class LobbyBrowserScript : MonoBehaviour
 		{
 			string msg = "[connected];" + SelectedLobby.name;
 
+			LobbyId = SelectedLobby.name;
+
 			outBuffer = Encoding.ASCII.GetBytes(msg);
 
 			server.Send(outBuffer);
@@ -292,6 +297,20 @@ public class LobbyBrowserScript : MonoBehaviour
 		}
 	}
 
+	public void ServerShutdown()
+	{
+		if (LobbyId != "")
+		{
+			string msg = "[servershutdown];" + LobbyId;
+
+			outBuffer = Encoding.ASCII.GetBytes(msg);
+
+			server.Send(outBuffer);
+
+			LobbyId = "";
+		}
+	}
+
 	public void ExitLobby()
 	{
 		if (LobbyId.Length > 0)
@@ -302,8 +321,17 @@ public class LobbyBrowserScript : MonoBehaviour
 			}
 			else
 			{
-				DisconnectFromLobby();
+				if (b_Destroyed)
+					ServerShutdown();
+				else
+					DisconnectFromLobby();
 			}
 		}
 	}
+
+    public void OnApplicationQuit()
+    {
+		b_Destroyed = true;
+		ExitLobby();
+    }
 }
