@@ -78,9 +78,9 @@ public class LobbyScript : MonoBehaviour
 	public Hashtable LobbyPlayers = new Hashtable();
 
     private void OnDestroy()
-    {
-        servermanager.GetComponent<ServerScript>().sceneStates = ServerScript.SceneStates.GameScene;
-        clientmanager.GetComponent<ClientScript>().sceneStates = ClientScript.SceneStates.GameScene;
+   {
+			//servermanager.GetComponent<ServerScript>().sceneStates = ServerScript.SceneStates.GameScene;
+   //     clientmanager.GetComponent<ClientScript>().sceneStates = ClientScript.SceneStates.GameScene;
     }
 
     // Start is called before the first frame update

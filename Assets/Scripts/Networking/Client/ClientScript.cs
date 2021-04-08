@@ -649,6 +649,7 @@ public class ClientScript : MonoBehaviour
 	{
 		DontDestroyOnLoad(this.gameObject);
 		spawn_pos = lobbyscript.i_CurrPlacement;
+		sceneStates = SceneStates.GameScene;
 		Command c_command = new GotoClientSceneCommand();
 		c_command.Execute(c_command, null);
 	}
