@@ -6312,7 +6312,7 @@ GameObject:
   - component: {fileID: 5807661269651354350}
   - component: {fileID: 5807661269651354349}
   - component: {fileID: 5807661269651354351}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: StaminaBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6518,7 +6518,7 @@ GameObject:
   - component: {fileID: 5807661270039503535}
   - component: {fileID: 5807661270039503536}
   - component: {fileID: 5807661270039503537}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9056,7 +9056,7 @@ GameObject:
   - component: {fileID: 5807661271527475961}
   - component: {fileID: 5807661271527475959}
   - component: {fileID: 5807661271527475960}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: StaminaBorder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
