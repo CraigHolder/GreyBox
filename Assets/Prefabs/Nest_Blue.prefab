@@ -104,12 +104,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2055041838849226829}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12, y: 2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0.7265394, z: -0, w: 0.6871249}
+  m_LocalPosition: {x: -3.6390867, y: 18.854328, z: 13.557425}
+  m_LocalScale: {x: 1.21618, y: 1.21618, z: 1.21618}
   m_Children: []
-  m_Father: {fileID: 8255531957932245033}
-  m_RootOrder: 1
+  m_Father: {fileID: 7122803732815555931}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2521089834170500310
 GameObject:
@@ -141,11 +141,9 @@ Transform:
   m_LocalRotation: {x: -0, y: -0.7265394, z: -0, w: 0.6871249}
   m_LocalPosition: {x: -2.8259165, y: 16.421968, z: -1.0140662}
   m_LocalScale: {x: 1.2161798, y: 1.21618, z: 1.2161798}
-  m_Children:
-  - {fileID: 8094017971481678587}
-  - {fileID: 8804604070487271203}
+  m_Children: []
   m_Father: {fileID: 7122803732815555931}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4574224048093014468
 MeshFilter:
@@ -250,12 +248,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4752831668826266115}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 12}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0.7265394, z: -0, w: 0.6871249}
+  m_LocalPosition: {x: -17.397408, y: 18.854328, z: -1.8272381}
+  m_LocalScale: {x: 1.21618, y: 1.21618, z: 1.21618}
   m_Children: []
-  m_Father: {fileID: 8255531957932245033}
-  m_RootOrder: 0
+  m_Father: {fileID: 7122803732815555931}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7607310864827054049
 GameObject:
@@ -285,6 +283,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7685811072678304771}
+  - {fileID: 8094017971481678587}
+  - {fileID: 8804604070487271203}
   - {fileID: 8255531957932245033}
   m_Father: {fileID: 0}
   m_RootOrder: 0

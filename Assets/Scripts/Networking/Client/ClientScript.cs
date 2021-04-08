@@ -17,6 +17,7 @@ public class ClientScript : MonoBehaviour
 	public Transform OtherObjList;
 
 	public LobbyScript lobbyscript;
+	public LobbyBrowserScript LobbyBrowserManager;
 
 	public enum SceneStates
 	{
@@ -49,6 +50,7 @@ public class ClientScript : MonoBehaviour
 
 	private string[] other_ids;
 	private string myId;
+	private int spawn_pos = -1;
 
 	private static byte[] outBuffer = new byte[2048];
 	private static byte[] inBuffer = new byte[2048];
@@ -165,6 +167,31 @@ public class ClientScript : MonoBehaviour
 							OtherObjList = GameObject.FindGameObjectWithTag("ItemList").transform;
 
 							Player = GameObject.FindGameObjectWithTag("PlayerController").GetComponent<player_controller_behavior>();
+
+							GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+
+							switch (spawn_pos)
+							{
+								case 0:// Red 1
+									playerObj.transform.position = GameObject.FindGameObjectWithTag("RedNest").transform.Find("SpawnR1").position;
+									playerObj.transform.rotation = GameObject.FindGameObjectWithTag("RedNest").transform.Find("SpawnR1").rotation;
+									break;
+								case 1: // Blue 1
+									playerObj.transform.position = GameObject.FindGameObjectWithTag("BlueNest").transform.Find("SpawnB1").position;
+									playerObj.transform.rotation = GameObject.FindGameObjectWithTag("BlueNest").transform.Find("SpawnB1").rotation;
+									break;
+								case 2: // Red 2
+									playerObj.transform.position = GameObject.FindGameObjectWithTag("RedNest").transform.Find("SpawnR2").position;
+									playerObj.transform.rotation = GameObject.FindGameObjectWithTag("RedNest").transform.Find("SpawnR2").rotation;
+									break;
+								case 3: // Blue 2
+									playerObj.transform.position = GameObject.FindGameObjectWithTag("BlueNest").transform.Find("SpawnB2").position;
+									playerObj.transform.rotation = GameObject.FindGameObjectWithTag("BlueNest").transform.Find("SpawnB2").rotation;
+									break;
+								default:
+									break;
+							}
+							
 							remote = GameObject.FindGameObjectWithTag("Remote");
 							start = true;
 							CosmeticsInit();
@@ -464,6 +491,8 @@ public class ClientScript : MonoBehaviour
 					lobbyscript.i_CurrTeam = LobbyScript.Team.Red;
 				lobbyscript.LobbyPlayers.Add(myId, nC);
 				lobbyscript.ID = myId;
+
+				LobbyBrowserManager.ConnectedToLobby();
 				//CurNumPlayers.text = "1";
 				//PlayerCount.SetActive(true);
 
@@ -617,6 +646,7 @@ public class ClientScript : MonoBehaviour
 
 	public void StartGame()
 	{
+		DontDestroyOnLoad(this.gameObject);
 		Command c_command = new GotoClientSceneCommand();
 		c_command.Execute(c_command, null);
 	}

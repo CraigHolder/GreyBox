@@ -86,8 +86,6 @@ public class LobbyScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DontDestroyOnLoad(servermanager);
-        DontDestroyOnLoad(clientmanager);
         //Get the server data here.
         i_TotRed = 0;
         i_TotBlue = 0;
