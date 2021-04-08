@@ -28391,6 +28391,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5883256681050732982, guid: ca36ce2d66eb67649aad1a24e6dc370e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GotoMainMenu
+      objectReference: {fileID: 0}
     - target: {fileID: 6736816549962956848, guid: ca36ce2d66eb67649aad1a24e6dc370e, type: 3}
       propertyPath: m_IsActive
       value: 0
