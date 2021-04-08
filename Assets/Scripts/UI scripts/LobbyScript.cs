@@ -192,15 +192,6 @@ public class LobbyScript : MonoBehaviour
 
 
 
-
-
-
-        if(b_Ready)
-        {
-            //servermanager.GetComponent<ServerScript>().ReadyUpdate();
-        }
-
-
         if (b_Change)
         {
             switch (i_CurrTeam)
@@ -229,6 +220,7 @@ public class LobbyScript : MonoBehaviour
         LobName = IF_LobbyName.text;
         t_LobbyN.text = LobName;
         pass = IF_LobbyPass.text;
+
     }
 
     public void Ready()

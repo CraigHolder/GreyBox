@@ -653,6 +653,29 @@ public class ServerScript : MonoBehaviour
 
 		}
 
+		bool b_everyoneReady = true;
+		foreach (string k in lobbyscript.LobbyPlayers.Keys)
+		{
+			LobbyScript.LobbyClient c = (LobbyScript.LobbyClient)lobbyscript.LobbyPlayers[k];
+			if (!c.b_ready)
+				b_everyoneReady = false;
+		}
+
+		if (b_everyoneReady)
+		{
+			string outmsg = "[startgame];";
+
+			outBuffer = Encoding.ASCII.GetBytes(outmsg);
+
+			foreach (Transform child in ClientList)
+			{
+				string id = child.gameObject.name;
+
+				server.SendTo(outBuffer, (EndPoint)client_endpoints[id]);
+			}
+
+			StartGame();
+		}
 	}
 
 	public void ReadyUpdate(int i)
@@ -860,5 +883,11 @@ public class ServerScript : MonoBehaviour
 
 			server.SendTo(outBuffer, remoteClient);
 		}
+	}
+
+	public void StartGame()
+	{
+		Command c_command = new GotoClientSceneCommand();
+		c_command.Execute(c_command, null);
 	}
 }
