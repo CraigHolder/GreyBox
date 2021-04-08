@@ -331,6 +331,7 @@ public class ClientScript : MonoBehaviour
 												obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
 												obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
 												obj.GetComponent<Score>().networkedmoved = true;
+												obj.GetComponent<Score>().grabbable = false;
 												break;
 										}
 										break;
@@ -347,6 +348,7 @@ public class ClientScript : MonoBehaviour
 												obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
 												obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
 												obj.GetComponent<Score>().networkedmoved = true;
+												obj.GetComponent<Score>().grabbable = false;
 												break;
 										}
 										break;

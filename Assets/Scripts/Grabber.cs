@@ -125,7 +125,7 @@ public class Grabber : MonoBehaviour
 
     void OnTriggerStay(Collider collision)
     {
-        if(collision.gameObject.tag == "Grab" && obj_curritem == null)
+        if(collision.gameObject.tag == "Grab" && obj_curritem == null && obj_curritem.GetComponent<Score>().grabbable == true)
         {
             t_itemhandle.position = obj_mouth.transform.position;
             collision.gameObject.GetComponent<Score>().grabbed = true;

@@ -10,6 +10,7 @@ public class Score : MonoBehaviour
     public bool moved = false;
     public bool networkedmoved = false;
     public bool grabbed = false;
+    public bool grabbable = true;
 
     public int state;
 
@@ -34,15 +35,19 @@ public class Score : MonoBehaviour
             lastpos = transform.position;
             lastrot = transform.rotation.eulerAngles;
             //timer = 0.25f;
+            grabbable = true;
         }
         else
         {
             moved = false;
             state = 0;
+
+            grabbable = true;
         }
         if(grabbed)
         {
             state = 2;
+            grabbable = false;
         }
 
 
