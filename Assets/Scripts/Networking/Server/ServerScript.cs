@@ -941,6 +941,7 @@ public class ServerScript : MonoBehaviour
 	{
 		lobbyBrowserManager.CloseLobby();
 		spawn_pos = lobbyscript.i_CurrPlacement;
+		sceneStates = SceneStates.GameScene;
 
 		DontDestroyOnLoad(this.gameObject);
 		Command c_command = new GotoClientSceneCommand();
