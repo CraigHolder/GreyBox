@@ -95,7 +95,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.342453, y: 4.8594236, z: 2.887024}
+  m_Size: {x: 0.55, y: 4.8594236, z: 2.887024}
   m_Center: {x: -0.10633559, y: 0.041309953, z: 0.035238206}
 --- !u!114 &2795206544037649054
 MonoBehaviour:
@@ -111,6 +111,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   i_score: 20
   connectedplayers: []
+  moved: 0
+  networkedmoved: 0
+  grabbed: 0
+  state: 0
 --- !u!54 &8110120598828003218
 Rigidbody:
   m_ObjectHideFlags: 0

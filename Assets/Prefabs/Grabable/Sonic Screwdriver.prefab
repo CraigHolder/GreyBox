@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 3328645537889869366}
   - component: {fileID: 6897569418271992174}
   - component: {fileID: 8549516430277834684}
-  - component: {fileID: 7856426185234172106}
+  - component: {fileID: 6920500540341078795}
   m_Layer: 0
   m_Name: default
   m_TagString: Grab
@@ -149,8 +149,8 @@ MonoBehaviour:
   networkedmoved: 0
   grabbed: 0
   state: 0
---- !u!64 &7856426185234172106
-MeshCollider:
+--- !u!136 &6920500540341078795
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -159,7 +159,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2432090755550338912, guid: 1c8df021276c8104db8f2bc5f107d0d8, type: 3}
+  m_Radius: 0.16
+  m_Height: 2.27
+  m_Direction: 2
+  m_Center: {x: 0.0000075027347, y: -0.0000049993396, z: 0.15649498}

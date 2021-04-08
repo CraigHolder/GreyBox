@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 6109629604673357787}
   - component: {fileID: 7344379096411349839}
   - component: {fileID: 8350907166925154350}
-  - component: {fileID: 8350907166925154351}
   - component: {fileID: 8350907166925154349}
+  - component: {fileID: 8974294375561126756}
   m_Layer: 0
   m_Name: default
   m_TagString: Grab
@@ -100,20 +100,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &8350907166925154351
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 191618365653527978}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2432090755550338912, guid: 69b4b6fb3df620f43a16affa0d4a3e1b, type: 3}
 --- !u!114 &8350907166925154349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,6 +118,20 @@ MonoBehaviour:
   networkedmoved: 0
   grabbed: 0
   state: 0
+--- !u!136 &8974294375561126756
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 191618365653527978}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.4
+  m_Height: 5.2
+  m_Direction: 2
+  m_Center: {x: -0.0134314895, y: -0.08, z: -1.025053}
 --- !u!1 &9161737826484311411
 GameObject:
   m_ObjectHideFlags: 0

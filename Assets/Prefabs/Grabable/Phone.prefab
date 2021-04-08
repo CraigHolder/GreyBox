@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 1968766165689535642}
   - component: {fileID: 4374826115721295952}
   - component: {fileID: 3131994664565732067}
-  - component: {fileID: 3131994664565732068}
   - component: {fileID: 3131994664565732066}
+  - component: {fileID: 6304408045399375068}
   m_Layer: 0
   m_Name: Phone
   m_TagString: Grab
@@ -100,20 +100,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &3131994664565732068
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2861612448723818885}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -5495902117074765545, guid: 6789cca4464f13e40a52e4235df737d0, type: 3}
 --- !u!114 &3131994664565732066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,5 +113,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   i_score: 50
-  vec3_grabpoint: {x: 0, y: 0.012, z: 0}
-  vec3_grabrotation: {x: 0, y: 90, z: 90}
+  connectedplayers: []
+  moved: 0
+  networkedmoved: 0
+  grabbed: 0
+  state: 0
+--- !u!65 &6304408045399375068
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2861612448723818885}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.014215456, y: 0.003, z: 0.030158982}
+  m_Center: {x: -0.000056331744, y: 0.00023223658, z: 0.00047752273}
