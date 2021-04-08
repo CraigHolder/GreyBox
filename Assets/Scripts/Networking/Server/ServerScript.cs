@@ -65,6 +65,7 @@ public class ServerScript : MonoBehaviour
 	public GameObject redNest;
 	public GameObject blueNest;
 	public int[] PlayerPlaces = new int[4];
+	bool sendobjupdate = false;
 
 	//Dylan's Lobby Stuff
 	public bool b_FoundObjs = false;
@@ -225,7 +226,15 @@ public class ServerScript : MonoBehaviour
 								//Debug.Log(msg);
 							}
 						}
-						Updateobjs();
+						if(sendobjupdate)
+                        {
+							Updateobjs();
+							sendobjupdate = false;
+						}
+                        else
+                        {
+							sendobjupdate = true;
+						}
 						UpdateFerretState();
 						//Updateobjs();
 						
@@ -387,11 +396,13 @@ public class ServerScript : MonoBehaviour
 											case 1:
 												obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
 												obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
+												obj.GetComponent<Rigidbody>().velocity = JsonUtility.FromJson<Vector3>(data[6]);
 												obj.GetComponent<Score>().networkedmoved = true;
 												break;
 											case 2:
 												obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
 												obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
+												obj.GetComponent<Rigidbody>().velocity = JsonUtility.FromJson<Vector3>(data[6]);
 												obj.GetComponent<Score>().networkedmoved = true;
 												break;
 										}
@@ -408,6 +419,7 @@ public class ServerScript : MonoBehaviour
 											case 2:
 												obj.transform.position = JsonUtility.FromJson<Vector3>(data[2]);
 												obj.transform.rotation = Quaternion.Euler(JsonUtility.FromJson<Vector3>(data[3]));
+												obj.GetComponent<Rigidbody>().velocity = JsonUtility.FromJson<Vector3>(data[6]);
 												obj.GetComponent<Score>().networkedmoved = true;
 												break;
 										}
