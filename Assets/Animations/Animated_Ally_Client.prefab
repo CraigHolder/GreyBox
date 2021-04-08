@@ -57,8 +57,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 108832935080114496}
   m_LocalRotation: {x: -0.7071068, y: 0.000000053385072, z: 0.00000005338508, w: -0.7071068}
-  m_LocalPosition: {x: -0, y: 0.78, z: 0.39}
-  m_LocalScale: {x: 2, y: 1.6, z: 1.2}
+  m_LocalPosition: {x: -0, y: 1.196, z: -0.378}
+  m_LocalScale: {x: 1.2, y: 1.7, z: 1.15}
   m_Children: []
   m_Father: {fileID: 6793130149599440555}
   m_RootOrder: 1
@@ -5998,6 +5998,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Root: {fileID: 155578554544061239}
   head: {fileID: 3253509851844088488}
+  playerId: 0
   trail:
   - {fileID: 2640668412786570356}
   - {fileID: 1980001557322777145}
@@ -6023,6 +6024,7 @@ MonoBehaviour:
   - {fileID: 7958693076722804391}
   - {fileID: 6621656728617629984}
   orb: {fileID: 1331038869580769662}
+  PlayId: 0
   i_PlayerTeam: 0
 --- !u!1 &3236776542096342858
 GameObject:
@@ -7166,8 +7168,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0.00034701824, y: 1.1196336, z: 0.15544629}
-    m_Extent: {x: 0.99929166, y: 0.672016, z: 1.6360215}
+    m_Center: {x: 0.00059580803, y: 1.9226077, z: 0.2669289}
+    m_Extent: {x: 1.7159591, y: 1.1539693, z: 2.809337}
   m_DirtyAABB: 0
 --- !u!183 &3762648654640033608
 Cloth:

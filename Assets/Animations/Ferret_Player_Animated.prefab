@@ -6312,7 +6312,7 @@ GameObject:
   - component: {fileID: 5807661269651354350}
   - component: {fileID: 5807661269651354349}
   - component: {fileID: 5807661269651354351}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: StaminaBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6518,7 +6518,7 @@ GameObject:
   - component: {fileID: 5807661270039503535}
   - component: {fileID: 5807661270039503536}
   - component: {fileID: 5807661270039503537}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7350,8 +7350,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5807661271050737230}
   m_LocalRotation: {x: -0.7071068, y: 0.000000053385072, z: 0.00000005338508, w: -0.7071068}
-  m_LocalPosition: {x: -0, y: 0.78, z: 0.39}
-  m_LocalScale: {x: 2, y: 1.6, z: 1.2}
+  m_LocalPosition: {x: -0, y: 1.196, z: -0.378}
+  m_LocalScale: {x: 1.2, y: 1.7, z: 1.15}
   m_Children: []
   m_Father: {fileID: 5807661271263831098}
   m_RootOrder: 1
@@ -9056,7 +9056,7 @@ GameObject:
   - component: {fileID: 5807661271527475961}
   - component: {fileID: 5807661271527475959}
   - component: {fileID: 5807661271527475960}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: StaminaBorder
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -6,7 +6,7 @@ using TMPro;
 
 public class GameTimer : MonoBehaviour
 {
-    public const float f_MAXTIME = 60.0f;
+    public const float f_MAXTIME = 300.0f;
     public float f_timeremaining;
     public const float f_MAXSECONDS = 60.0f;
     public float f_curSeconds;
