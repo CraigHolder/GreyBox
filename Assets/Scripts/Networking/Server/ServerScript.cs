@@ -672,7 +672,7 @@ public class ServerScript : MonoBehaviour
 
 						// obj = ClientList.GetChild(c).gameObject.GetComponent<PuppetScript>();
 
-						outmsg += cid + ";" + ((LobbyScript.LobbyClient)lobbyscript.LobbyPlayers[cid]).name + ";" + ((LobbyScript.LobbyClient)lobbyscript.LobbyPlayers[cid]).position.ToString() + ";" + nC.b_ready.ToString();
+						outmsg += data[1] + ";" + nC.name + ";" + nC.position.ToString() + ";" + nC.b_ready.ToString();
 
 						outBuffer = Encoding.ASCII.GetBytes(outmsg);
 
