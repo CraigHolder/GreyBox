@@ -492,6 +492,7 @@ public class ClientScript : MonoBehaviour
 					lobbyscript.i_CurrTeam = LobbyScript.Team.Red;
 				lobbyscript.LobbyPlayers.Add(myId, nC);
 				lobbyscript.ID = myId;
+				lobbyscript.i_CurrPlacement = nC.position;
 
 				LobbyBrowserManager.ConnectedToLobby();
 				//CurNumPlayers.text = "1";
