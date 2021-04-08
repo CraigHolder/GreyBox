@@ -8,7 +8,7 @@ public class GameTimer : MonoBehaviour
 {
     public const float f_MAXTIME = 60.0f;
     public float f_timeremaining;
-    public const float f_MAXSECONDS = 60.0f;
+    public const float f_MAXSECONDS = 300.0f;
     public float f_curSeconds;
     player_controller_behavior s_player;
     public Text t_Winner;

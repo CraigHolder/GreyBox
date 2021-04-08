@@ -12,6 +12,8 @@ public class SoundController : MonoBehaviour
     AudioSource[] as_Effects;
 
     public Slider s_Master;
+    public Slider s_Music;
+    public Slider s_Effects;
 
     public bool b_AudioUpdate = true;
 
@@ -42,6 +44,13 @@ public class SoundController : MonoBehaviour
         {
             as_Effects[e] = temp[e].GetComponent<AudioSource>();
         }
+
+        if (s_Master != null)
+            s_Master.value = f_Master;
+        if (s_Music != null)
+            s_Music.value = f_Effects;
+        if (s_Effects != null)
+            s_Effects.value = f_Effects;
     }
 
     public void AudioUpdate()
@@ -59,7 +68,13 @@ public class SoundController : MonoBehaviour
     {
         if (b_AudioUpdate)
         {
+            if (s_Master != null)
             f_Master = s_Master.value;
+            if (s_Music != null)
+                f_Music = s_Music.value;
+            if (s_Effects != null)
+                f_Effects = s_Effects.value;
+
             for (int m = 0; m < as_Music.Length; m++)
             {
                 as_Music[m].volume = (1 * f_Music) * f_Master;

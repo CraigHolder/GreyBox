@@ -41,6 +41,8 @@ public class SettingsScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        f_Master = s_Master.value;
+        f_Music = s_Music.value;
+        f_Effects = s_Effects.value;
     }
 }
