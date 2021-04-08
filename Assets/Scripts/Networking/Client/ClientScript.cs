@@ -169,7 +169,7 @@ public class ClientScript : MonoBehaviour
 							Player = GameObject.FindGameObjectWithTag("PlayerController").GetComponent<player_controller_behavior>();
 
 							GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-
+							playerObj.SetActive(false);
 							switch (spawn_pos)
 							{
 								case 0:// Red 1
@@ -191,7 +191,7 @@ public class ClientScript : MonoBehaviour
 								default:
 									break;
 							}
-							
+							playerObj.SetActive(true);
 							remote = GameObject.FindGameObjectWithTag("Remote");
 							start = true;
 							CosmeticsInit();
