@@ -457,6 +457,30 @@ public class ServerScript : MonoBehaviour
 									}
 								}
 							}
+							else if (msg.ToLower().Contains("[setspeaker]"))
+							{
+								string[] data = msg.Split(';');
+
+								remote.GetComponent<Remote>().b_speakeron = bool.Parse(data[1]);
+								if (remote.GetComponent<Remote>().b_speakeron == true)
+								{
+									remote.GetComponent<Remote>().mr_light.material = remote.GetComponent<Remote>().M_on;
+									remote.GetComponent<Remote>().fly_shareddata.e_speakerstate = Speakers.SpeakerState.On;
+								}
+								else
+								{
+									remote.GetComponent<Remote>().mr_light.material = remote.GetComponent<Remote>().M_off;
+									remote.GetComponent<Remote>().fly_shareddata.e_speakerstate = Speakers.SpeakerState.Off;
+								}
+
+								string outmsg = msg.Replace("[setspeaker]", "[updatespeaker]");
+								outBuffer = Encoding.ASCII.GetBytes(outmsg);
+
+								foreach (Transform child in ClientList)
+								{
+									server.SendTo(outBuffer, (EndPoint)client_endpoints[child.gameObject.name]);
+								}
+							}
 							else if (msg.ToLower().Contains("[disconnect]"))
 							{
 								string[] data = msg.Split(';');
