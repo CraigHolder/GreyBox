@@ -1048,7 +1048,6 @@ MonoBehaviour:
     http://creativecommons.org/licenses/by/4.0/
 
 
-
     "Neon
     Laser Horizon" Kevin MacLeod (incompetech.com)
 
@@ -1056,7 +1055,6 @@ MonoBehaviour:
     By Attribution 4.0 License
 
     http://creativecommons.org/licenses/by/4.0/
-
 
 
     "Newer
@@ -1067,7 +1065,14 @@ MonoBehaviour:
 
     http://creativecommons.org/licenses/by/4.0/
 
-'
+
+    "Fearless
+    First" Kevin MacLeod (incompetech.com)
+
+    Licensed under Creative Commons:
+    By Attribution 4.0 License
+
+    http://creativecommons.org/licenses/by/4.0/'
 --- !u!222 &1876934388
 CanvasRenderer:
   m_ObjectHideFlags: 0
