@@ -70,7 +70,7 @@ public class GameTimer : MonoBehaviour
             s_player.PLAYER_JUMP = 0;
 
             Cursor.lockState = CursorLockMode.Confined;
-            GotoLobby();
+            //GotoLobby();
         }
         else
         {
