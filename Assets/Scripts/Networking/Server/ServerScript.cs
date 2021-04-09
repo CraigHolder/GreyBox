@@ -70,7 +70,7 @@ public class ServerScript : MonoBehaviour
 	//Dylan's Lobby Stuff
 	public bool b_FoundObjs = false;
 	public SceneStates sceneStates = SceneStates.LobbyScene;
-	public float f_lobbyStartDelay = 0.05f;
+	public float f_lobbyStartDelay = 0.1f;
 	private float f_lobbyStartTimer = 0.0f;
 
 	public void RunServer()
@@ -471,6 +471,31 @@ public class ServerScript : MonoBehaviour
 									}
 								}
 							}
+							if (msg.Contains("[setstate]"))
+							{
+								string[] data = msg.Split(';');
+
+								Transform client_trans = ClientList.Find(data[1]);
+
+								if (client_trans != null)
+								{
+									GameObject client_obj = client_trans.gameObject;
+
+									PuppetScript client = client_obj.GetComponent<PuppetScript>();
+
+									client.setState(int.Parse(data[2]));
+									client.AnimateFerret();
+
+									string outmsg = msg.Replace("[setstate]", "[updatestate]");
+									outBuffer = Encoding.ASCII.GetBytes(outmsg);
+
+									foreach (Transform child in ClientList)
+									{
+										if(child.name != data[1])
+											server.SendTo(outBuffer, (EndPoint)client_endpoints[child.name]);
+									}
+								}
+							}
 							else if (msg.ToLower().Contains("[setspeaker]"))
 							{
 								string[] data = msg.Split(';');
@@ -596,6 +621,7 @@ public class ServerScript : MonoBehaviour
 				newClient.name = name;
 
 				Debug.Log("New Client: " + name + " connected!");
+				lobbyBrowserManager.ConnectedToLobby();
 
 				int clientPos = 0;
 
@@ -702,6 +728,8 @@ public class ServerScript : MonoBehaviour
 
 				GameObject.Destroy(client.gameObject);
 				client_endpoints.Remove(data[1]);
+
+				lobbyBrowserManager.DisconnectedFromLobby();
 
 				for (int c = 0; c < ClientList.childCount; c++)
 				{

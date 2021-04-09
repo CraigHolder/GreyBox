@@ -2150,6 +2150,22 @@ PrefabInstance:
       propertyPath: fly_shareddata
       value: 
       objectReference: {fileID: 11400000, guid: 827f8e4ae1429f647bdcf002ac4f6f6f, type: 2}
+    - target: {fileID: 1608249658155907761, guid: da2e15f521f4fd44990fec24e6e94d12, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.8769844
+      objectReference: {fileID: 0}
+    - target: {fileID: 1608249658155907761, guid: da2e15f521f4fd44990fec24e6e94d12, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.48051894
+      objectReference: {fileID: 0}
+    - target: {fileID: 1608249658155907761, guid: da2e15f521f4fd44990fec24e6e94d12, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 122.561
+      objectReference: {fileID: 0}
+    - target: {fileID: 1608249658155907761, guid: da2e15f521f4fd44990fec24e6e94d12, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 16.56
+      objectReference: {fileID: 0}
     - target: {fileID: 7154255674854521715, guid: da2e15f521f4fd44990fec24e6e94d12, type: 3}
       propertyPath: m_Name
       value: Nest_Red
@@ -2157,6 +2173,30 @@ PrefabInstance:
     - target: {fileID: 7154255674854521715, guid: da2e15f521f4fd44990fec24e6e94d12, type: 3}
       propertyPath: m_TagString
       value: RedNest
+      objectReference: {fileID: 0}
+    - target: {fileID: 7179833719671764799, guid: da2e15f521f4fd44990fec24e6e94d12, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -13.79
+      objectReference: {fileID: 0}
+    - target: {fileID: 7179833719671764799, guid: da2e15f521f4fd44990fec24e6e94d12, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.68
+      objectReference: {fileID: 0}
+    - target: {fileID: 7179833719671764799, guid: da2e15f521f4fd44990fec24e6e94d12, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.8639448
+      objectReference: {fileID: 0}
+    - target: {fileID: 7179833719671764799, guid: da2e15f521f4fd44990fec24e6e94d12, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5035865
+      objectReference: {fileID: 0}
+    - target: {fileID: 7179833719671764799, guid: da2e15f521f4fd44990fec24e6e94d12, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 119.525
+      objectReference: {fileID: 0}
+    - target: {fileID: 7179833719671764799, guid: da2e15f521f4fd44990fec24e6e94d12, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 16.67
       objectReference: {fileID: 0}
     - target: {fileID: 7494786982761390537, guid: da2e15f521f4fd44990fec24e6e94d12, type: 3}
       propertyPath: m_LocalPosition.x
@@ -18709,7 +18749,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh16218
+  m_Name: pb_Mesh70444
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -19037,7 +19077,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh16722
+  m_Name: pb_Mesh70948
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -29696,7 +29736,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh16734
+  m_Name: pb_Mesh70960
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -42194,6 +42234,38 @@ PrefabInstance:
     - target: {fileID: 7607310864827054049, guid: 6cede907683993448a61d923f0348659, type: 3}
       propertyPath: m_TagString
       value: BlueNest
+      objectReference: {fileID: 0}
+    - target: {fileID: 8094017971481678587, guid: 6cede907683993448a61d923f0348659, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.91588426
+      objectReference: {fileID: 0}
+    - target: {fileID: 8094017971481678587, guid: 6cede907683993448a61d923f0348659, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.40144247
+      objectReference: {fileID: 0}
+    - target: {fileID: 8094017971481678587, guid: 6cede907683993448a61d923f0348659, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -227.337
+      objectReference: {fileID: 0}
+    - target: {fileID: 8094017971481678587, guid: 6cede907683993448a61d923f0348659, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 16.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804604070487271203, guid: 6cede907683993448a61d923f0348659, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 16.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804604070487271203, guid: 6cede907683993448a61d923f0348659, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.8856162
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804604070487271203, guid: 6cede907683993448a61d923f0348659, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.46441787
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804604070487271203, guid: 6cede907683993448a61d923f0348659, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -235.345
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6cede907683993448a61d923f0348659, type: 3}
