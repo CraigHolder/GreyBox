@@ -36,6 +36,10 @@ public class LobbyBrowserScript : MonoBehaviour
 	public GameObject LobbyMenu;
 	public GameObject SelectedLobby = null;
 
+	[Header("Direct Connect")]
+	public GameObject DirectConnectWindow;
+	public InputField DirectConnectIP;
+
 	[Header("Debug Settings")]
 	public bool localServer = false;
 
@@ -293,6 +297,14 @@ public class LobbyBrowserScript : MonoBehaviour
 
 	public void DisconnectFromLobby()
 	{
+		clientmanager.CloseConnection();
+		clientmanager.gameObject.SetActive(false);
+
+		LobbyId = "";
+	}
+
+	public void DisconnectedFromLobby()
+	{
 		if (LobbyId != "")
 		{
 			string msg = "[disconnected];" + LobbyId;
@@ -300,9 +312,22 @@ public class LobbyBrowserScript : MonoBehaviour
 			outBuffer = Encoding.ASCII.GetBytes(msg);
 
 			server.Send(outBuffer);
-
-			LobbyId = "";
 		}
+	}
+
+	public void DirectConnect()
+	{
+		string ip = DirectConnectIP.text;
+
+		PlayerPrefs.SetString("IPConnect", ip);
+		clientmanager.RunClient();
+		clientmanager.gameObject.SetActive(true);
+		//ConnectedToLobby();
+
+		DirectConnectWindow.SetActive(false);
+		ConnectingPrompt.SetActive(false);
+		BrowserWindow.SetActive(false);
+		LobbyMenu.SetActive(true);
 	}
 
 	public void ServerShutdown()

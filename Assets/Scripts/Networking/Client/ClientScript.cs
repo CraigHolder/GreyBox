@@ -504,7 +504,6 @@ public class ClientScript : MonoBehaviour
 				lobbyscript.ID = myId;
 				lobbyscript.i_CurrPlacement = nC.position;
 
-				LobbyBrowserManager.ConnectedToLobby();
 				//CurNumPlayers.text = "1";
 				//PlayerCount.SetActive(true);
 
@@ -614,7 +613,7 @@ public class ClientScript : MonoBehaviour
 		CloseConnection();
 	}
 
-	private void CloseConnection()
+	public void CloseConnection()
 	{
 		if (!disconnected)
 		{
