@@ -128,6 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34cd596f324134141b2c1a3c0df9e078, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  b_active: 0
   b_speakeron: 0
   mr_light: {fileID: 7578655679133754327}
   M_on: {fileID: 2100000, guid: 833a84fb68d9e7946846e4426421cfc6, type: 2}
@@ -158,7 +159,7 @@ GameObject:
   - component: {fileID: 292258801664771456}
   - component: {fileID: 7578655679133754327}
   - component: {fileID: 4306889665418718825}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -10,7 +10,7 @@ public class FerretArrow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        this.GetComponent<MeshRenderer>().enabled = false;
     }
 
     // Update is called once per frame
@@ -22,7 +22,7 @@ public class FerretArrow : MonoBehaviour
     void OnTriggerStay(Collider collision)
     {
         
-        this.GetComponent<MeshRenderer>().enabled = false;
+        //this.GetComponent<MeshRenderer>().enabled = false;
         //obj_tip.enabled = false;
         
         if (collision.gameObject.tag == "Important")
@@ -30,6 +30,18 @@ public class FerretArrow : MonoBehaviour
             this.GetComponent<MeshRenderer>().enabled = true;
             //obj_tip.enabled = true;
             this.transform.LookAt(collision.gameObject.transform);
+
+        }
+    }
+    void OnTriggerExit(Collider collision)
+    {
+
+        
+        //obj_tip.enabled = false;
+
+        if (collision.gameObject.tag == "Important")
+        {
+            this.GetComponent<MeshRenderer>().enabled = false;
 
         }
     }
