@@ -339,6 +339,8 @@ MonoBehaviour:
   f_Music: 0.5
   f_Effects: 0.5
   s_Master: {fileID: 0}
+  s_Music: {fileID: 0}
+  s_Effects: {fileID: 0}
   b_AudioUpdate: 1
 --- !u!1 &56954012
 GameObject:
@@ -3489,6 +3491,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2994709219121541819, guid: ca36ce2d66eb67649aad1a24e6dc370e, type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4944751708440893807, guid: ca36ce2d66eb67649aad1a24e6dc370e, type: 3}
       propertyPath: m_Name
       value: Ferret_Player_Animated
@@ -6677,6 +6683,7 @@ MonoBehaviour:
   moved: 0
   networkedmoved: 0
   grabbed: 0
+  grabbable: 1
   state: 0
 --- !u!1 &6155670607389609532
 GameObject:

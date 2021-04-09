@@ -522,6 +522,8 @@ MonoBehaviour:
   f_Music: 0.5
   f_Effects: 0.5
   s_Master: {fileID: 0}
+  s_Music: {fileID: 0}
+  s_Effects: {fileID: 0}
   b_AudioUpdate: 1
 --- !u!1 &340170797
 GameObject:
@@ -1849,7 +1851,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

@@ -30462,6 +30462,10 @@ PrefabInstance:
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 2994709219121541819, guid: ca36ce2d66eb67649aad1a24e6dc370e, type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4944751708440893807, guid: ca36ce2d66eb67649aad1a24e6dc370e, type: 3}
       propertyPath: m_Name
       value: Ferret_Player_Animated
