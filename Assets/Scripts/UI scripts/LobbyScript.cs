@@ -94,6 +94,9 @@ public class LobbyScript : MonoBehaviour
         BluePlaces[0] = 1;
 		BluePlaces[1] = 3;
 
+        if (PlayerPrefs.GetString("PlayerName") == "" || !(PlayerPrefs.HasKey("PlayerName")))
+            PlayerPrefs.SetString("PlayerName", "Ferret");
+
         Playername = PlayerPrefs.GetString("PlayerName");
 
         //if (i_TotRed >= 2)
