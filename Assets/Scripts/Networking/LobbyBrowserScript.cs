@@ -35,6 +35,7 @@ public class LobbyBrowserScript : MonoBehaviour
 	public string LobbyId = "";
 	public GameObject LobbyMenu;
 	public GameObject SelectedLobby = null;
+	public LobbyScript lobbyScript;
 
 	[Header("Direct Connect")]
 	public GameObject DirectConnectWindow;
@@ -301,6 +302,7 @@ public class LobbyBrowserScript : MonoBehaviour
 		clientmanager.gameObject.SetActive(false);
 
 		LobbyId = "";
+		
 	}
 
 	public void DisconnectedFromLobby()
@@ -348,6 +350,11 @@ public class LobbyBrowserScript : MonoBehaviour
 	{
 		if (LobbyId.Length > 0)
 		{
+			foreach (string k in lobbyScript.LobbyPlayers.Keys)
+			{
+				lobbyScript.LobbyPlayers.Remove(k);
+			}
+
 			if (hosting)
 			{
 				CloseLobby();

@@ -11513,6 +11513,7 @@ MonoBehaviour:
   LobbyId: 
   LobbyMenu: {fileID: 341658209}
   SelectedLobby: {fileID: 0}
+  lobbyScript: {fileID: 1269689964}
   DirectConnectWindow: {fileID: 1058573131}
   DirectConnectIP: {fileID: 837020847}
   localServer: 0
