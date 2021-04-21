@@ -593,7 +593,7 @@ public class ServerScript : MonoBehaviour
 			if (msg.ToLower().Contains("[connect]"))
 			{
 				string[] data = msg.Split(';');
-				if (ClientList.childCount >= MaxUsers)
+				if (ClientList.childCount + 1 >= MaxUsers)
 				{
 					outBuffer = Encoding.ASCII.GetBytes("[disconnect];Server Full!");
 
@@ -732,6 +732,7 @@ public class ServerScript : MonoBehaviour
 				client_endpoints.Remove(data[1]);
 
 				lobbyBrowserManager.DisconnectedFromLobby();
+				lobbyscript.LobbyPlayers.Remove(data[1]);
 
 				for (int c = 0; c < ClientList.childCount; c++)
 				{
